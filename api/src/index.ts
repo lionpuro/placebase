@@ -16,6 +16,9 @@ await server.register(Autoload, {
 	dir: path.join(import.meta.dirname, "plugins/external"),
 });
 await server.register(Autoload, {
+	dir: path.join(import.meta.dirname, "plugins/app"),
+});
+await server.register(Autoload, {
 	dir: path.join(dirname(fileURLToPath(import.meta.url)), "routes"),
 });
 

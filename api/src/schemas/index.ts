@@ -5,7 +5,7 @@ export const Nullable = <T extends TSchema>(schema: T) => {
 };
 
 export const CountrySchema = Type.Object({
-	name: Type.String({ maxLength: 100 }),
+	name: Type.String(),
 	iso2: Type.String(),
 	phonecode: Nullable(Type.String()),
 	capital: Nullable(Type.String()),

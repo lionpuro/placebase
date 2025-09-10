@@ -1,7 +1,10 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
 import { CountrySchema } from "../schemas/index.js";
-import { CountriesQuerySchema } from "../schemas/request.js";
+import {
+	CountriesQuerySchema,
+	CountryCodeSchema,
+} from "../schemas/request.js";
 
 const routes: FastifyPluginAsyncTypebox = async (server) => {
 	server.route({
@@ -27,7 +30,7 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 		method: "GET",
 		url: "/countries/:iso_code",
 		schema: {
-			params: Type.Object({ iso_code: Type.String() }),
+			params: Type.Object({ iso_code: CountryCodeSchema }),
 			response: {
 				200: CountrySchema,
 				404: Type.Object({ message: Type.String() }),

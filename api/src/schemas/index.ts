@@ -32,3 +32,15 @@ export const CountrySchema = Type.Object(
 );
 
 export type Country = Static<typeof CountrySchema>;
+
+export const StateSchema = Type.Object({
+	name: Type.String(),
+	iso2: Type.String(),
+	type: Type.String(),
+	country_code: Type.String(),
+	latitude: Type.Number(),
+	longitude: Type.Number(),
+	timezone: Type.String(),
+});
+
+export type State = Static<typeof StateSchema>;

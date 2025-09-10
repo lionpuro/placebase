@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import swagger from "@fastify/swagger";
-import swaggerUI from "@fastify/swagger-ui";
+import scalar from "@scalar/fastify-api-reference";
 
 export default fp(async (fastify) => {
 	await fastify.register(swagger, {
@@ -13,7 +13,10 @@ export default fp(async (fastify) => {
 			},
 		},
 	});
-	await fastify.register(swaggerUI, {
+	await fastify.register(scalar, {
 		routePrefix: "/docs",
+		configuration: {
+			theme: "alternate",
+		},
 	});
 });

@@ -14,7 +14,9 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 		method: "GET",
 		url: "/countries",
 		schema: {
+			summary: "All countries",
 			description: "List countries",
+			tags: ["Countries"],
 			querystring: CountriesQuerySchema,
 			response: {
 				200: Type.Array(CountrySchema),
@@ -34,7 +36,9 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 		method: "GET",
 		url: "/countries/:iso_code",
 		schema: {
-			description: "Details for country",
+			summary: "Country details",
+			description: "Country details by ISO2 code",
+			tags: ["Countries"],
 			params: Type.Object({ iso_code: CountryCodeSchema }),
 			response: {
 				200: CountrySchema,
@@ -62,7 +66,9 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 		method: "GET",
 		url: "/countries/:iso_code/states",
 		schema: {
-			description: "States of a country",
+			summary: "States of a country",
+			description: "List states of a country",
+			tags: ["States"],
 			params: Type.Object({
 				iso_code: CountryCodeSchema,
 			}),
@@ -90,7 +96,9 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 		method: "GET",
 		url: "/states",
 		schema: {
-			description: "List states",
+			summary: "All states",
+			description: "List all states",
+			tags: ["States"],
 			querystring: StatesQuerySchema,
 			response: {
 				200: Type.Array(StateSchema),

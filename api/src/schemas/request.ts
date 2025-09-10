@@ -1,7 +1,8 @@
 import { Type, type Static } from "@sinclair/typebox";
 
 export const CountryCodeSchema = Type.String({
-	description: "ISO2 code of country",
+	description: "ISO-3166 alpha-2 country code",
+	examples: ["FI"],
 	minLength: 2,
 	maxLength: 2,
 });

@@ -8,12 +8,12 @@ export const CountrySchema = Type.Object(
 	{
 		name: Type.String(),
 		iso2: Type.String(),
-		phonecode: Nullable(Type.String()),
-		capital: Nullable(Type.String()),
-		currency: Nullable(Type.String()),
-		native: Nullable(Type.String()),
-		region: Nullable(Type.String()),
-		emoji: Nullable(Type.String()),
+		phonecode: Type.String(),
+		capital: Type.String(),
+		currency: Type.String(),
+		native: Type.String(),
+		region: Type.String(),
+		emoji: Type.String(),
 	},
 	{
 		examples: [

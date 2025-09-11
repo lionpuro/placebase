@@ -4,32 +4,16 @@ export const Nullable = <T extends TSchema>(schema: T) => {
 	return Type.Union([schema, Type.Null()]);
 };
 
-export const CountrySchema = Type.Object(
-	{
-		name: Type.String(),
-		iso2: Type.String(),
-		phonecode: Type.String(),
-		capital: Type.String(),
-		currency: Type.String(),
-		native: Type.String(),
-		region: Type.String(),
-		emoji: Type.String(),
-	},
-	{
-		examples: [
-			{
-				name: "Finland",
-				iso2: "FI",
-				phonecode: "358",
-				capital: "Helsinki",
-				currency: "EUR",
-				native: "Suomi",
-				region: "Europe",
-				emoji: "🇫🇮",
-			},
-		],
-	},
-);
+export const CountrySchema = Type.Object({
+	name: Type.String({ examples: ["Finland"] }),
+	iso2: Type.String({ examples: ["FI"] }),
+	phonecode: Type.String({ examples: ["358"] }),
+	capital: Type.String({ examples: ["Helsinki"] }),
+	currency: Type.String({ examples: ["EUR"] }),
+	native: Type.String({ examples: ["Suomi"] }),
+	region: Type.String({ examples: ["Europe"] }),
+	emoji: Type.String({ examples: ["🇫🇮"] }),
+});
 
 export type Country = Static<typeof CountrySchema>;
 

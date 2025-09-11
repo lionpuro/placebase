@@ -33,7 +33,8 @@ export const StatesQuerySchema = Type.Object({
 	name: Type.Optional(Type.String()),
 	iso_code: Type.Optional(StateCodeSchema),
 	country: Type.Optional(CountryCodeSchema),
-	...defaultParams,
+	limit: Type.Optional(Type.Number({ minimum: 1, maximum: 250, default: 250 })),
+	offset: Type.Optional(Type.Number()),
 });
 
 export type StatesParams = Static<typeof StatesQuerySchema>;

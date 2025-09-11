@@ -64,6 +64,30 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 	// states
 	server.route({
 		method: "GET",
+		url: "/states",
+		schema: {
+			summary: "All states",
+			description: "List all states",
+			tags: ["States"],
+			querystring: StatesQuerySchema,
+			response: {
+				200: Type.Array(StateSchema),
+				404: Type.Object({ message: Type.String() }),
+				500: Type.Object({ message: Type.String() }),
+			},
+		},
+		handler: async (req, res) => {
+			try {
+				const states = await server.stateRepository.find(req.query);
+				return res.code(200).send(states);
+			} catch (err) {
+				console.log(err);
+				return res.code(500).send({ message: "Internal server error" });
+			}
+		},
+	});
+	server.route({
+		method: "GET",
 		url: "/countries/:iso_code/states",
 		schema: {
 			summary: "States of a country",
@@ -85,30 +109,6 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 					country: req.params.iso_code,
 					...req.query,
 				});
-				return res.code(200).send(states);
-			} catch (err) {
-				console.log(err);
-				return res.code(500).send({ message: "Internal server error" });
-			}
-		},
-	});
-	server.route({
-		method: "GET",
-		url: "/states",
-		schema: {
-			summary: "All states",
-			description: "List all states",
-			tags: ["States"],
-			querystring: StatesQuerySchema,
-			response: {
-				200: Type.Array(StateSchema),
-				404: Type.Object({ message: Type.String() }),
-				500: Type.Object({ message: Type.String() }),
-			},
-		},
-		handler: async (req, res) => {
-			try {
-				const states = await server.stateRepository.find(req.query);
 				return res.code(200).send(states);
 			} catch (err) {
 				console.log(err);

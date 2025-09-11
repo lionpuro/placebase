@@ -23,6 +23,7 @@ export type CountriesParams = Static<typeof CountriesQuerySchema>;
 
 export const StateCodeSchema = Type.String({
 	description: "ISO2 code of state",
+	examples: ["11"],
 	minLength: 1,
 	maxLength: 5,
 });

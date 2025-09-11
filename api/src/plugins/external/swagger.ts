@@ -17,6 +17,7 @@ export default fp(async (fastify) => {
 		routePrefix: "/docs",
 		configuration: {
 			theme: "alternate",
+			metaData: { title: "Places API" },
 		},
 	});
 });

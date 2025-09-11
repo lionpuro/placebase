@@ -39,3 +39,22 @@ export const StatesQuerySchema = Type.Object({
 });
 
 export type StatesParams = Static<typeof StatesQuerySchema>;
+
+export const CountryStateCitiesQuerySchema = Type.Object(defaultParams);
+
+const Latitude = Type.Number({ minimum: -90, maximum: 90 });
+const Longitude = Type.Number({ minimum: -180, maximum: 180 });
+
+export const CitiesQuerySchema = Type.Object({
+	name: Type.Optional(Type.String()),
+	country: Type.Optional(CountryCodeSchema),
+	state: Type.Optional(StateCodeSchema),
+	min_lat: Type.Optional(Latitude),
+	max_lat: Type.Optional(Latitude),
+	min_lon: Type.Optional(Longitude),
+	max_lon: Type.Optional(Longitude),
+	limit: Type.Optional(Type.Number({ minimum: 1, maximum: 250, default: 250 })),
+	offset: Type.Optional(Type.Number()),
+});
+
+export type CitiesParams = Static<typeof CitiesQuerySchema>;

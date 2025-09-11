@@ -1,10 +1,13 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
-import { CountrySchema, StateSchema } from "../schemas/index.js";
+import { CitySchema, CountrySchema, StateSchema } from "../schemas/index.js";
 import {
+	CitiesQuerySchema,
 	CountriesQuerySchema,
 	CountryCodeSchema,
+	CountryStateCitiesQuerySchema,
 	CountryStatesQuerySchema,
+	StateCodeSchema,
 	StatesQuerySchema,
 } from "../schemas/request.js";
 
@@ -110,6 +113,62 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 					...req.query,
 				});
 				return res.code(200).send(states);
+			} catch (err) {
+				console.log(err);
+				return res.code(500).send({ message: "Internal server error" });
+			}
+		},
+	});
+
+	// cities
+	server.route({
+		method: "GET",
+		url: "/cities",
+		schema: {
+			summary: "All cities",
+			description: "List all cities",
+			tags: ["Cities"],
+			querystring: CitiesQuerySchema,
+			response: {
+				200: Type.Array(CitySchema),
+				500: Type.Object({ message: Type.String() }),
+			},
+		},
+		handler: async (req, res) => {
+			try {
+				const cities = await server.cityRepository.find(req.query);
+				return res.code(200).send(cities);
+			} catch (err) {
+				console.log(err);
+				return res.code(500).send({ message: "Internal server error" });
+			}
+		},
+	});
+	server.route({
+		method: "GET",
+		url: "/countries/:country_code/states/:state_code/cities",
+		schema: {
+			summary: "Cities by country and state",
+			description: "List of cities by country and state",
+			tags: ["Cities"],
+			params: Type.Object({
+				country_code: CountryCodeSchema,
+				state_code: StateCodeSchema,
+			}),
+			querystring: CountryStateCitiesQuerySchema,
+			response: {
+				200: Type.Array(CitySchema),
+				500: Type.Object({ message: Type.String() }),
+			},
+		},
+		handler: async (req, res) => {
+			try {
+				const cities = await server.cityRepository.find({
+					country: req.params.country_code,
+					state: req.params.state_code,
+					...req.query,
+				});
+				return res.code(200).send(cities);
 			} catch (err) {
 				console.log(err);
 				return res.code(500).send({ message: "Internal server error" });

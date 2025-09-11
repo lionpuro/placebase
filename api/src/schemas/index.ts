@@ -18,13 +18,13 @@ export const CountrySchema = Type.Object({
 export type Country = Static<typeof CountrySchema>;
 
 export const StateSchema = Type.Object({
-	name: Type.String(),
-	iso2: Type.String(),
-	type: Type.String(),
-	country_code: Type.String(),
-	latitude: Type.Number(),
-	longitude: Type.Number(),
-	timezone: Type.String(),
+	name: Type.String({ examples: ["Pirkanmaa"] }),
+	iso2: Type.String({ examples: ["11"] }),
+	type: Type.String({ examples: ["region"] }),
+	country_code: Type.String({ examples: ["FI"] }),
+	latitude: Type.Number({ examples: [61.717433] }),
+	longitude: Type.Number({ examples: [23.7157115] }),
+	timezone: Type.String({ examples: ["Europe/Helsinki"] }),
 });
 
 export type State = Static<typeof StateSchema>;

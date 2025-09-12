@@ -3,9 +3,14 @@ import autoload from "@fastify/autoload";
 import path from "node:path";
 import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 
-export async function createApp() {
+const defaultOptions = {
+	logger: true,
+};
+
+export async function createApp(opts: Partial<typeof defaultOptions> = {}) {
 	const app = Fastify({
-		logger: true,
+		...defaultOptions,
+		...opts,
 	}).withTypeProvider<TypeBoxTypeProvider>();
 
 	await app.register(autoload, {

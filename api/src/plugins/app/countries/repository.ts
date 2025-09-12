@@ -34,11 +34,20 @@ export function createRepository(fastify: FastifyInstance) {
 				stmt.push(`currency = $${values.length}`);
 			}
 			let query = `
-			SELECT name, iso2, phonecode, capital, currency, native, region, emoji
+			SELECT
+				name,
+				iso2,
+				phonecode,
+				capital,
+				currency,
+				native,
+				region,
+				emoji
 			FROM countries`;
 			if (stmt.length > 0) {
 				query += ` WHERE ${stmt.join(" AND ")}`;
 			}
+			query += " ORDER BY name";
 			if (params.limit) {
 				query += ` LIMIT ${params.limit} `;
 			}

@@ -40,6 +40,7 @@ export function createRepository(fastify: FastifyInstance) {
 			if (stmt.length > 0) {
 				query += ` WHERE ${stmt.join(" AND ")}`;
 			}
+			query += " ORDER BY name";
 			if (params.limit) {
 				query += ` LIMIT ${params.limit} `;
 			}

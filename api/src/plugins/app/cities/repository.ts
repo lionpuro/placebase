@@ -54,11 +54,11 @@ export function createRepository(fastify: FastifyInstance) {
 				COALESCE(c.timezone, s.timezone) AS timezone
 			FROM cities c
 			INNER JOIN states s
-				ON c.state_id = s.id
-			`;
+				ON c.state_id = s.id`;
 			if (stmt.length > 0) {
 				query += ` WHERE ${stmt.join(" AND ")}`;
 			}
+			query += " ORDER BY name";
 			if (params.limit) {
 				query += ` LIMIT ${params.limit} `;
 			}

@@ -18,6 +18,7 @@ export default fp(async (fastify) => {
 		configuration: {
 			theme: "alternate",
 			metaData: { title: "Places API" },
+			defaultOpenAllTags: true,
 		},
 	});
 });

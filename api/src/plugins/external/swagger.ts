@@ -11,6 +11,11 @@ export default fp(async (fastify) => {
 				description: "API for querying country-state-city data",
 				version: "1.0.0",
 			},
+			tags: [
+				{ name: "Countries", description: "Country endpoints" },
+				{ name: "States", description: "State endpoints" },
+				{ name: "Cities", description: "City endpoints" },
+			],
 		},
 	});
 	await fastify.register(scalar, {

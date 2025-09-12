@@ -26,12 +26,12 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 				500: Type.Object({ message: Type.String() }),
 			},
 		},
-		handler: async (req, res) => {
+		handler: async (req, reply) => {
 			try {
 				const countries = await server.countryRepository.find(req.query);
-				return res.code(200).send(countries);
+				return reply.code(200).send(countries);
 			} catch (err) {
-				return res.code(500).send({ message: "Internal server error" });
+				return reply.code(500).send({ message: "Internal server error" });
 			}
 		},
 	});
@@ -49,17 +49,17 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 				500: Type.Object({ message: Type.String() }),
 			},
 		},
-		handler: async (req, res) => {
+		handler: async (req, reply) => {
 			try {
 				const [country] = await server.countryRepository.find({
 					iso_code: req.params.iso_code,
 				});
 				if (!country) {
-					return res.code(404).send({ message: "Not found" });
+					return reply.code(404).send({ message: "Not found" });
 				}
-				return res.code(200).send(country);
+				return reply.code(200).send(country);
 			} catch (err) {
-				return res.code(500).send({ message: "Internal server error" });
+				return reply.code(500).send({ message: "Internal server error" });
 			}
 		},
 	});
@@ -79,13 +79,13 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 				500: Type.Object({ message: Type.String() }),
 			},
 		},
-		handler: async (req, res) => {
+		handler: async (req, reply) => {
 			try {
 				const states = await server.stateRepository.find(req.query);
-				return res.code(200).send(states);
+				return reply.code(200).send(states);
 			} catch (err) {
 				console.log(err);
-				return res.code(500).send({ message: "Internal server error" });
+				return reply.code(500).send({ message: "Internal server error" });
 			}
 		},
 	});
@@ -106,16 +106,16 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 				500: Type.Object({ message: Type.String() }),
 			},
 		},
-		handler: async (req, res) => {
+		handler: async (req, reply) => {
 			try {
 				const states = await server.stateRepository.find({
 					country: req.params.iso_code,
 					...req.query,
 				});
-				return res.code(200).send(states);
+				return reply.code(200).send(states);
 			} catch (err) {
 				console.log(err);
-				return res.code(500).send({ message: "Internal server error" });
+				return reply.code(500).send({ message: "Internal server error" });
 			}
 		},
 	});
@@ -134,13 +134,13 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 				500: Type.Object({ message: Type.String() }),
 			},
 		},
-		handler: async (req, res) => {
+		handler: async (req, reply) => {
 			try {
 				const cities = await server.cityRepository.find(req.query);
-				return res.code(200).send(cities);
+				return reply.code(200).send(cities);
 			} catch (err) {
 				console.log(err);
-				return res.code(500).send({ message: "Internal server error" });
+				return reply.code(500).send({ message: "Internal server error" });
 			}
 		},
 	});
@@ -161,17 +161,17 @@ const routes: FastifyPluginAsyncTypebox = async (server) => {
 				500: Type.Object({ message: Type.String() }),
 			},
 		},
-		handler: async (req, res) => {
+		handler: async (req, reply) => {
 			try {
 				const cities = await server.cityRepository.find({
 					country: req.params.country_code,
 					state: req.params.state_code,
 					...req.query,
 				});
-				return res.code(200).send(cities);
+				return reply.code(200).send(cities);
 			} catch (err) {
 				console.log(err);
-				return res.code(500).send({ message: "Internal server error" });
+				return reply.code(500).send({ message: "Internal server error" });
 			}
 		},
 	});

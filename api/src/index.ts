@@ -1,32 +1,16 @@
-import Fastify from "fastify";
-import Autoload from "@fastify/autoload";
-import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
-import path, { dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { createApp } from "./app.js";
 
 declare module "fastify" {
 	interface FastifyRequest {}
 }
 
-const server = Fastify({
-	logger: true,
-}).withTypeProvider<TypeBoxTypeProvider>();
-
-await server.register(Autoload, {
-	dir: path.join(import.meta.dirname, "plugins/external"),
-});
-await server.register(Autoload, {
-	dir: path.join(import.meta.dirname, "plugins/app"),
-});
-await server.register(Autoload, {
-	dir: path.join(dirname(fileURLToPath(import.meta.url)), "routes"),
-});
-
 async function start() {
+	const app = await createApp();
+	await app.ready();
 	try {
-		await server.listen({ port: Number(process.env.PORT ?? 3000) });
+		await app.listen({ port: Number(process.env.PORT ?? 3000) });
 	} catch (err) {
-		server.log.error(err);
+		app.log.error(err);
 		process.exit(1);
 	}
 }

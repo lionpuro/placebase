@@ -19,7 +19,6 @@ export default (async function (app) {
 			querystring: StatesQuerySchema,
 			response: {
 				200: Type.Array(StateSchema),
-				404: Type.Object({ message: Type.String() }),
 				500: Type.Object({ message: Type.String() }),
 			},
 		},
@@ -46,7 +45,6 @@ export default (async function (app) {
 			querystring: CountryStatesQuerySchema,
 			response: {
 				200: Type.Array(StateSchema),
-				404: Type.Object({ message: Type.String() }),
 				500: Type.Object({ message: Type.String() }),
 			},
 		},

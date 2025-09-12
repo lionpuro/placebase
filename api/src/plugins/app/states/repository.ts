@@ -32,7 +32,7 @@ export function createRepository(fastify: FastifyInstance) {
 				name,
 				iso2,
 				type,
-				country_code,
+				country_code AS country,
 				latitude,
 				longitude,
 				timezone

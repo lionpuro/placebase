@@ -33,6 +33,10 @@ export function createRepository(fastify: FastifyInstance) {
 				values.push(params.currency);
 				stmt.push(`currency = $${values.length}`);
 			}
+			if (params.phonecode) {
+				values.push(params.phonecode);
+				stmt.push(`phonecode = $${values.length}`);
+			}
 			let query = `
 			SELECT
 				name,

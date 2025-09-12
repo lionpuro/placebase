@@ -16,6 +16,7 @@ export const CountriesQuerySchema = Type.Object({
 	name: Type.Optional(Type.String()),
 	currency: Type.Optional(Type.String({ minLength: 3, maxLength: 3 })),
 	region: Type.Optional(Type.String()),
+	phonecode: Type.Optional(Type.String({ examples: ["358"] })),
 	...defaultParams,
 });
 

@@ -27,7 +27,7 @@ export default (async function (app) {
 				const states = await app.stateRepository.find(req.query);
 				return reply.code(200).send(states);
 			} catch (err) {
-				console.log(err);
+				app.log.error(err);
 				return reply.code(500).send({ message: "Internal server error" });
 			}
 		},
@@ -56,7 +56,7 @@ export default (async function (app) {
 				});
 				return reply.code(200).send(states);
 			} catch (err) {
-				console.log(err);
+				app.log.error(err);
 				return reply.code(500).send({ message: "Internal server error" });
 			}
 		},
@@ -89,6 +89,7 @@ export default (async function (app) {
 				}
 				return reply.code(200).send(state);
 			} catch (err) {
+				app.log.error(err);
 				return reply.code(500).send({ message: "Internal server error" });
 			}
 		},

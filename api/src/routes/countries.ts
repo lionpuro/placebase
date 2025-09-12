@@ -22,6 +22,7 @@ export default (async function (app) {
 				const countries = await app.countryRepository.find(req.query);
 				return reply.code(200).send(countries);
 			} catch (err) {
+				app.log.error(err);
 				return reply.code(500).send({ message: "Internal server error" });
 			}
 		},
@@ -50,6 +51,7 @@ export default (async function (app) {
 				}
 				return reply.code(200).send(country);
 			} catch (err) {
+				app.log.error(err);
 				return reply.code(500).send({ message: "Internal server error" });
 			}
 		},

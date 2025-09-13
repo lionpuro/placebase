@@ -7,6 +7,7 @@ import {
 	CountryStateCitiesQuerySchema,
 	StateCodeSchema,
 } from "../schemas/request.js";
+import { ErrorResponseSchema } from "../schemas/response.js";
 
 export default (async function (app) {
 	app.route({
@@ -19,7 +20,7 @@ export default (async function (app) {
 			querystring: CitiesQuerySchema,
 			response: {
 				200: CitiesSchema,
-				500: Type.Object({ message: Type.String() }),
+				500: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {
@@ -46,7 +47,7 @@ export default (async function (app) {
 			querystring: CountryStateCitiesQuerySchema,
 			response: {
 				200: CitiesSchema,
-				500: Type.Object({ message: Type.String() }),
+				500: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {

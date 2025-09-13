@@ -2,6 +2,7 @@ import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
 import { CountriesSchema, CountrySchema } from "../schemas/index.js";
 import { CountriesQuerySchema, CountryCodeSchema } from "../schemas/request.js";
+import { ErrorResponseSchema } from "../schemas/response.js";
 
 export default (async function (app) {
 	app.route({
@@ -14,7 +15,7 @@ export default (async function (app) {
 			querystring: CountriesQuerySchema,
 			response: {
 				200: CountriesSchema,
-				500: Type.Object({ message: Type.String() }),
+				500: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {
@@ -37,8 +38,8 @@ export default (async function (app) {
 			params: Type.Object({ iso_code: CountryCodeSchema }),
 			response: {
 				200: CountrySchema,
-				404: Type.Object({ message: Type.String() }),
-				500: Type.Object({ message: Type.String() }),
+				404: ErrorResponseSchema,
+				500: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {

@@ -16,7 +16,7 @@ describe("Cities endpoints", () => {
 		it("should respond with 200", async () => {
 			const response = await app.inject({
 				method: "GET",
-				url: "/states",
+				url: "/cities",
 			});
 			assert.strictEqual(response.statusCode, 200);
 		});

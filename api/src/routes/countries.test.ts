@@ -1,5 +1,5 @@
 import { after, before, describe, it } from "node:test";
-import { createApp } from "../../src/app.js";
+import { createApp } from "../app.js";
 import type { FastifyInstance } from "fastify";
 import assert from "node:assert";
 

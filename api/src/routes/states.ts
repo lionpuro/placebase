@@ -1,6 +1,6 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
-import { StateSchema } from "../schemas/index.js";
+import { StateSchema, StatesSchema } from "../schemas/index.js";
 import {
 	CountryCodeSchema,
 	CountryStatesQuerySchema,
@@ -18,7 +18,7 @@ export default (async function (app) {
 			tags: ["States"],
 			querystring: StatesQuerySchema,
 			response: {
-				200: Type.Array(StateSchema),
+				200: StatesSchema,
 				500: Type.Object({ message: Type.String() }),
 			},
 		},
@@ -44,7 +44,7 @@ export default (async function (app) {
 			}),
 			querystring: CountryStatesQuerySchema,
 			response: {
-				200: Type.Array(StateSchema),
+				200: StatesSchema,
 				500: Type.Object({ message: Type.String() }),
 			},
 		},

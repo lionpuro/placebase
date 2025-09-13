@@ -1,6 +1,6 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
-import { CountrySchema } from "../schemas/index.js";
+import { CountriesSchema, CountrySchema } from "../schemas/index.js";
 import { CountriesQuerySchema, CountryCodeSchema } from "../schemas/request.js";
 
 export default (async function (app) {
@@ -13,7 +13,7 @@ export default (async function (app) {
 			tags: ["Countries"],
 			querystring: CountriesQuerySchema,
 			response: {
-				200: Type.Array(CountrySchema),
+				200: CountriesSchema,
 				500: Type.Object({ message: Type.String() }),
 			},
 		},

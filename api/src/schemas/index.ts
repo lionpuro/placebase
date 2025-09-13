@@ -15,6 +15,8 @@ export const CountrySchema = Type.Object({
 	emoji: Type.String({ examples: ["🇫🇮"] }),
 });
 
+export const CountriesSchema = Type.Array(CountrySchema);
+
 export type Country = Static<typeof CountrySchema>;
 
 export const StateSchema = Type.Object({
@@ -27,6 +29,8 @@ export const StateSchema = Type.Object({
 	timezone: Type.String({ examples: ["Europe/Helsinki"] }),
 });
 
+export const StatesSchema = Type.Array(StateSchema);
+
 export type State = Static<typeof StateSchema>;
 
 export const CitySchema = Type.Object({
@@ -38,5 +42,7 @@ export const CitySchema = Type.Object({
 	longitude: Type.Number({ examples: [23.76] }),
 	timezone: Type.String({ examples: ["Europe/Helsinki"] }),
 });
+
+export const CitiesSchema = Type.Array(CitySchema);
 
 export type City = Static<typeof CitySchema>;

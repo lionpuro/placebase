@@ -12,13 +12,18 @@ export const CountryCodeSchema = Type.String({
 	maxLength: 2,
 });
 
-export const CountriesQuerySchema = Type.Object({
-	name: Type.Optional(Type.String()),
-	currency: Type.Optional(Type.String({ minLength: 3, maxLength: 3 })),
-	region: Type.Optional(Type.String()),
-	phonecode: Type.Optional(Type.String({ examples: ["358"] })),
-	...defaultParams,
-});
+export const CountriesQuerySchema = Type.Object(
+	{
+		name: Type.Optional(Type.String()),
+		currency: Type.Optional(Type.String({ minLength: 3, maxLength: 3 })),
+		region: Type.Optional(Type.String()),
+		phonecode: Type.Optional(Type.String({ examples: ["358"] })),
+		...defaultParams,
+	},
+	{
+		additionalProperties: false,
+	},
+);
 
 export type CountriesParams = Static<typeof CountriesQuerySchema>;
 
@@ -29,33 +34,51 @@ export const StateCodeSchema = Type.String({
 	maxLength: 5,
 });
 
-export const CountryStatesQuerySchema = Type.Object(defaultParams);
-
-export const StatesQuerySchema = Type.Object({
-	name: Type.Optional(Type.String()),
-	iso_code: Type.Optional(StateCodeSchema),
-	country: Type.Optional(CountryCodeSchema),
-	limit: Type.Optional(Type.Number({ minimum: 1, maximum: 250, default: 250 })),
-	offset: Type.Optional(Type.Number()),
+export const CountryStatesQuerySchema = Type.Object(defaultParams, {
+	additionalProperties: false,
 });
+
+export const StatesQuerySchema = Type.Object(
+	{
+		name: Type.Optional(Type.String()),
+		iso_code: Type.Optional(StateCodeSchema),
+		country: Type.Optional(CountryCodeSchema),
+		limit: Type.Optional(
+			Type.Number({ minimum: 1, maximum: 250, default: 250 }),
+		),
+		offset: Type.Optional(Type.Number()),
+	},
+	{
+		additionalProperties: false,
+	},
+);
 
 export type StatesParams = Static<typeof StatesQuerySchema>;
 
-export const CountryStateCitiesQuerySchema = Type.Object(defaultParams);
+export const CountryStateCitiesQuerySchema = Type.Object(defaultParams, {
+	additionalProperties: false,
+});
 
 const Latitude = Type.Number({ minimum: -90, maximum: 90 });
 const Longitude = Type.Number({ minimum: -180, maximum: 180 });
 
-export const CitiesQuerySchema = Type.Object({
-	name: Type.Optional(Type.String()),
-	country: Type.Optional(CountryCodeSchema),
-	state: Type.Optional(StateCodeSchema),
-	min_lat: Type.Optional(Latitude),
-	max_lat: Type.Optional(Latitude),
-	min_lon: Type.Optional(Longitude),
-	max_lon: Type.Optional(Longitude),
-	limit: Type.Optional(Type.Number({ minimum: 1, maximum: 250, default: 250 })),
-	offset: Type.Optional(Type.Number()),
-});
+export const CitiesQuerySchema = Type.Object(
+	{
+		name: Type.Optional(Type.String()),
+		country: Type.Optional(CountryCodeSchema),
+		state: Type.Optional(StateCodeSchema),
+		min_lat: Type.Optional(Latitude),
+		max_lat: Type.Optional(Latitude),
+		min_lon: Type.Optional(Longitude),
+		max_lon: Type.Optional(Longitude),
+		limit: Type.Optional(
+			Type.Number({ minimum: 1, maximum: 250, default: 250 }),
+		),
+		offset: Type.Optional(Type.Number()),
+	},
+	{
+		additionalProperties: false,
+	},
+);
 
 export type CitiesParams = Static<typeof CitiesQuerySchema>;

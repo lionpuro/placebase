@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import type { Country } from "../../../schemas/index.js";
-import type { CountriesParams } from "../../../schemas/request.js";
+import type { CountriesQuery } from "../../../schemas/request.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -9,7 +9,7 @@ declare module "fastify" {
 	}
 }
 
-type CountryFilters = CountriesParams & { iso_code?: string };
+type CountryFilters = CountriesQuery & { iso_code?: string };
 
 export function createRepository(fastify: FastifyInstance) {
 	return {

@@ -25,7 +25,7 @@ export const CountriesQuerySchema = Type.Object(
 	},
 );
 
-export type CountriesParams = Static<typeof CountriesQuerySchema>;
+export type CountriesQuery = Static<typeof CountriesQuerySchema>;
 
 export const StateCodeSchema = Type.String({
 	description: "ISO2 code of state",
@@ -53,7 +53,7 @@ export const StatesQuerySchema = Type.Object(
 	},
 );
 
-export type StatesParams = Static<typeof StatesQuerySchema>;
+export type StatesQuery = Static<typeof StatesQuerySchema>;
 
 export const CountryStateCitiesQuerySchema = Type.Object(defaultParams, {
 	additionalProperties: false,
@@ -81,4 +81,4 @@ export const CitiesQuerySchema = Type.Object(
 	},
 );
 
-export type CitiesParams = Static<typeof CitiesQuerySchema>;
+export type CitiesQuery = Static<typeof CitiesQuerySchema>;

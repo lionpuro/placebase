@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import type { State } from "../../../schemas/index.js";
-import type { StatesParams } from "../../../schemas/request.js";
+import type { StatesQuery } from "../../../schemas/request.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -11,7 +11,7 @@ declare module "fastify" {
 
 export function createRepository(fastify: FastifyInstance) {
 	return {
-		async find(params: StatesParams) {
+		async find(params: StatesQuery) {
 			const client = await fastify.pg.connect();
 			const stmt: string[] = [];
 			const values: string[] = [];

@@ -1,0 +1,14 @@
+---
+import Layout from "#/layouts/Layout.astro";
+import Header from "#/components/Header.astro";
+import "@scalar/api-reference/style.css";
+import "#/styles/scalar.css";
+---
+
+<Layout>
+	<Header width="full" class="z-10" />
+	<div id="scalar" class="scalar hidden"></div>
+	<script>
+		import "#/scripts/scalar";
+	</script>
+</Layout>

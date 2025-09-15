@@ -1,0 +1,15 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"a"> & {};
+
+const { class: className, ...props } = Astro.props;
+
+const classes = ["hover:text-primary-600", className]
+	.filter((cn) => !!cn)
+	.join(" ");
+---
+
+<a class={classes} {...props}>
+	<slot />
+</a>

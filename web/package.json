@@ -1,0 +1,25 @@
+{
+	"name": "web",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro check && astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"format": "prettier --write ."
+	},
+	"dependencies": {
+		"@astrojs/check": "^0.9.4",
+		"@fontsource-variable/geist": "^5.2.7",
+		"@scalar/api-reference": "^1.35.5",
+		"@tailwindcss/vite": "^4.1.13",
+		"astro": "^5.13.7",
+		"tailwindcss": "^4.1.13",
+		"typescript": "^5.9.2"
+	},
+	"devDependencies": {
+		"prettier": "^3.6.2",
+		"prettier-plugin-astro": "^0.14.1"
+	}
+}

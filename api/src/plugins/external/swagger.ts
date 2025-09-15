@@ -1,6 +1,5 @@
 import fp from "fastify-plugin";
 import swagger from "@fastify/swagger";
-import scalar from "@scalar/fastify-api-reference";
 
 export default fp(async (fastify) => {
 	await fastify.register(swagger, {
@@ -18,12 +17,12 @@ export default fp(async (fastify) => {
 			],
 		},
 	});
-	await fastify.register(scalar, {
-		routePrefix: "/docs",
-		configuration: {
-			theme: "alternate",
-			metaData: { title: "Places API" },
-			defaultOpenAllTags: true,
+	fastify.route({
+		method: "GET",
+		url: "/openapi.json",
+		schema: { hide: true },
+		handler: async (_request, reply) => {
+			reply.send(fastify.swagger());
 		},
 	});
 });

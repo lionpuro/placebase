@@ -2,6 +2,8 @@
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
-public
+bun.lock
+bun.lockb
 
-.astro
+# Miscellaneous
+/static/

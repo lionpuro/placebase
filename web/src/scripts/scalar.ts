@@ -6,5 +6,6 @@ createApiReference("#scalar", {
 	withDefaultFonts: false,
 	forceDarkModeState: "light",
 	hideDarkModeToggle: true,
+	hideClientButton: true,
 	onLoaded: () => document.querySelector("#scalar")?.classList.remove("hidden"),
 });

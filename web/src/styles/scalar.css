@@ -3,6 +3,11 @@
 	--scalar-custom-header-height: 49px;
 	--scalar-font: "Geist Variable";
 }
+
 .scalar main {
 	padding-top: 49px;
+}
+
+.scalar .sidebar {
+	--scalar-border-color: transparent;
 }

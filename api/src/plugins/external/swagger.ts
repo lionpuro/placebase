@@ -6,7 +6,7 @@ export default fp(async (fastify) => {
 		openapi: {
 			openapi: "3.1.0",
 			info: {
-				title: "places-api",
+				title: "Placebase",
 				description: "API for querying country-state-city data",
 				version: "1.0.0",
 			},

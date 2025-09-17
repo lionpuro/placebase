@@ -1,45 +1,21 @@
 <script lang="ts">
 	import Header from "$lib/components/header.svelte";
-	import { createApiReference } from "@scalar/api-reference";
+	import { SwaggerUIBundle } from "swagger-ui-dist";
+	import "swagger-ui-dist/swagger-ui.css";
 	import { onMount } from "svelte";
+	import Main from "$lib/components/main.svelte";
 
-	let loading = $state(true);
 	let container: HTMLDivElement;
 	onMount(() => {
-		createApiReference(container, {
+		SwaggerUIBundle({
 			url: "/api/openapi.json",
-			theme: "alternate",
-			defaultOpenAllTags: true,
-			withDefaultFonts: false,
-			forceDarkModeState: "light",
-			hideDarkModeToggle: true,
-			hideClientButton: true,
-			onLoaded: () => {
-				loading = false;
-			},
+			domNode: container,
+			deepLinking: false, // incompatible with sveltekit router
 		});
 	});
 </script>
 
-<Header class="fixed z-10" />
-<div
-	bind:this={container}
-	class="scalar mx-auto w-full max-w-screen-xl {loading ? 'hidden' : ''}"
-></div>
-<svelte:head>
-	<style>
-		.light-mode {
-			--scalar-background-1: var(--color-base-white);
-			--scalar-custom-header-height: 49px;
-			--scalar-font: "Geist Variable";
-		}
-
-		.scalar main {
-			padding-top: 49px;
-		}
-
-		.scalar .sidebar {
-			--scalar-border-color: transparent;
-		}
-	</style>
-</svelte:head>
+<Header />
+<Main>
+	<div id="swagger-container" bind:this={container} class="mx-auto w-full max-w-screen-xl"></div>
+</Main>

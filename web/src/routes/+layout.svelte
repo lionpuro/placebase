@@ -1,6 +1,17 @@
 <script lang="ts">
 	import "../app.css";
 	import favicon from "$lib/assets/favicon.svg";
+	import { onMount } from "svelte";
+	import { authStore } from "$lib/auth/store.svelte";
+	import { authStateListener } from "$lib/auth/firebase";
+
+	onMount(() => {
+		const unsubscribe = authStateListener((user) => {
+			authStore.user = user;
+			authStore.isLoading = false;
+		});
+		return unsubscribe;
+	});
 
 	let { children } = $props();
 </script>

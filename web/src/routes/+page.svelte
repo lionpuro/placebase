@@ -4,6 +4,9 @@
 	import Main from "$lib/components/main.svelte";
 </script>
 
+<svelte:head>
+	<title>Placebase</title>
+</svelte:head>
 <Header />
 <Main>
 	<div class="mx-auto my-16 flex flex-col items-center">

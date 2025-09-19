@@ -11,6 +11,9 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Dashboard - Placebase</title>
+</svelte:head>
 <Header />
 <Main>
 	{#if authStore.isLoading}

@@ -16,6 +16,9 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Sign in - Placebase</title>
+</svelte:head>
 <Header />
 <Main>
 	<div class="mx-auto my-8 flex flex-col items-center">

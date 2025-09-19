@@ -26,7 +26,7 @@
 				<Link href="/dashboard">Dashboard</Link>
 			{/if}
 		</div>
-		<div class="ml-auto flex">
+		<div class="ml-auto flex items-center gap-6">
 			{#if !authStore.isLoggedIn}
 				<a
 					href="/signin"
@@ -35,6 +35,7 @@
 					Sign in
 				</a>
 			{:else}
+				<Link href="/account">Account</Link>
 				<button
 					onclick={handleSignout}
 					class="rounded-full bg-base-100/60 px-5 py-2 text-red-500 hover:bg-base-100/90"

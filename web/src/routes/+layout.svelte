@@ -5,6 +5,8 @@
 	import { authStore } from "$lib/auth/store.svelte";
 	import { authStateListener } from "$lib/auth/firebase";
 
+	let { children } = $props();
+
 	onMount(() => {
 		const unsubscribe = authStateListener((user) => {
 			authStore.user = user;
@@ -12,8 +14,6 @@
 		});
 		return unsubscribe;
 	});
-
-	let { children } = $props();
 </script>
 
 <svelte:head>

@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
-import type { Country } from "../../../schemas/index.js";
-import type { CountriesQuery } from "../../../schemas/request.js";
+import type { Country } from "../../schemas/index.js";
+import type { CountriesQuery } from "../../schemas/request.js";
 
 declare module "fastify" {
 	interface FastifyInstance {

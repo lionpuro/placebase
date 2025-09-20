@@ -12,8 +12,6 @@ declare module "fastify" {
 
 type User = {
 	id: string;
-	email: string;
-	email_verified: boolean;
 };
 
 type Middleware = <T extends FastifyRequest, U extends FastifyReply>(
@@ -39,8 +37,6 @@ export function createAuthenticator(app: FastifyInstance): Authenticator {
 				}
 				const user: User = {
 					id: decoded.uid,
-					email: decoded.email,
-					email_verified: decoded.email_verified === true,
 				};
 				req.user = user;
 			} catch (err) {

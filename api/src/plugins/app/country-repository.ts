@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import type { Country } from "../../schemas/index.js";
 import type { CountriesQuery } from "../../schemas/request.js";
+import type { QueryResult } from "../../types.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -59,7 +60,10 @@ export function createRepository(fastify: FastifyInstance) {
 				query += ` OFFSET ${params.offset} `;
 			}
 			try {
-				const { rows }: { rows: Country[] } = await client.query(query, values);
+				const { rows }: QueryResult<Country> = await client.query(
+					query,
+					values,
+				);
 				return rows;
 			} finally {
 				client.release();

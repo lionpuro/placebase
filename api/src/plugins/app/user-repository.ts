@@ -1,5 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
+import type { QueryResult } from "../../types.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -22,7 +23,7 @@ export function createRepository(fastify: FastifyInstance) {
 			const client = await fastify.pg.connect();
 			try {
 				const query = `DELETE FROM users WHERE id = $1`;
-				const { rowCount } = await client.query(query, [uid]);
+				const { rowCount }: QueryResult = await client.query(query, [uid]);
 				return rowCount;
 			} finally {
 				client.release();

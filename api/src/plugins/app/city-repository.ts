@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import type { City } from "../../schemas/index.js";
 import type { CitiesQuery } from "../../schemas/request.js";
+import type { QueryResult } from "../../types.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -66,7 +67,7 @@ export function createRepository(fastify: FastifyInstance) {
 				query += ` OFFSET ${params.offset} `;
 			}
 			try {
-				const { rows }: { rows: City[] } = await client.query(query, values);
+				const { rows }: QueryResult<City> = await client.query(query, values);
 				return rows;
 			} finally {
 				client.release();

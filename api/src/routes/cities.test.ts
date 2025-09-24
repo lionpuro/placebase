@@ -1,15 +1,11 @@
-import { after, before, describe, it } from "node:test";
-import { createApp } from "../app.js";
-import type { FastifyInstance } from "fastify";
+import { after, describe, it } from "node:test";
+import { createTestApp } from "../testing/helper.js";
 import assert from "node:assert";
 import { type City, CitiesSchema } from "../schemas/index.js";
 import { createValidator } from "../schemas/validation.js";
 
-describe("Cities endpoints", () => {
-	let app: FastifyInstance;
-	before(async () => {
-		app = await createApp({ logger: false });
-	});
+describe("Cities endpoints", async () => {
+	const app = await createTestApp();
 	after(async () => {
 		await app.close();
 	});
@@ -19,12 +15,19 @@ describe("Cities endpoints", () => {
 			truncateErrors: true,
 		});
 		it("should respond with 200", async () => {
-			const response = await app.inject({
+			const response = await app.injectWithAPIKey({
 				method: "GET",
 				url: "/cities",
 			});
 			assert.strictEqual(response.statusCode, 200);
 			assert.doesNotThrow(() => validator.parse(response.json()));
+		});
+		it("should respond with 401", async () => {
+			const response = await app.inject({
+				method: "GET",
+				url: "/cities",
+			});
+			assert.strictEqual(response.statusCode, 401);
 		});
 	});
 
@@ -33,7 +36,7 @@ describe("Cities endpoints", () => {
 			truncateErrors: true,
 		});
 		it("should respond with 200", async () => {
-			const response = await app.inject({
+			const response = await app.injectWithAPIKey({
 				method: "GET",
 				url: "/countries/GB/states/ENG/cities",
 			});
@@ -41,7 +44,7 @@ describe("Cities endpoints", () => {
 			assert.doesNotThrow(() => validator.parse(response.json()));
 		});
 		it("should respond with 400", async () => {
-			const response = await app.inject({
+			const response = await app.injectWithAPIKey({
 				method: "GET",
 				url: "/countries/GB/states/abcdefg/cities",
 			});

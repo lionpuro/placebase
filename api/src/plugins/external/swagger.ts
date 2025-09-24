@@ -22,6 +22,16 @@ export default fp(async (fastify) => {
 				{ name: "States", description: "State endpoints" },
 				{ name: "Cities", description: "City endpoints" },
 			],
+			components: {
+				securitySchemes: {
+					api_key: {
+						type: "apiKey",
+						name: "X-API-KEY",
+						in: "header",
+					},
+				},
+			},
+			security: [{ api_key: [] }],
 		},
 		transform: ({ schema, url }) => {
 			if (url.startsWith("/internal")) {
@@ -48,7 +58,7 @@ export default fp(async (fastify) => {
 				title: "Placebase internal",
 				version: "1.0.0",
 			},
-			tags: [{ name: "Users", description: "Auth user endpoints" }],
+			tags: [{ name: "Users", description: "User endpoints" }],
 		},
 		transform: ({ schema, url }) => {
 			if (!url.startsWith("/internal")) {

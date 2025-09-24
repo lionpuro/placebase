@@ -13,7 +13,7 @@ export function createRepository(fastify: FastifyInstance) {
 		async create(uid: string) {
 			const client = await fastify.pg.connect();
 			try {
-				const query = `INSERT INTO users (id) VALUES ($1)`;
+				const query = `INSERT INTO users (id) VALUES ($1) ON CONFLICT DO NOTHING`;
 				await client.query(query, [uid]);
 			} finally {
 				client.release();

@@ -17,6 +17,11 @@
 
 <svelte:head>
 	<title>API Reference - Placebase</title>
+	<style lang="css">
+		.swagger-ui .wrapper {
+			padding: 0;
+		}
+	</style>
 </svelte:head>
 <Header />
 <Main>

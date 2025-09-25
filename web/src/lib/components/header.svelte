@@ -6,6 +6,8 @@
 	import { signout } from "$lib/auth/firebase";
 	import { goto } from "$app/navigation";
 	import Button from "./button.svelte";
+	import ScrollArea from "./scroll-area.svelte";
+	import { Popover } from "bits-ui";
 
 	type Props = {
 		class?: string;
@@ -14,8 +16,6 @@
 	let { class: className }: Props = $props();
 
 	let menuOpen = $state(false);
-
-	const toggleMenu = () => (menuOpen = !menuOpen);
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === "Escape" && menuOpen) {
@@ -32,7 +32,7 @@
 
 <svelte:window onkeydown={handleKeydown} />
 <header class={`w-full bg-base-white ${className ? className : ""}`}>
-	<nav class={`relative mx-auto flex flex max-w-screen-xl items-center gap-8 px-6 py-4 sm:px-8`}>
+	<nav class={`mx-auto flex flex max-w-screen-xl items-center gap-8 px-6 py-4 sm:px-8`}>
 		<a href="/"><Logo /></a>
 		{#if !authStore.isLoggedIn}
 			<Link href="/docs">Docs</Link>
@@ -43,25 +43,43 @@
 				Sign in
 			</a>
 		{:else}
-			<div
-				class="{!menuOpen
-					? 'max-sm:hidden'
-					: 'border-base-100 max-sm:fixed max-sm:top-18 max-sm:right-4 max-sm:z-10 max-sm:min-w-48 max-sm:flex-col max-sm:rounded-2xl max-sm:border max-sm:bg-base-white max-sm:p-4'} flex sm:w-full sm:items-center sm:gap-6"
-			>
-				<Link href="/docs" class="max-sm:p-2">Docs</Link>
-				<Link href="/dashboard" class="max-sm:p-2">Dashboard</Link>
-				<Link href="/account" class="max-sm:p-2 sm:ml-auto">Account</Link>
-				<Button variant="outline" class="text-red-500 max-sm:mt-2" onclick={handleSignout}>
-					Sign out
-				</Button>
+			<div class="flex w-full items-center gap-6 max-sm:hidden">
+				<Link href="/docs">Docs</Link>
+				<Link href="/dashboard">Dashboard</Link>
+				<Link href="/account" class="ml-auto">Account</Link>
+				<Button variant="outline" class="text-red-500" onclick={handleSignout}>Sign out</Button>
 			</div>
-			<button onclick={toggleMenu} class="ml-auto p-2 hover:text-primary-600 sm:hidden">
-				{#if !menuOpen}
-					<Icon icon="mdi:menu" width="24" height="24" />
-				{:else}
-					<Icon icon="mdi:close" width="24" height="24" />
-				{/if}
-			</button>
+			<Popover.Root bind:open={menuOpen}>
+				<Popover.Trigger class="ml-auto size-10 cursor-pointer hover:text-primary-600 sm:hidden">
+					{#if !menuOpen}
+						<Icon icon="mdi:menu" width="24" height="24" />
+					{:else}
+						<Icon icon="mdi:close" width="24" height="24" />
+					{/if}
+				</Popover.Trigger>
+				<Popover.Portal>
+					<Popover.Content
+						class="border border-base-100 bg-base-white"
+						align="start"
+						side="bottom"
+						sideOffset={16}
+						preventScroll
+					>
+						<ScrollArea
+							class="mt-2 h-(--bits-popover-content-available-height) max-h-none w-(--bits-popover-content-available-width) max-w-none"
+						>
+							<div class="flex flex-col p-6 pt-2">
+								<Link href="/docs" class="p-2">Docs</Link>
+								<Link href="/dashboard" class="p-2">Dashboard</Link>
+								<Link href="/account" class="p-2">Account</Link>
+								<button class="p-2 text-left text-red-500" onclick={handleSignout}>
+									Sign out
+								</button>
+							</div>
+						</ScrollArea>
+					</Popover.Content>
+				</Popover.Portal>
+			</Popover.Root>
 		{/if}
 	</nav>
 </header>

@@ -33,8 +33,11 @@
 	"dependencies": {
 		"@fontsource-variable/geist": "^5.2.7",
 		"@tanstack/svelte-query": "^5.90.2",
+		"bits-ui": "^2.11.4",
+		"clsx": "^2.1.1",
 		"firebase": "^12.2.1",
 		"iconify-icon": "^3.0.1",
-		"swagger-ui-dist": "^5.29.0"
+		"swagger-ui-dist": "^5.29.0",
+		"tailwind-merge": "^3.3.1"
 	}
 }

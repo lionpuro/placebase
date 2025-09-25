@@ -7,7 +7,7 @@
 	import { createMutation, createQuery, useQueryClient } from "@tanstack/svelte-query";
 	import type { APIKeyRecord, CreateAPIKeyResponse } from "@placebase/api";
 	import Dialog from "$lib/components/dialog.svelte";
-	import Icon from "@iconify/svelte";
+	import Icon from "$lib/components/icon.svelte";
 
 	$effect(() => {
 		if (!authStore.isLoading && !authStore.user) {

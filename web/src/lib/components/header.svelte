@@ -5,6 +5,7 @@
 	import { authStore } from "$lib/auth/store.svelte";
 	import { signout } from "$lib/auth/firebase";
 	import { goto } from "$app/navigation";
+	import Button from "./button.svelte";
 
 	type Props = {
 		class?: string;
@@ -50,12 +51,9 @@
 				<Link href="/docs" class="max-sm:p-2">Docs</Link>
 				<Link href="/dashboard" class="max-sm:p-2">Dashboard</Link>
 				<Link href="/account" class="max-sm:p-2 sm:ml-auto">Account</Link>
-				<button
-					onclick={handleSignout}
-					class="rounded-full bg-base-100/60 px-5 py-2 text-red-500 hover:bg-base-100/90 max-sm:mt-2"
-				>
+				<Button variant="outline" class="text-red-500 max-sm:mt-2" onclick={handleSignout}>
 					Sign out
-				</button>
+				</Button>
 			</div>
 			<button onclick={toggleMenu} class="ml-auto p-2 hover:text-primary-600 sm:hidden">
 				{#if !menuOpen}

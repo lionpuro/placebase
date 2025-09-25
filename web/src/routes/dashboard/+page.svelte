@@ -8,6 +8,7 @@
 	import type { APIKeyRecord, CreateAPIKeyResponse } from "@placebase/api";
 	import Dialog from "$lib/components/dialog.svelte";
 	import Icon from "$lib/components/icon.svelte";
+	import Button from "$lib/components/button.svelte";
 
 	$effect(() => {
 		if (!authStore.isLoading && !authStore.user) {
@@ -107,12 +108,7 @@
 		<h1 class="mb-4 text-3xl font-bold sm:text-3xl">Dashboard</h1>
 		<div class="mb-4 flex items-center justify-between">
 			<h2 class="text-xl font-semibold">API keys</h2>
-			<button
-				onclick={generate}
-				class="rounded-full bg-primary-600/90 px-5 py-2 text-base-white hover:bg-primary-600"
-			>
-				Generate API key
-			</button>
+			<Button variant="primary" onclick={generate}>Generate API key</Button>
 		</div>
 		<Dialog bind:ref={dialog} onclose={() => (apiKey = undefined)}>
 			<div class="flex flex-col gap-6 p-6">
@@ -137,12 +133,7 @@
 					</div>
 				{/if}
 				<p>This key won't be displayed again so you should save it somewhere safe.</p>
-				<button
-					onclick={() => dialog?.close()}
-					class="w-fit rounded-full bg-base-950 px-5 py-2 text-base-white hover:bg-base-900"
-				>
-					Continue
-				</button>
+				<Button variant="black" class="w-fit" onclick={() => dialog?.close()}>Continue</Button>
 			</div>
 		</Dialog>
 		{#if $getQuery.isPending}

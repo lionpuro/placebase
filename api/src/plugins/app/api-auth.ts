@@ -39,9 +39,9 @@ export function createPlugin(app: FastifyInstance): APIAuth {
 	};
 }
 
-export default fp((fastify) => {
-	fastify.decorate("apiAuth", createPlugin(fastify));
-	fastify.addHook("onRequest", async (request, reply) => {
+export default fp((app) => {
+	app.decorate("apiAuth", createPlugin(app));
+	app.addHook("onRequest", async (request, reply) => {
 		if (
 			!request.url.startsWith("/internal") &&
 			!request.url.endsWith("openapi.json")
@@ -55,12 +55,12 @@ export default fp((fastify) => {
 				return reply.code(401).send({ message: "Missing API key" });
 			}
 			try {
-				const valid = await fastify.apiAuth.verifyAPIKey(key);
+				const valid = await app.apiAuth.verifyAPIKey(key);
 				if (!valid) {
 					return reply.code(401).send({ message: "Invalid API key" });
 				}
 			} catch (err) {
-				fastify.log.error(err);
+				app.log.error(err);
 				return reply.code(500).send({ message: "Failed to verify API key" });
 			}
 		}

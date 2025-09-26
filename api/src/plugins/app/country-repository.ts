@@ -12,10 +12,10 @@ declare module "fastify" {
 
 type CountryFilters = CountriesQuery & { iso_code?: string };
 
-export function createRepository(fastify: FastifyInstance) {
+export function createRepository(app: FastifyInstance) {
 	return {
 		async find(params: CountryFilters) {
-			const client = await fastify.pg.connect();
+			const client = await app.pg.connect();
 			const stmt: string[] = [];
 			const values: string[] = [];
 			if (params.iso_code) {
@@ -72,6 +72,6 @@ export function createRepository(fastify: FastifyInstance) {
 	};
 }
 
-export default fp((fastify) => {
-	fastify.decorate("countryRepository", createRepository(fastify));
+export default fp((app) => {
+	app.decorate("countryRepository", createRepository(app));
 });

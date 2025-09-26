@@ -11,10 +11,10 @@ declare module "fastify" {
 
 export type KeyRepository = ReturnType<typeof createRepository>;
 
-export function createRepository(fastify: FastifyInstance) {
+export function createRepository(app: FastifyInstance) {
 	return {
 		async byUser(uid: string) {
-			const client = await fastify.pg.connect();
+			const client = await app.pg.connect();
 			try {
 				const query = `
 				SELECT id, user_id, created_at
@@ -29,7 +29,7 @@ export function createRepository(fastify: FastifyInstance) {
 			}
 		},
 		async byHash(hash: string) {
-			const client = await fastify.pg.connect();
+			const client = await app.pg.connect();
 			try {
 				const query = `
 				SELECT id, user_id, created_at
@@ -44,7 +44,7 @@ export function createRepository(fastify: FastifyInstance) {
 			}
 		},
 		async create(hash: string, uid: string) {
-			const client = await fastify.pg.connect();
+			const client = await app.pg.connect();
 			try {
 				const query = `
 				INSERT INTO api_keys (hash, user_id)
@@ -55,7 +55,7 @@ export function createRepository(fastify: FastifyInstance) {
 			}
 		},
 		async delete(id: string, uid: string) {
-			const client = await fastify.pg.connect();
+			const client = await app.pg.connect();
 			try {
 				const query = `
 				DELETE FROM api_keys
@@ -68,6 +68,6 @@ export function createRepository(fastify: FastifyInstance) {
 	};
 }
 
-export default fp((fastify) => {
-	fastify.decorate("keyRepository", createRepository(fastify));
+export default fp((app) => {
+	app.decorate("keyRepository", createRepository(app));
 });

@@ -8,10 +8,10 @@ declare module "fastify" {
 	}
 }
 
-export function createRepository(fastify: FastifyInstance) {
+export function createRepository(app: FastifyInstance) {
 	return {
 		async create(uid: string) {
-			const client = await fastify.pg.connect();
+			const client = await app.pg.connect();
 			try {
 				const query = `INSERT INTO users (id) VALUES ($1) ON CONFLICT DO NOTHING`;
 				await client.query(query, [uid]);
@@ -20,7 +20,7 @@ export function createRepository(fastify: FastifyInstance) {
 			}
 		},
 		async delete(uid: string) {
-			const client = await fastify.pg.connect();
+			const client = await app.pg.connect();
 			try {
 				const query = `DELETE FROM users WHERE id = $1`;
 				const { rowCount }: QueryResult = await client.query(query, [uid]);
@@ -32,6 +32,6 @@ export function createRepository(fastify: FastifyInstance) {
 	};
 }
 
-export default fp((fastify) => {
-	fastify.decorate("userRepository", createRepository(fastify));
+export default fp((app) => {
+	app.decorate("userRepository", createRepository(app));
 });

@@ -46,6 +46,6 @@ export function createAuthenticator(app: FastifyInstance): Authenticator {
 	};
 }
 
-export default fp((fastify) => {
-	fastify.decorate("authenticator", createAuthenticator(fastify));
+export default fp((app) => {
+	app.decorate("authenticator", createAuthenticator(app));
 });

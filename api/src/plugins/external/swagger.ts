@@ -7,9 +7,9 @@ declare module "fastify" {
 	}
 }
 
-export default fp(async (fastify) => {
+export default fp(async (app) => {
 	// Public API
-	await fastify.register(swagger, {
+	await app.register(swagger, {
 		openapi: {
 			openapi: "3.1.0",
 			info: {
@@ -41,17 +41,17 @@ export default fp(async (fastify) => {
 			return { schema: schema, url: url };
 		},
 	});
-	fastify.route({
+	app.route({
 		method: "GET",
 		url: "/openapi.json",
 		schema: { hide: true },
 		handler: async (_request, reply) => {
-			reply.send(fastify.swagger());
+			reply.send(app.swagger());
 		},
 	});
 
 	// Internal API
-	await fastify.register(swagger, {
+	await app.register(swagger, {
 		openapi: {
 			openapi: "3.1.0",
 			info: {
@@ -69,12 +69,12 @@ export default fp(async (fastify) => {
 		},
 		decorator: "swaggerInternal",
 	});
-	fastify.route({
+	app.route({
 		method: "GET",
 		url: "/internal/openapi.json",
 		schema: { hide: true },
 		handler: async (_request, reply) => {
-			reply.send(fastify.swaggerInternal());
+			reply.send(app.swaggerInternal());
 		},
 	});
 });

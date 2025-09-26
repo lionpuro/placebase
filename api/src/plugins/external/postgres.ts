@@ -22,6 +22,6 @@ const config = () => {
 	};
 };
 
-export default fp(async (fastify: FastifyInstance, opts) => {
-	await fastify.register(postgres, config());
+export default fp(async (app: FastifyInstance, opts) => {
+	await app.register(postgres, config());
 });

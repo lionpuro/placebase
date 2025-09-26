@@ -10,10 +10,10 @@ declare module "fastify" {
 	}
 }
 
-export function createRepository(fastify: FastifyInstance) {
+export function createRepository(app: FastifyInstance) {
 	return {
 		async find(params: CitiesQuery) {
-			const client = await fastify.pg.connect();
+			const client = await app.pg.connect();
 			const stmt: string[] = [];
 			const values: (string | number)[] = [];
 			if (params.name) {
@@ -76,6 +76,6 @@ export function createRepository(fastify: FastifyInstance) {
 	};
 }
 
-export default fp((fastify) => {
-	fastify.decorate("cityRepository", createRepository(fastify));
+export default fp((app) => {
+	app.decorate("cityRepository", createRepository(app));
 });

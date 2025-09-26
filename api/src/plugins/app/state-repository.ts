@@ -10,10 +10,10 @@ declare module "fastify" {
 	}
 }
 
-export function createRepository(fastify: FastifyInstance) {
+export function createRepository(app: FastifyInstance) {
 	return {
 		async find(params: StatesQuery) {
-			const client = await fastify.pg.connect();
+			const client = await app.pg.connect();
 			const stmt: string[] = [];
 			const values: string[] = [];
 			if (params.iso_code) {
@@ -58,6 +58,6 @@ export function createRepository(fastify: FastifyInstance) {
 	};
 }
 
-export default fp((fastify) => {
-	fastify.decorate("stateRepository", createRepository(fastify));
+export default fp((app) => {
+	app.decorate("stateRepository", createRepository(app));
 });

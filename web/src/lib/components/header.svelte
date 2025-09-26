@@ -1,13 +1,13 @@
 <script lang="ts">
 	import Logo from "./logo.svelte";
 	import Link from "./link.svelte";
-	import Icon from "./icon.svelte";
 	import { authStore } from "$lib/auth/store.svelte";
 	import { signout } from "$lib/auth/firebase";
 	import { goto } from "$app/navigation";
 	import Button from "./button.svelte";
 	import ScrollArea from "./scroll-area.svelte";
 	import { Popover } from "bits-ui";
+	import { IconClose, IconMenu } from "$lib/icons";
 
 	type Props = {
 		class?: string;
@@ -50,11 +50,13 @@
 				<Button variant="outline" class="text-red-500" onclick={handleSignout}>Sign out</Button>
 			</div>
 			<Popover.Root bind:open={menuOpen}>
-				<Popover.Trigger class="ml-auto size-10 cursor-pointer hover:text-primary-600 sm:hidden">
+				<Popover.Trigger
+					class="ml-auto flex size-10 cursor-pointer items-center justify-center hover:text-primary-600 sm:hidden"
+				>
 					{#if !menuOpen}
-						<Icon icon="mdi:menu" width="24" height="24" />
+						<IconMenu width="24" height="24" />
 					{:else}
-						<Icon icon="mdi:close" width="24" height="24" />
+						<IconClose width="24" height="24" />
 					{/if}
 				</Popover.Trigger>
 				<Popover.Portal>

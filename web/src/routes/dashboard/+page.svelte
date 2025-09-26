@@ -7,8 +7,8 @@
 	import { createMutation, createQuery, useQueryClient } from "@tanstack/svelte-query";
 	import type { APIKeyRecord, CreateAPIKeyResponse } from "@placebase/api";
 	import Dialog from "$lib/components/dialog.svelte";
-	import Icon from "$lib/components/icon.svelte";
 	import Button from "$lib/components/button.svelte";
+	import { IconCopy, IconTrash } from "$lib/icons";
 
 	$effect(() => {
 		if (!authStore.isLoading && !authStore.user) {
@@ -124,7 +124,7 @@
 							class="ml-auto flex w-24 items-center justify-center gap-1 rounded-full bg-primary-600/90 px-3 py-0.5 text-sm font-medium text-base-white hover:bg-primary-600"
 						>
 							{#if !keyCopied}
-								<Icon icon="mdi:content-copy" />
+								<IconCopy />
 								Copy
 							{:else}
 								Copied!
@@ -163,7 +163,7 @@
 							onclick={() => $deleteQuery.mutate(record.id)}
 							class="bg-base-white p-2 text-xl text-red-600/80 hover:text-red-600"
 						>
-							<Icon icon="mdi:trash" />
+							<IconTrash />
 						</button>
 					{/each}
 				{/if}

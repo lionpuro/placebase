@@ -3,7 +3,7 @@
 	import { auth } from "$lib/auth/firebase";
 	import Header from "$lib/components/header.svelte";
 	import Main from "$lib/components/main.svelte";
-	import IconGoogle from "$lib/icons/google.svelte";
+	import { IconGoogle } from "$lib/icons";
 	import { GoogleAuthProvider, signInWithPopup, type UserCredential } from "firebase/auth";
 	async function signinWithGoogle() {
 		const provider = new GoogleAuthProvider();

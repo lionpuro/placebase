@@ -32,7 +32,7 @@
 
 <svelte:window onkeydown={handleKeydown} />
 <header class={`w-full bg-base-white ${className ? className : ""}`}>
-	<nav class={`mx-auto flex flex max-w-screen-xl items-center gap-8 px-6 py-4 sm:px-8`}>
+	<nav class={`mx-auto flex flex max-w-screen-xl items-center gap-8 px-6 py-3 sm:px-8 sm:py-4`}>
 		<a href="/"><Logo /></a>
 		{#if !authStore.isLoggedIn}
 			<Link href="/docs">Docs</Link>
@@ -59,7 +59,7 @@
 				</Popover.Trigger>
 				<Popover.Portal>
 					<Popover.Content
-						class="border border-base-100 bg-base-white"
+						class="border border-base-100 bg-base-white sm:hidden"
 						align="start"
 						side="bottom"
 						sideOffset={16}

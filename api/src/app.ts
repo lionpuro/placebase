@@ -22,6 +22,8 @@ export async function createApp(opts: Partial<typeof defaultOptions> = {}) {
 	await app.register(autoload, {
 		dir: path.join(import.meta.dirname, "routes"),
 		ignorePattern: /^.*(?:test|spec).(js|ts)$/,
+		autoHooks: true,
+		cascadeHooks: true,
 	});
 
 	return app;

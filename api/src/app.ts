@@ -7,12 +7,15 @@ const defaultOptions = {
 	logger: true,
 };
 
-export async function createApp(opts: Partial<typeof defaultOptions> = {}) {
+export function createApp(opts: Partial<typeof defaultOptions> = {}) {
 	const app = Fastify({
 		...defaultOptions,
 		...opts,
 	}).withTypeProvider<TypeBoxTypeProvider>();
+	return app;
+}
 
+export async function registerPlugins(app: ReturnType<typeof createApp>) {
 	await app.register(autoload, {
 		dir: path.join(import.meta.dirname, "plugins/external"),
 	});
@@ -25,6 +28,4 @@ export async function createApp(opts: Partial<typeof defaultOptions> = {}) {
 		autoHooks: true,
 		cascadeHooks: true,
 	});
-
-	return app;
 }

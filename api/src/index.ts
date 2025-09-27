@@ -1,11 +1,8 @@
-import { createApp } from "./app.js";
+import { createApp, registerPlugins } from "./app.js";
 
-declare module "fastify" {
-	interface FastifyRequest {}
-}
-
-async function start() {
-	const app = await createApp();
+(async () => {
+	const app = createApp();
+	await registerPlugins(app);
 	await app.ready();
 	app.swagger();
 	try {
@@ -14,5 +11,4 @@ async function start() {
 		app.log.error(err);
 		process.exit(1);
 	}
-}
-start();
+})();

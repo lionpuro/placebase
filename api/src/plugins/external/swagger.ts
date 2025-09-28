@@ -34,11 +34,11 @@ export default fp(async (app) => {
 			security: [{ api_key: [] }],
 		},
 		transform: ({ schema, url }) => {
-			if (url.startsWith("/internal")) {
-				schema.hide = true;
+			const transformed = { ...schema };
+			if (url.startsWith("/internal") || url.endsWith("openapi.json")) {
+				transformed.hide = true;
 			}
-
-			return { schema: schema, url: url };
+			return { schema: transformed, url: url };
 		},
 	});
 	app.route({
@@ -58,14 +58,19 @@ export default fp(async (app) => {
 				title: "Placebase internal",
 				version: "1.0.0",
 			},
-			tags: [{ name: "Users", description: "User endpoints" }],
+			tags: [
+				{ name: "Users", description: "User endpoints" },
+				{ name: "API-Keys", description: "API key management endpoints" },
+			],
 		},
 		transform: ({ schema, url }) => {
-			if (!url.startsWith("/internal")) {
-				schema.hide = true;
+			const transformed = { ...schema };
+			if (url.startsWith("/internal") && !url.endsWith("openapi.json")) {
+				transformed.hide = false;
+			} else {
+				transformed.hide = true;
 			}
-
-			return { schema: schema, url: url };
+			return { schema: transformed, url: url };
 		},
 		decorator: "swaggerInternal",
 	});

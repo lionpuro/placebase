@@ -1,17 +1,17 @@
 <script lang="ts">
 	import "../app.css";
 	import favicon from "$lib/assets/favicon.svg";
-	import { onMount } from "svelte";
-	import { authStore } from "$lib/auth/store.svelte";
+	import { onMount, type Snippet } from "svelte";
+	import { session } from "$lib/auth/store.svelte";
 	import { authStateListener } from "$lib/auth/firebase";
 	import { QueryClient, QueryClientProvider } from "@tanstack/svelte-query";
 
-	let { children } = $props();
+	type Props = { children: Snippet };
+	let { children }: Props = $props();
 
 	onMount(() => {
 		const unsubscribe = authStateListener((user) => {
-			authStore.user = user;
-			authStore.isLoading = false;
+			session.update(user);
 		});
 		return unsubscribe;
 	});

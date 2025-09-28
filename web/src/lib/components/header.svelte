@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Logo from "./logo.svelte";
 	import Link from "./link.svelte";
-	import { authStore } from "$lib/auth/store.svelte";
+	import { session } from "$lib/auth/store.svelte";
 	import { signout } from "$lib/auth/firebase";
 	import { goto } from "$app/navigation";
 	import Button from "./button.svelte";
@@ -25,7 +25,7 @@
 
 	async function handleSignout() {
 		await signout();
-		authStore.reset();
+		session.delete();
 		await goto("/");
 	}
 </script>
@@ -34,7 +34,7 @@
 <header class={`w-full bg-base-white ${className ? className : ""}`}>
 	<nav class={`mx-auto flex flex max-w-screen-xl items-center gap-8 px-6 py-3 sm:px-8 sm:py-4`}>
 		<a href="/"><Logo /></a>
-		{#if !authStore.isLoggedIn}
+		{#if !session.isLoggedIn}
 			<Link href="/docs">Docs</Link>
 			<a
 				href="/signin"

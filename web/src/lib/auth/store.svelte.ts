@@ -1,6 +1,6 @@
 import type { User } from "firebase/auth";
 
-type State = {
+type Session = {
 	user: User | null;
 	isLoggedIn: boolean;
 	isLoading: boolean;
@@ -8,42 +8,40 @@ type State = {
 
 const storageKey = "logged_in";
 
-function defaultState(): State {
+function defaultState(): Session {
 	const val = localStorage.getItem(storageKey);
 	const loggedIn = val !== null && JSON.parse(val) === true;
 	return { user: null, isLoggedIn: loggedIn, isLoading: true };
 }
 
-class AuthStore {
-	#state: State = $state({ ...defaultState() });
+class SessionStore {
+	#session: Session = $state({ ...defaultState() });
 
 	get user(): User | null {
-		return this.#state.user;
-	}
-
-	set user(user: User | null) {
-		this.#state.user = user;
-		this.#state.isLoggedIn = user !== null;
-		localStorage.setItem(storageKey, JSON.stringify(user !== null));
+		return this.#session.user;
 	}
 
 	get isLoggedIn(): boolean {
-		return this.#state.isLoggedIn;
+		return this.#session.isLoggedIn;
 	}
 
 	get isLoading(): boolean {
-		return this.#state.isLoading;
+		return this.#session.isLoading;
 	}
 
-	set isLoading(v: boolean) {
-		this.#state.isLoading = v;
+	update(user: User | null) {
+		this.#session.user = user;
+		const loggedin = user !== null;
+		this.#session.isLoggedIn = loggedin;
+		localStorage.setItem(storageKey, JSON.stringify(loggedin));
+		this.#session.isLoading = false;
 	}
 
-	reset() {
-		this.#state.user = null;
-		this.#state.isLoggedIn = false;
+	delete() {
+		this.#session.user = null;
+		this.#session.isLoggedIn = false;
 		localStorage.setItem(storageKey, JSON.stringify(false));
 	}
 }
 
-export const authStore = new AuthStore();
+export const session = new SessionStore();

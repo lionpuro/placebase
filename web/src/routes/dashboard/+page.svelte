@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { authStore } from "$lib/auth/store.svelte";
+	import { session } from "$lib/auth/store.svelte";
 	import Header from "$lib/components/header.svelte";
 	import Loading from "$lib/components/loading.svelte";
 	import Main from "$lib/components/main.svelte";
@@ -11,7 +11,7 @@
 	import { IconCopy, IconTrash } from "$lib/icons";
 
 	$effect(() => {
-		if (!authStore.isLoading && !authStore.user) {
+		if (!session.isLoading && !session.user) {
 			goto("/signin");
 		}
 	});
@@ -24,10 +24,10 @@
 	const getQuery = createQuery({
 		queryKey: ["api-keys"],
 		queryFn: async (): Promise<APIKeyRecord[]> => {
-			if (!authStore.user) {
+			if (!session.user) {
 				throw new Error("Failed to authenticate user");
 			}
-			const token = await authStore.user.getIdToken();
+			const token = await session.user.getIdToken();
 			const res = await fetch("/api/internal/api-keys", {
 				method: "GET",
 				headers: { Authorization: "Bearer " + token },
@@ -42,10 +42,10 @@
 	const generateQuery = createMutation({
 		mutationKey: ["api-keys"],
 		mutationFn: async (): Promise<CreateAPIKeyResponse> => {
-			if (!authStore.user) {
+			if (!session.user) {
 				throw new Error("Failed to authenticate user");
 			}
-			const token = await authStore.user.getIdToken();
+			const token = await session.user.getIdToken();
 			const res = await fetch("/api/internal/api-keys", {
 				method: "POST",
 				headers: { Authorization: "Bearer " + token },
@@ -66,10 +66,10 @@
 	const deleteQuery = createMutation({
 		mutationKey: ["api-keys"],
 		mutationFn: async (id: string): Promise<void> => {
-			if (!authStore.user) {
+			if (!session.user) {
 				throw new Error("Failed to authenticate user");
 			}
-			const token = await authStore.user.getIdToken();
+			const token = await session.user.getIdToken();
 			const res = await fetch(`/api/internal/api-keys/${id}`, {
 				method: "DELETE",
 				headers: { Authorization: "Bearer " + token },
@@ -102,7 +102,7 @@
 </svelte:head>
 <Header />
 <Main>
-	{#if authStore.isLoading || !authStore.user}
+	{#if session.isLoading || !session.user}
 		<Loading />
 	{:else}
 		<h1 class="mb-4 text-3xl font-bold sm:text-3xl">Dashboard</h1>

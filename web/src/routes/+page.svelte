@@ -10,7 +10,7 @@
 <Header />
 <Main>
 	<div class="mx-auto my-16 flex flex-col items-center">
-		<h1 class="mb-4 text-center text-3xl font-bold sm:text-5xl">Location API</h1>
+		<h1 class="mb-4 text-center text-3xl font-bold sm:text-5xl">Places API</h1>
 		<p class="mb-4">No hassle access to countries, states and cities data</p>
 		<div class="flex gap-2">
 			{#if !session.isLoggedIn}

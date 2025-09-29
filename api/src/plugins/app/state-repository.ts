@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
-import type { State } from "../../schemas/index.js";
+import type { State } from "../../schemas/state.js";
 import type { StatesQuery } from "../../schemas/request.js";
 import type { QueryResult } from "../../types.js";
 

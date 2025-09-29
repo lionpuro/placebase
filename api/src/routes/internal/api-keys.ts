@@ -6,7 +6,7 @@ import { ErrorResponseSchema } from "../../schemas/response.js";
 import {
 	APIKeyRecordSchema,
 	CreateAPIKeyResponseSchema,
-} from "../../schemas/index.js";
+} from "../../schemas/api-key.js";
 import { AuthHeaders } from "../../schemas/request.js";
 
 export default (async function (app) {

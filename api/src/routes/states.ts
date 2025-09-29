@@ -1,6 +1,6 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
-import { StateSchema, StatesSchema } from "../schemas/index.js";
+import { StateSchema, StatesSchema } from "../schemas/state.js";
 import {
 	CountryCodeSchema,
 	CountryStatesQuerySchema,

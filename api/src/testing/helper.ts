@@ -3,7 +3,7 @@ import { createApp, registerPlugins } from "../app.js";
 import type { FastifyInstance, InjectOptions } from "fastify";
 import override from "fastify-override";
 import type { KeyRepository } from "../plugins/app/key-repository.js";
-import type { APIKeyRecord } from "../schemas/index.js";
+import type { APIKeyRecord } from "../schemas/api-key.js";
 import { randomBytes } from "node:crypto";
 import { generateAPIKey, createHash } from "../plugins/app/api-auth.js";
 

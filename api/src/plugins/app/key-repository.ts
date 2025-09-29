@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import type { QueryResult } from "../../types.js";
-import type { APIKeyRecord } from "../../schemas/index.js";
+import type { APIKeyRecord } from "../../schemas/api-key.js";
 
 declare module "fastify" {
 	export interface FastifyInstance {

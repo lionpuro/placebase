@@ -1,5 +1,12 @@
 import { Type, type Static } from "@sinclair/typebox";
 
+export const AuthHeaders = Type.Object({
+	Authorization: Type.String({
+		description: "Firebase auth ID token",
+		examples: ["Bearer <token>"],
+	}),
+});
+
 const defaultParams = {
 	limit: Type.Optional(Type.Number({ minimum: 1 })),
 	offset: Type.Optional(Type.Number()),

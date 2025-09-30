@@ -10,7 +10,7 @@
 		try {
 			const cred = await signInWithPopup(auth, provider);
 			await createUser(cred);
-			await goto("/dashboard");
+			await goto("/api-keys");
 		} catch (err) {
 			console.error(err);
 		}

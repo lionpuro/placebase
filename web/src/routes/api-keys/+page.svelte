@@ -113,16 +113,15 @@
 </script>
 
 <svelte:head>
-	<title>Dashboard - Placebase</title>
+	<title>API keys - Placebase</title>
 </svelte:head>
 <Header />
 <Main>
 	{#if session.isLoading || !session.user}
 		<Loading />
 	{:else}
-		<h1 class="mb-4 text-3xl font-bold sm:text-3xl">Dashboard</h1>
-		<div class="mb-4 flex items-center justify-between">
-			<h2 class="text-xl font-semibold">API keys</h2>
+		<h1 class="mb-4 text-3xl font-bold sm:text-3xl">API keys</h1>
+		<div class="mb-4 flex items-center justify-end">
 			<Button variant="primary" onclick={() => dialog?.showModal()}>Create key</Button>
 		</div>
 		<Dialog bind:ref={dialog} onclose={handleClose}>

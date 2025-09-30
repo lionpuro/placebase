@@ -45,7 +45,7 @@
 		{:else}
 			<div class="flex w-full items-center gap-6 max-sm:hidden">
 				<Link href="/docs">Docs</Link>
-				<Link href="/dashboard">Dashboard</Link>
+				<Link href="/api-keys">API keys</Link>
 				<Link href="/account" class="ml-auto">Account</Link>
 				<Button variant="outline" class="text-red-500" onclick={handleSignout}>Sign out</Button>
 			</div>
@@ -72,7 +72,7 @@
 						>
 							<div class="flex flex-col p-6 pt-2">
 								<Link href="/docs" class="p-2">Docs</Link>
-								<Link href="/dashboard" class="p-2">Dashboard</Link>
+								<Link href="/api-keys" class="p-2">API keys</Link>
 								<Link href="/account" class="p-2">Account</Link>
 								<button class="p-2 text-left text-red-500" onclick={handleSignout}>
 									Sign out

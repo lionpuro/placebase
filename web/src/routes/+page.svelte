@@ -22,10 +22,10 @@
 				</a>
 			{:else}
 				<a
-					href="/dashboard"
+					href="/api-keys"
 					class="w-fit rounded-full bg-primary-600/90 px-5 py-2 font-medium text-white hover:bg-primary-600"
 				>
-					Dashboard
+					Get started
 				</a>
 			{/if}
 			<a

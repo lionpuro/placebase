@@ -47,6 +47,7 @@ class MockKeyRepository implements KeyRepository {
 		this.keys.push(
 			...[...defaultValues].map((k) => ({
 				id: randomBytes(16).toString("base64url"),
+				name: randomBytes(8).toString("base64url"),
 				user_id: k.user_id,
 				hash: k.hash,
 				created_at: new Date().toString(),
@@ -58,6 +59,7 @@ class MockKeyRepository implements KeyRepository {
 		const keys = this.keys.filter((k) => k.user_id === uid);
 		return keys.map((k) => ({
 			id: k.id,
+			name: k.name,
 			user_id: k.user_id,
 			created_at: k.created_at,
 		}));
@@ -67,12 +69,18 @@ class MockKeyRepository implements KeyRepository {
 		if (!key) {
 			return undefined;
 		}
-		return { id: key.id, user_id: key.user_id, created_at: key.created_at };
+		return {
+			id: key.id,
+			name: key.name,
+			user_id: key.user_id,
+			created_at: key.created_at,
+		};
 	}
-	async create(hash: string, uid: string) {
+	async create(hash: string, name: string, uid: string) {
 		const id = randomBytes(16).toString("base64url");
 		this.keys.push({
 			id,
+			name,
 			user_id: uid,
 			hash,
 			created_at: new Date().toString(),

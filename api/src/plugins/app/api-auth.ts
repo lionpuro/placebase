@@ -10,7 +10,7 @@ declare module "fastify" {
 
 export type APIAuth = {
 	verifyAPIKey: (key: string) => Promise<boolean>;
-	createAPIKey: (uid: string) => Promise<string>;
+	createAPIKey: (uid: string, name: string) => Promise<string>;
 };
 
 export function generateAPIKey(): string {
@@ -30,10 +30,10 @@ export function createPlugin(app: FastifyInstance): APIAuth {
 			const result = await app.keyRepository.byHash(hash);
 			return result !== undefined;
 		},
-		async createAPIKey(uid: string) {
+		async createAPIKey(uid: string, name: string) {
 			const raw = generateAPIKey();
 			const hash = createHash(raw);
-			await app.keyRepository.create(hash, uid);
+			await app.keyRepository.create(hash, name, uid);
 			return raw;
 		},
 	};

@@ -17,7 +17,7 @@ export function createRepository(app: FastifyInstance) {
 			const client = await app.pg.connect();
 			try {
 				const query = `
-				SELECT id, user_id, created_at
+				SELECT id, name, user_id, created_at
 				FROM api_keys
 				WHERE user_id = $1`;
 				const { rows }: QueryResult<APIKeyRecord> = await client.query(query, [
@@ -32,7 +32,7 @@ export function createRepository(app: FastifyInstance) {
 			const client = await app.pg.connect();
 			try {
 				const query = `
-				SELECT id, user_id, created_at
+				SELECT id, name, user_id, created_at
 				FROM api_keys
 				WHERE hash = $1`;
 				const {
@@ -43,13 +43,13 @@ export function createRepository(app: FastifyInstance) {
 				client.release();
 			}
 		},
-		async create(hash: string, uid: string) {
+		async create(hash: string, name: string, uid: string) {
 			const client = await app.pg.connect();
 			try {
 				const query = `
-				INSERT INTO api_keys (hash, user_id)
-				VALUES ($1, $2)`;
-				await client.query(query, [hash, uid]);
+				INSERT INTO api_keys (hash, name, user_id)
+				VALUES ($1, $2, $3)`;
+				await client.query(query, [hash, name, uid]);
 			} finally {
 				client.release();
 			}

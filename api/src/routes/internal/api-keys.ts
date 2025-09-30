@@ -5,6 +5,7 @@ import {
 import { ErrorResponseSchema } from "../../schemas/response.js";
 import {
 	APIKeyRecordSchema,
+	CreateAPIKeyRequestSchema,
 	CreateAPIKeyResponseSchema,
 } from "../../schemas/api-key.js";
 import { AuthHeaders } from "../../schemas/request.js";
@@ -42,6 +43,7 @@ export default (async function (app) {
 			description: "Generate a new API key",
 			tags: ["API-Keys"],
 			headers: AuthHeaders,
+			body: CreateAPIKeyRequestSchema,
 			response: {
 				200: CreateAPIKeyResponseSchema,
 				500: ErrorResponseSchema,
@@ -50,7 +52,7 @@ export default (async function (app) {
 		preHandler: [app.authenticator.verifyToken],
 		handler: async (req, reply) => {
 			try {
-				const key = await app.apiAuth.createAPIKey(req.user.id);
+				const key = await app.apiAuth.createAPIKey(req.user.id, req.body.name);
 				return reply.code(200).send({ api_key: key });
 			} catch (err) {
 				app.log.error(err);

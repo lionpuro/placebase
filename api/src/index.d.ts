@@ -1,1 +1,5 @@
-export type { APIKeyRecord, CreateAPIKeyResponse } from "./schemas/api-key";
+export type {
+	APIKeyRecord,
+	CreateAPIKeyRequest,
+	CreateAPIKeyResponse,
+} from "./schemas/api-key";

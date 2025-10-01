@@ -14,6 +14,7 @@ export default (async function (app) {
 	app.route({
 		method: "GET",
 		url: "/api-keys",
+		config: { cors: false },
 		schema: {
 			summary: "List API keys",
 			description: "List API key records",
@@ -38,6 +39,7 @@ export default (async function (app) {
 	app.route({
 		method: "POST",
 		url: "/api-keys",
+		config: { cors: false },
 		schema: {
 			summary: "Generate API key",
 			description: "Generate a new API key",
@@ -63,6 +65,7 @@ export default (async function (app) {
 	app.route({
 		method: "DELETE",
 		url: "/api-keys/:id",
+		config: { cors: false },
 		schema: {
 			summary: "Delete API key",
 			description: "Delete API key",

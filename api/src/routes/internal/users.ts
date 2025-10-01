@@ -9,6 +9,7 @@ export default (async function (app) {
 	app.route({
 		method: "POST",
 		url: "/users",
+		config: { cors: false },
 		schema: {
 			summary: "Create user",
 			description: "Create user",
@@ -33,6 +34,7 @@ export default (async function (app) {
 	app.route({
 		method: "DELETE",
 		url: "/users/:id",
+		config: { cors: false },
 		schema: {
 			summary: "Delete user",
 			description: "Delete currently authenticated user",

@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
-import type { QueryResult } from "../../types.js";
+import { FieldPath } from "firebase-admin/firestore";
 import type { APIKeyRecord } from "../../schemas/api-key.js";
 
 declare module "fastify" {
@@ -12,60 +12,55 @@ declare module "fastify" {
 export type KeyRepository = ReturnType<typeof createRepository>;
 
 export function createRepository(app: FastifyInstance) {
+	const db = () => app.firebase.firestore();
 	return {
 		async byUser(uid: string) {
-			const client = await app.pg.connect();
-			try {
-				const query = `
-				SELECT id, name, user_id, created_at
-				FROM api_keys
-				WHERE user_id = $1`;
-				const { rows }: QueryResult<APIKeyRecord> = await client.query(query, [
-					uid,
-				]);
-				return rows;
-			} finally {
-				client.release();
-			}
+			const snapshot = await db()
+				.collection("api_keys")
+				.where("user_id", "==", uid)
+				.get();
+			const records = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data(),
+			})) as APIKeyRecord[];
+			return records;
 		},
 		async byHash(hash: string) {
-			const client = await app.pg.connect();
-			try {
-				const query = `
-				SELECT id, name, user_id, created_at
-				FROM api_keys
-				WHERE hash = $1`;
-				const {
-					rows: [key],
-				}: QueryResult<APIKeyRecord> = await client.query(query, [hash]);
-				return key;
-			} finally {
-				client.release();
-			}
+			const snapshot = await db()
+				.collection("api_keys")
+				.where("hash", "==", hash)
+				.get();
+			const [record] = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data(),
+			})) as APIKeyRecord[];
+			return record;
 		},
 		async create(hash: string, name: string, uid: string) {
-			const client = await app.pg.connect();
-			try {
-				const query = `
-				INSERT INTO api_keys (hash, name, user_id)
-				VALUES ($1, $2, $3)`;
-				await client.query(query, [hash, name, uid]);
-			} finally {
-				client.release();
-			}
+			await db().collection("api_keys").doc().set({
+				name: name,
+				hash: hash,
+				user_id: uid,
+				created_at: now(),
+			});
 		},
 		async delete(id: string, uid: string) {
-			const client = await app.pg.connect();
-			try {
-				const query = `
-				DELETE FROM api_keys
-				WHERE id = $1 AND user_id = $2`;
-				await client.query(query, [id, uid]);
-			} finally {
-				client.release();
+			const snapshot = await db()
+				.collection("api_keys")
+				.where(FieldPath.documentId(), "==", id)
+				.where("user_id", "==", uid)
+				.get();
+			const [doc] = snapshot.docs;
+			if (!doc) {
+				throw new Error("API key not found");
 			}
+			await doc.ref.delete();
 		},
 	};
+}
+
+function now() {
+	return new Date(new Date().toUTCString()).toISOString();
 }
 
 export default fp((app) => {

@@ -17,6 +17,7 @@ export default fp(async (app) => {
 				description: "API for querying country-state-city data",
 				version: "1.0.0",
 			},
+			servers: [{ url: "http://localhost:" + (process.env.PORT || "3000") }],
 			tags: [
 				{ name: "Countries", description: "Country endpoints" },
 				{ name: "States", description: "State endpoints" },

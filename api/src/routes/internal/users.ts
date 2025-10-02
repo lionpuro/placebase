@@ -51,7 +51,7 @@ export default (async function (app) {
 		handler: async (req, reply) => {
 			try {
 				if (req.params.id !== req.user.id) {
-					return reply.code(401).send({ message: "Internal server error" });
+					return reply.code(401).send({ message: "Unauthorized" });
 				}
 				const uid = req.user.id;
 				await app.userRepository.delete(uid);

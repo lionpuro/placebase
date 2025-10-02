@@ -4,25 +4,14 @@
 	import Header from "$lib/components/header.svelte";
 	import Main from "$lib/components/main.svelte";
 	import { IconGoogle } from "$lib/icons";
-	import { GoogleAuthProvider, signInWithPopup, type UserCredential } from "firebase/auth";
+	import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 	async function signinWithGoogle() {
 		const provider = new GoogleAuthProvider();
 		try {
-			const cred = await signInWithPopup(auth, provider);
-			await createUser(cred);
+			await signInWithPopup(auth, provider);
 			await goto("/api-keys");
 		} catch (err) {
 			console.error(err);
-		}
-	}
-	async function createUser(cred: UserCredential) {
-		const token = await cred.user.getIdToken();
-		const res = await fetch(`/api/internal/users`, {
-			method: "POST",
-			headers: { Authorization: `Bearer ${token}` },
-		});
-		if (!res.ok) {
-			throw new Error(res.statusText);
 		}
 	}
 </script>

@@ -2,7 +2,6 @@ import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import type { State } from "../../schemas/state.js";
 import type { StatesQuery } from "../../schemas/request.js";
-import type { QueryResult } from "../../types.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -13,20 +12,19 @@ declare module "fastify" {
 export function createRepository(app: FastifyInstance) {
 	return {
 		async find(params: StatesQuery) {
-			const client = await app.pg.connect();
 			const stmt: string[] = [];
 			const values: string[] = [];
 			if (params.iso_code) {
 				values.push(`${params.iso_code}`);
-				stmt.push(`iso2 ILIKE $${values.length}`);
+				stmt.push(`iso2 LIKE ?`);
 			}
 			if (params.country) {
 				values.push(`${params.country}`);
-				stmt.push(`country_code ILIKE $${values.length}`);
+				stmt.push(`country_code LIKE ?`);
 			}
 			if (params.name) {
 				values.push(`%${params.name}%`);
-				stmt.push(`name ILIKE $${values.length}`);
+				stmt.push(`name LIKE ?`);
 			}
 			let query = `
 			SELECT
@@ -48,12 +46,8 @@ export function createRepository(app: FastifyInstance) {
 			if (params.offset) {
 				query += ` OFFSET ${params.offset} `;
 			}
-			try {
-				const { rows }: QueryResult<State> = await client.query(query, values);
-				return rows;
-			} finally {
-				client.release();
-			}
+			const rows = app.sqlite.prepare(query).all(values) as State[];
+			return rows;
 		},
 	};
 }

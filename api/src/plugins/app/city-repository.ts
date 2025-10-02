@@ -2,7 +2,6 @@ import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import type { City } from "../../schemas/city.js";
 import type { CitiesQuery } from "../../schemas/request.js";
-import type { QueryResult } from "../../types.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -13,36 +12,35 @@ declare module "fastify" {
 export function createRepository(app: FastifyInstance) {
 	return {
 		async find(params: CitiesQuery) {
-			const client = await app.pg.connect();
 			const stmt: string[] = [];
 			const values: (string | number)[] = [];
 			if (params.name) {
 				values.push(`%${params.name}%`);
-				stmt.push(`c.name ILIKE $${values.length}`);
+				stmt.push(`c.name LIKE ?`);
 			}
 			if (params.country) {
 				values.push(params.country);
-				stmt.push(`c.country_code ILIKE $${values.length}`);
+				stmt.push(`c.country_code LIKE ?`);
 			}
 			if (params.state) {
 				values.push(params.state);
-				stmt.push(`c.state_code = $${values.length}`);
+				stmt.push(`c.state_code = ?`);
 			}
 			if (params.min_lat) {
 				values.push(params.min_lat);
-				stmt.push(`c.latitude >= $${values.length}`);
+				stmt.push(`c.latitude >= ?`);
 			}
 			if (params.max_lat) {
 				values.push(params.max_lat);
-				stmt.push(`c.latitude <= $${values.length}`);
+				stmt.push(`c.latitude <= ?`);
 			}
 			if (params.min_lon) {
 				values.push(params.min_lon);
-				stmt.push(`c.longitude >= $${values.length}`);
+				stmt.push(`c.longitude >= ?`);
 			}
 			if (params.max_lon) {
 				values.push(params.max_lon);
-				stmt.push(`c.longitude <= $${values.length}`);
+				stmt.push(`c.longitude <= ?`);
 			}
 			let query = `
 			SELECT
@@ -59,19 +57,15 @@ export function createRepository(app: FastifyInstance) {
 			if (stmt.length > 0) {
 				query += ` WHERE ${stmt.join(" AND ")}`;
 			}
-			query += " ORDER BY name";
+			query += " ORDER BY c.name";
 			if (params.limit) {
 				query += ` LIMIT ${params.limit} `;
 			}
 			if (params.offset) {
 				query += ` OFFSET ${params.offset} `;
 			}
-			try {
-				const { rows }: QueryResult<City> = await client.query(query, values);
-				return rows;
-			} finally {
-				client.release();
-			}
+			const rows = app.sqlite.prepare(query).all(values) as City[];
+			return rows;
 		},
 	};
 }

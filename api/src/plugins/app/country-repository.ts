@@ -2,7 +2,6 @@ import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import type { Country } from "../../schemas/country.js";
 import type { CountriesQuery } from "../../schemas/request.js";
-import type { QueryResult } from "../../types.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -15,28 +14,27 @@ type CountryFilters = CountriesQuery & { iso_code?: string };
 export function createRepository(app: FastifyInstance) {
 	return {
 		async find(params: CountryFilters) {
-			const client = await app.pg.connect();
 			const stmt: string[] = [];
 			const values: string[] = [];
 			if (params.iso_code) {
 				values.push(`${params.iso_code}`);
-				stmt.push(`iso2 ILIKE $${values.length}`);
+				stmt.push(`iso2 LIKE ?`);
 			}
 			if (params.name) {
 				values.push(`%${params.name}%`);
-				stmt.push(`name ILIKE $${values.length}`);
+				stmt.push(`name LIKE ?`);
 			}
 			if (params.region) {
 				values.push(params.region);
-				stmt.push(`region = $${values.length}`);
+				stmt.push(`region LIKE ?`);
 			}
 			if (params.currency) {
 				values.push(params.currency);
-				stmt.push(`currency = $${values.length}`);
+				stmt.push(`currency LIKE ?`);
 			}
 			if (params.phonecode) {
 				values.push(params.phonecode);
-				stmt.push(`phonecode = $${values.length}`);
+				stmt.push(`phonecode = ?`);
 			}
 			let query = `
 			SELECT
@@ -59,15 +57,8 @@ export function createRepository(app: FastifyInstance) {
 			if (params.offset) {
 				query += ` OFFSET ${params.offset} `;
 			}
-			try {
-				const { rows }: QueryResult<Country> = await client.query(
-					query,
-					values,
-				);
-				return rows;
-			} finally {
-				client.release();
-			}
+			const rows = app.sqlite.prepare(query).all(values) as Country[];
+			return rows;
 		},
 	};
 }

@@ -56,6 +56,13 @@ export function createRepository(app: FastifyInstance) {
 			}
 			await doc.ref.delete();
 		},
+		async deleteByUser(uid: string) {
+			const snapshot = await db()
+				.collection("api_keys")
+				.where("user_id", "==", uid)
+				.get();
+			await Promise.all([...snapshot.docs.map((doc) => doc.ref.delete())]);
+		},
 	};
 }
 

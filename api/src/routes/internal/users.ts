@@ -53,8 +53,14 @@ export default (async function (app) {
 				if (req.params.id !== req.user.id) {
 					return reply.code(401).send({ message: "Internal server error" });
 				}
-				await app.userRepository.delete(req.user.id);
-				await app.firebase.auth().deleteUser(req.user.id);
+				const uid = req.user.id;
+				await app.userRepository.delete(uid);
+				await app.firebase.auth().deleteUser(uid);
+				try {
+					await app.keyRepository.deleteByUser(uid);
+				} catch (err) {
+					app.log.error(err, "failed to delete user api keys");
+				}
 				return reply.code(201).send();
 			} catch (err) {
 				app.log.error(err);

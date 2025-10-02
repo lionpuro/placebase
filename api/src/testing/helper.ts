@@ -89,6 +89,9 @@ class MockKeyRepository implements KeyRepository {
 	async delete(id: string, uid: string) {
 		this.keys = this.keys.filter((k) => k.id !== id && k.user_id !== uid);
 	}
+	async deleteByUser(uid: string) {
+		this.keys = this.keys.filter((k) => k.user_id !== uid);
+	}
 }
 
 function injectWithAPIKey(key: string) {

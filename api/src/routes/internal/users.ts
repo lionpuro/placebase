@@ -17,7 +17,7 @@ export default (async function (app) {
 			params: Type.Object({ id: Type.String() }),
 			headers: AuthHeaders,
 			response: {
-				201: Type.Null(),
+				204: Type.Null(),
 				401: ErrorResponseSchema,
 				500: ErrorResponseSchema,
 			},
@@ -35,7 +35,7 @@ export default (async function (app) {
 				} catch (err) {
 					app.log.error(err, "failed to delete user api keys");
 				}
-				return reply.code(201).send();
+				return reply.code(204).send();
 			} catch (err) {
 				app.log.error(err);
 				return reply.code(500).send({ message: "Internal server error" });

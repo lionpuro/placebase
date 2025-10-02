@@ -73,7 +73,7 @@ export default (async function (app) {
 			headers: AuthHeaders,
 			params: Type.Object({ id: Type.String() }),
 			response: {
-				201: CreateAPIKeyResponseSchema,
+				204: Type.Null(),
 				500: ErrorResponseSchema,
 			},
 		},
@@ -81,7 +81,7 @@ export default (async function (app) {
 		handler: async (req, reply) => {
 			try {
 				await app.keyRepository.delete(req.params.id, req.user.id);
-				return reply.code(201).send();
+				return reply.code(204).send();
 			} catch (err) {
 				app.log.error(err);
 				return reply.code(500).send({ message: "Internal server error" });

@@ -120,7 +120,7 @@
 	{#if session.isLoading || !session.user}
 		<Loading />
 	{:else}
-		<h1 class="mb-4 text-3xl font-bold sm:text-3xl">API keys</h1>
+		<h1 class="mb-4 text-xl font-bold sm:text-3xl">API keys</h1>
 		<div class="mb-4 flex items-center justify-end">
 			<Button variant="primary" onclick={() => dialog?.showModal()}>Create key</Button>
 		</div>
@@ -176,7 +176,7 @@
 					Created
 				</div>
 				{#if $getQuery.data.length < 1}
-					<p class="col-span-3 col-start-1 bg-base-white px-2 py-1 text-base-500 max-sm:text-sm">
+					<p class="col-span-3 col-start-1 bg-base-white p-2 text-base-500 max-sm:text-sm">
 						No API keys
 					</p>
 				{:else}

@@ -39,7 +39,7 @@
 		<Loading />
 	{:else if session.user}
 		<div class="flex flex-col">
-			<h1 class="mb-4 text-3xl font-bold sm:text-3xl">Account</h1>
+			<h1 class="mb-4 text-xl font-bold sm:text-3xl">Account</h1>
 			<div class="mb-2 flex">
 				<span class="w-20 font-semibold">Email</span>
 				<span class="text-base-600">{session.user.email}</span>

@@ -9,6 +9,10 @@ declare module "fastify" {
 
 export default fp(async (app) => {
 	// Public API
+	const servers = [];
+	if (process.env.API_URL) {
+		servers.push({ url: process.env.API_URL });
+	}
 	await app.register(swagger, {
 		openapi: {
 			openapi: "3.1.0",
@@ -17,7 +21,7 @@ export default fp(async (app) => {
 				description: "API for querying country-state-city data",
 				version: "1.0.0",
 			},
-			servers: [{ url: "http://localhost:" + (process.env.PORT || "3000") }],
+			servers: servers,
 			tags: [
 				{ name: "Countries", description: "Country endpoints" },
 				{ name: "States", description: "State endpoints" },

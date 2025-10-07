@@ -1,4 +1,4 @@
-async function handleRequest(request, env) {
+async function handleRequest(request: Request, env: Env) {
 	const url = new URL(request.url);
 	const p = url.pathname;
 	const pathname = p.startsWith("/api") ? p.replace("/api", "") : p;
@@ -10,14 +10,17 @@ async function handleRequest(request, env) {
 	const targetRequest = new Request(targetURL, {
 		method: request.method,
 		headers: headers,
-		body: request.method !== "GET" && request.method !== "HEAD" ? request.body : null,
+		body:
+			request.method !== "GET" && request.method !== "HEAD"
+				? request.body
+				: null,
 	});
 
 	return fetch(targetRequest);
 }
 
 export default {
-	async fetch(request, env) {
+	async fetch(request, env): Promise<Response> {
 		return handleRequest(request, env);
 	},
-};
+} satisfies ExportedHandler<Env>;

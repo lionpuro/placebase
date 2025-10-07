@@ -5,19 +5,14 @@
 	import Loading from "$lib/components/loading.svelte";
 	import Main from "$lib/components/main.svelte";
 	import { createMutation, createQuery, useQueryClient } from "@tanstack/svelte-query";
-	import type { APIKeyRecord, CreateAPIKeyRequest, CreateAPIKeyResponse } from "@placebase/api";
-	import Dialog from "$lib/components/dialog.svelte";
-	import Button from "$lib/components/button.svelte";
-	import { IconCopy, IconTrash } from "$lib/icons";
+	import type { APIKeyRecord } from "@placebase/api";
+	import { IconTrash } from "$lib/icons";
 
 	$effect(() => {
 		if (!session.isLoading && !session.user) {
 			goto("/signin");
 		}
 	});
-
-	let apiKey = $state<string | undefined>();
-	let dialog = $state<HTMLDialogElement | undefined>(undefined);
 
 	let queryClient = useQueryClient();
 
@@ -39,30 +34,6 @@
 		},
 	});
 
-	const generateQuery = createMutation({
-		mutationKey: ["api-keys"],
-		mutationFn: async (body: CreateAPIKeyRequest): Promise<CreateAPIKeyResponse> => {
-			if (!session.user) {
-				throw new Error("Failed to authenticate user");
-			}
-			const token = await session.user.getIdToken();
-			const res = await fetch("/api/internal/api-keys", {
-				method: "POST",
-				headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
-				body: JSON.stringify(body),
-			});
-			if (!res.ok) {
-				throw new Error(res.statusText);
-			}
-			const result: CreateAPIKeyResponse = await res.json();
-			return result;
-		},
-		onSuccess: async (result) => {
-			apiKey = result.api_key;
-			await queryClient.invalidateQueries({ queryKey: ["api-keys"] });
-		},
-	});
-
 	const deleteQuery = createMutation({
 		mutationKey: ["api-keys"],
 		mutationFn: async (id: string): Promise<void> => {
@@ -81,35 +52,6 @@
 		onError: (err) => console.error(err),
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["api-keys"] }),
 	});
-
-	let keyName = $state<string | undefined>();
-
-	function handleSubmit(e: SubmitEvent) {
-		e.preventDefault();
-		if (!keyName) {
-			return console.error("name is required");
-		}
-		$generateQuery.mutate({ name: keyName });
-	}
-
-	let keyCopied = $state(false);
-
-	function handleCopy() {
-		if (!apiKey) return;
-		keyCopied = true;
-		navigator.clipboard.writeText(apiKey);
-		setTimeout(() => {
-			keyCopied = false;
-		}, 2000);
-	}
-
-	function handleClose() {
-		apiKey = undefined;
-		keyName = undefined;
-		if (dialog && dialog.open) {
-			dialog.close();
-		}
-	}
 </script>
 
 <svelte:head>
@@ -120,49 +62,15 @@
 	{#if session.isLoading || !session.user}
 		<Loading />
 	{:else}
-		<h1 class="mb-4 text-xl font-bold sm:text-3xl">API keys</h1>
-		<div class="mb-4 flex items-center justify-end">
-			<Button variant="primary" onclick={() => dialog?.showModal()}>Create key</Button>
+		<div class="mb-4 flex items-center justify-between">
+			<h1 class="text-xl font-bold sm:text-3xl">API keys</h1>
+			<a
+				href="/api-keys/new"
+				class="rounded-full bg-primary-600/90 px-5 py-2 text-base-white hover:bg-primary-600 disabled:cursor-not-allowed disabled:bg-base-100/80 disabled:text-base-400"
+			>
+				Create key
+			</a>
 		</div>
-		<Dialog bind:ref={dialog} onclose={handleClose}>
-			<div class="flex flex-col gap-6 p-6">
-				{#if !apiKey}
-					<h3 class="text-xl font-semibold">Create API key</h3>
-					<form onsubmit={handleSubmit} class="flex flex-col gap-1">
-						<label for="name">Key name</label>
-						<input
-							name="name"
-							bind:value={keyName}
-							class="mb-6 rounded-lg border border-base-200 px-3 py-1.5"
-							onkeydown={(e) => e.key === "Enter" && e.preventDefault()}
-							required
-						/>
-						<Button variant="primary" type="submit" class="w-fit">Create</Button>
-					</form>
-				{:else}
-					<h3 class="text-xl font-semibold">Your new API key</h3>
-					<div class="flex gap-2 rounded-full border border-base-100 p-0.5">
-						<span class="flex items-center overflow-x-auto rounded-full px-2 py-1 text-nowrap">
-							{apiKey}
-						</span>
-						<button
-							onclick={handleCopy}
-							disabled={keyCopied}
-							class="ml-auto flex w-24 items-center justify-center gap-1 rounded-full bg-primary-600/90 px-3 py-0.5 text-sm font-medium text-base-white hover:bg-primary-600"
-						>
-							{#if !keyCopied}
-								<IconCopy />
-								Copy
-							{:else}
-								Copied!
-							{/if}
-						</button>
-					</div>
-					<p>This key won't be displayed again so you should save it somewhere safe.</p>
-					<Button variant="black" class="w-fit" onclick={handleClose}>Continue</Button>
-				{/if}
-			</div>
-		</Dialog>
 		{#if $getQuery.isPending}
 			<Loading />
 		{:else if $getQuery.isError}

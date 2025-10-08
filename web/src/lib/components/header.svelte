@@ -32,7 +32,9 @@
 
 <svelte:window onkeydown={handleKeydown} />
 <header class={`w-full bg-base-white ${className ? className : ""}`}>
-	<nav class={`mx-auto flex flex max-w-screen-xl items-center gap-8 px-6 py-3 sm:px-8 sm:py-4`}>
+	<nav
+		class={`mx-auto flex flex max-w-screen-xl items-center gap-6 px-6 py-3 sm:gap-8 sm:px-8 sm:py-4`}
+	>
 		<a href="/"><Logo /></a>
 		{#if !session.isLoggedIn}
 			<Link href="/docs">Docs</Link>

@@ -2,6 +2,7 @@
 	import { session } from "$lib/auth/store.svelte";
 	import Header from "$lib/components/header.svelte";
 	import Main from "$lib/components/main.svelte";
+	import Link from "$lib/components/link.svelte";
 </script>
 
 <svelte:head>
@@ -14,26 +15,11 @@
 		<p class="mb-4">No hassle access to countries, states and cities data</p>
 		<div class="flex gap-2">
 			{#if !session.isLoggedIn}
-				<a
-					href="/signin"
-					class="w-fit rounded-full bg-primary-600/90 px-5 py-2 font-medium text-white hover:bg-primary-600"
-				>
-					Get started
-				</a>
+				<Link href="/signin" variant="button-primary" class="w-fit font-medium">Get started</Link>
 			{:else}
-				<a
-					href="/api-keys"
-					class="w-fit rounded-full bg-primary-600/90 px-5 py-2 font-medium text-white hover:bg-primary-600"
-				>
-					Get started
-				</a>
+				<Link href="/api-keys" variant="button-primary" class="w-fit font-medium">Get started</Link>
 			{/if}
-			<a
-				href="/docs"
-				class="w-fit rounded-full bg-base-100/90 px-5 py-2 font-medium text-base-800 hover:bg-base-200/70"
-			>
-				View docs
-			</a>
+			<Link href="/docs" variant="button-secondary" class="w-fit font-medium">View docs</Link>
 		</div>
 	</div>
 </Main>

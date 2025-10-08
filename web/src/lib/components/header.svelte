@@ -38,12 +38,7 @@
 		<a href="/"><Logo /></a>
 		{#if !session.isLoggedIn}
 			<Link href="/docs">Docs</Link>
-			<a
-				href="/signin"
-				class="ml-auto rounded-full bg-base-950 px-5 py-2 font-medium text-base-white hover:bg-base-950/95"
-			>
-				Sign in
-			</a>
+			<Link href="/signin" variant="button-black" class="ml-auto font-medium">Sign in</Link>
 		{:else}
 			<div class="flex w-full items-center gap-6 max-sm:hidden">
 				<Link href="/docs">Docs</Link>

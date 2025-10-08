@@ -7,6 +7,7 @@
 	import { createMutation, createQuery, useQueryClient } from "@tanstack/svelte-query";
 	import type { APIKeyRecord } from "@placebase/api";
 	import { IconTrash } from "$lib/icons";
+	import Link from "$lib/components/link.svelte";
 
 	$effect(() => {
 		if (!session.isLoading && !session.user) {
@@ -64,12 +65,7 @@
 	{:else}
 		<div class="mb-4 flex items-center justify-between">
 			<h1 class="text-xl font-bold sm:text-3xl">API keys</h1>
-			<a
-				href="/api-keys/new"
-				class="rounded-full bg-primary-600/90 px-5 py-2 text-base-white hover:bg-primary-600 disabled:cursor-not-allowed disabled:bg-base-100/80 disabled:text-base-400"
-			>
-				Create key
-			</a>
+			<Link href="/api-keys/new" variant="button-black">Create key</Link>
 		</div>
 		{#if $getQuery.isPending}
 			<Loading />

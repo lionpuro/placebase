@@ -1,13 +1,16 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
-import { StateSchema, StatesSchema } from "../schemas/state.js";
+import {
+	CountryStatesQuerySchema,
+	StateSchema,
+	StatesQuerySchema,
+	StatesSchema,
+} from "../schemas/state.js";
 import {
 	CountryCodeSchema,
-	CountryStatesQuerySchema,
+	ErrorResponseSchema,
 	StateCodeSchema,
-	StatesQuerySchema,
-} from "../schemas/request.js";
-import { ErrorResponseSchema } from "../schemas/response.js";
+} from "../schemas/common.js";
 
 export default (async function (app) {
 	app.route({

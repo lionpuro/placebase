@@ -1,4 +1,9 @@
 import { type Static, Type } from "@sinclair/typebox";
+import {
+	CountryCodeSchema,
+	paginationParams,
+	StateCodeSchema,
+} from "./common.js";
 
 export const StateSchema = Type.Object({
 	name: Type.String({ examples: ["Pirkanmaa"] }),
@@ -13,3 +18,24 @@ export const StateSchema = Type.Object({
 export const StatesSchema = Type.Array(StateSchema);
 
 export type State = Static<typeof StateSchema>;
+
+export const CountryStatesQuerySchema = Type.Object(paginationParams, {
+	additionalProperties: false,
+});
+
+export const StatesQuerySchema = Type.Object(
+	{
+		name: Type.Optional(Type.String()),
+		iso_code: Type.Optional(StateCodeSchema),
+		country: Type.Optional(CountryCodeSchema),
+		limit: Type.Optional(
+			Type.Number({ minimum: 1, maximum: 250, default: 250 }),
+		),
+		offset: Type.Optional(Type.Number()),
+	},
+	{
+		additionalProperties: false,
+	},
+);
+
+export type StatesQuery = Static<typeof StatesQuerySchema>;

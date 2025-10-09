@@ -2,8 +2,7 @@ import {
 	Type,
 	type FastifyPluginAsyncTypebox,
 } from "@fastify/type-provider-typebox";
-import { ErrorResponseSchema } from "../../schemas/response.js";
-import { AuthHeaders } from "../../schemas/request.js";
+import { AuthHeaders, ErrorResponseSchema } from "../../schemas/common.js";
 
 export default (async function (app) {
 	app.route({

@@ -54,6 +54,9 @@ export function createRepository(app: FastifyInstance) {
 				query += ` LIMIT ${params.limit} `;
 			}
 			if (params.offset) {
+				if (!params.limit) {
+					query += ` LIMIT -1 `;
+				}
 				query += ` OFFSET ${params.offset} `;
 			}
 			const rows = app.sqlite.prepare(query).all(values) as Country[];

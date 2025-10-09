@@ -63,6 +63,7 @@
 						side="bottom"
 						sideOffset={16}
 						preventScroll
+						onOpenAutoFocus={(e) => e.preventDefault()}
 					>
 						<ScrollArea
 							class="mt-2 h-(--bits-popover-content-available-height) max-h-none w-(--bits-popover-content-available-width) max-w-none"

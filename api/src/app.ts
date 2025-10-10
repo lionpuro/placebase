@@ -1,15 +1,19 @@
-import Fastify from "fastify";
+import Fastify, { type LogLevel } from "fastify";
 import autoload from "@fastify/autoload";
 import path from "node:path";
 import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 
-const defaultOptions = {
-	logger: true,
+type AppOptions = {
+	logger: boolean | { level: LogLevel };
 };
 
-export function createApp(opts: Partial<typeof defaultOptions> = {}) {
+const defaults: AppOptions = {
+	logger: { level: process.env.LOG_LEVEL || "info" },
+};
+
+export function createApp(opts: Partial<AppOptions> = {}) {
 	const app = Fastify({
-		...defaultOptions,
+		...defaults,
 		...opts,
 	}).withTypeProvider<TypeBoxTypeProvider>();
 	return app;

@@ -22,6 +22,9 @@
 		.swagger-ui .wrapper {
 			padding: 0;
 		}
+		.swagger-ui * :not(.highlight-code *, code *) {
+			font-family: "Geist Variable" !important;
+		}
 	</style>
 </svelte:head>
 <Header />

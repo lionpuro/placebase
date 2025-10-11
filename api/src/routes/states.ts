@@ -38,13 +38,13 @@ export default (async function (app) {
 	});
 	app.route({
 		method: "GET",
-		url: "/countries/:iso_code/states",
+		url: "/countries/:country_code/states",
 		schema: {
 			summary: "States by country",
 			description: "List states by country",
 			tags: ["States"],
 			params: Type.Object({
-				iso_code: CountryCodeSchema,
+				country_code: CountryCodeSchema,
 			}),
 			querystring: CountryStatesQuerySchema,
 			response: {
@@ -55,7 +55,7 @@ export default (async function (app) {
 		handler: async (req, reply) => {
 			try {
 				const states = await app.stateRepository.find({
-					country: req.params.iso_code,
+					country: req.params.country_code,
 					...req.query,
 				});
 				return reply.code(200).send(states);

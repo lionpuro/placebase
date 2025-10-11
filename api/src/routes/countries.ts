@@ -33,12 +33,12 @@ export default (async function (app) {
 	});
 	app.route({
 		method: "GET",
-		url: "/countries/:iso_code",
+		url: "/countries/:country_code",
 		schema: {
 			summary: "Country details",
 			description: "Find country details by its ISO2 code",
 			tags: ["Countries"],
-			params: Type.Object({ iso_code: CountryCodeSchema }),
+			params: Type.Object({ country_code: CountryCodeSchema }),
 			response: {
 				200: CountrySchema,
 				404: ErrorResponseSchema,
@@ -48,7 +48,7 @@ export default (async function (app) {
 		handler: async (req, reply) => {
 			try {
 				const [country] = await app.countryRepository.find({
-					iso_code: req.params.iso_code,
+					iso_code: req.params.country_code,
 				});
 				if (!country) {
 					return reply.code(404).send({ message: "Not found" });

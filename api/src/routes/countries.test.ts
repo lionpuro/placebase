@@ -31,7 +31,7 @@ describe("Countries endpoints", async () => {
 		});
 	});
 
-	describe("GET /countries/:iso_code", () => {
+	describe("GET /countries/:country_code", () => {
 		const validator = createValidator<Country>(CountrySchema, {
 			truncateErrors: true,
 		});

@@ -4,10 +4,9 @@
 	import { session } from "$lib/auth/store.svelte";
 	import { signout } from "$lib/auth/firebase";
 	import { goto } from "$app/navigation";
-	import Button from "./button.svelte";
 	import ScrollArea from "./scroll-area.svelte";
-	import { Popover } from "bits-ui";
-	import { IconClose, IconMenu } from "$lib/icons";
+	import { DropdownMenu, Popover } from "bits-ui";
+	import { IconAccount, IconClose, IconMenu } from "$lib/icons";
 
 	type Props = {
 		class?: string;
@@ -43,8 +42,33 @@
 			<div class="flex w-full items-center gap-6 max-sm:hidden">
 				<Link href="/docs">Docs</Link>
 				<Link href="/api-keys">API keys</Link>
-				<Link href="/account" class="ml-auto">Account</Link>
-				<Button variant="outline" class="text-red-500" onclick={handleSignout}>Sign out</Button>
+				<DropdownMenu.Root>
+					<DropdownMenu.Trigger
+						title="Account menu"
+						class="ml-auto flex gap-1 p-2 hover:text-primary-600"
+					>
+						<IconAccount class="size-6" />
+						<span class="max-md:hidden">Account</span>
+					</DropdownMenu.Trigger>
+					<DropdownMenu.Portal>
+						<DropdownMenu.Content
+							class="w-64 overflow-hidden rounded-xl border border-base-100 bg-base-white shadow-xs outline-hidden focus-visible:outline-hidden"
+							side="top"
+							align="end"
+							sideOffset={8}
+						>
+							<DropdownMenu.Item class="hover:bg-base-50">
+								<a href="/account" class="flex px-4 py-2"> Account </a>
+							</DropdownMenu.Item>
+							<DropdownMenu.Item
+								class="flex px-4 py-2 text-left text-red-500 hover:bg-base-50"
+								onclick={handleSignout}
+							>
+								Sign out
+							</DropdownMenu.Item>
+						</DropdownMenu.Content>
+					</DropdownMenu.Portal>
+				</DropdownMenu.Root>
 			</div>
 			<Popover.Root bind:open={menuOpen}>
 				<Popover.Trigger

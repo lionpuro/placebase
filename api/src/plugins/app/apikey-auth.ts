@@ -4,11 +4,11 @@ import crypto from "node:crypto";
 
 declare module "fastify" {
 	export interface FastifyInstance {
-		apiAuth: APIAuth;
+		apikeyAuth: APIKeyAuth;
 	}
 }
 
-export type APIAuth = {
+export type APIKeyAuth = {
 	verifyAPIKey: (key: string) => Promise<boolean>;
 	createAPIKey: (uid: string, name: string) => Promise<string>;
 };
@@ -23,7 +23,7 @@ export function createHash(input: string): string {
 	return hash;
 }
 
-export function createPlugin(app: FastifyInstance): APIAuth {
+export function createPlugin(app: FastifyInstance): APIKeyAuth {
 	return {
 		async verifyAPIKey(key: string) {
 			const hash = createHash(key);
@@ -40,5 +40,5 @@ export function createPlugin(app: FastifyInstance): APIAuth {
 }
 
 export default fp((app) => {
-	app.decorate("apiAuth", createPlugin(app));
+	app.decorate("apikeyAuth", createPlugin(app));
 });

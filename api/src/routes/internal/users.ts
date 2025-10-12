@@ -21,7 +21,7 @@ export default (async function (app) {
 				500: ErrorResponseSchema,
 			},
 		},
-		preHandler: [app.authenticator.verifyToken],
+		preHandler: [app.firebaseAuth.verifyToken],
 		handler: async (req, reply) => {
 			try {
 				if (req.params.id !== req.user.id) {

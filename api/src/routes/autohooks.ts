@@ -17,7 +17,7 @@ export default async function (app: FastifyInstance) {
 			return reply.code(401).send({ message: "Missing API key" });
 		}
 		try {
-			const valid = await app.apiAuth.verifyAPIKey(key);
+			const valid = await app.apikeyAuth.verifyAPIKey(key);
 			if (!valid) {
 				return reply.code(401).send({ message: "Invalid API key" });
 			}

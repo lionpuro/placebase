@@ -5,7 +5,7 @@ import override from "fastify-override";
 import type { KeyRepository } from "../plugins/app/key-repository.js";
 import type { APIKeyRecord } from "../schemas/api-key.js";
 import { randomBytes } from "node:crypto";
-import { generateAPIKey, createHash } from "../plugins/app/api-auth.js";
+import { generateAPIKey, createHash } from "../plugins/app/apikey-auth.js";
 
 declare module "fastify" {
 	interface FastifyInstance {

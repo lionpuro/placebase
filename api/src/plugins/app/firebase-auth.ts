@@ -3,7 +3,7 @@ import fp from "fastify-plugin";
 
 declare module "fastify" {
 	interface FastifyInstance {
-		authenticator: Authenticator;
+		firebaseAuth: FirebaseAuth;
 	}
 	interface FastifyRequest {
 		user: User;
@@ -19,11 +19,11 @@ type Middleware = <T extends FastifyRequest, U extends FastifyReply>(
 	reply: U,
 ) => void;
 
-type Authenticator = {
+type FirebaseAuth = {
 	verifyToken: Middleware;
 };
 
-export function createAuthenticator(app: FastifyInstance): Authenticator {
+export function createPlugin(app: FastifyInstance): FirebaseAuth {
 	return {
 		async verifyToken(req, reply) {
 			const token = req.headers.authorization?.match(/^[Bb]earer (\S+)/)?.[1];
@@ -47,5 +47,5 @@ export function createAuthenticator(app: FastifyInstance): Authenticator {
 }
 
 export default fp((app) => {
-	app.decorate("authenticator", createAuthenticator(app));
+	app.decorate("firebaseAuth", createPlugin(app));
 });

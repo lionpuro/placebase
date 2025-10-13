@@ -6,7 +6,7 @@
 	import { goto } from "$app/navigation";
 	import ScrollArea from "./scroll-area.svelte";
 	import { DropdownMenu, Popover } from "bits-ui";
-	import { IconAccount, IconClose, IconMenu } from "$lib/icons";
+	import { IconAccount, IconClose, IconLogout, IconMenu } from "$lib/icons";
 
 	type Props = {
 		class?: string;
@@ -52,18 +52,22 @@
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Portal>
 						<DropdownMenu.Content
-							class="w-64 overflow-hidden rounded-xl border border-base-100 bg-base-white shadow-xs outline-hidden focus-visible:outline-hidden"
+							class="w-48 overflow-hidden rounded-xl border border-base-100 bg-base-white shadow-xs outline-hidden focus-visible:outline-hidden"
 							side="top"
 							align="end"
 							sideOffset={8}
 						>
-							<DropdownMenu.Item class="hover:bg-base-50">
-								<a href="/account" class="flex px-4 py-2"> Account </a>
+							<DropdownMenu.Item class="border-b border-base-100 hover:bg-base-50">
+								<a href="/account" class="flex items-center px-4 py-2">
+									<IconAccount class="mr-2" />
+									Account
+								</a>
 							</DropdownMenu.Item>
 							<DropdownMenu.Item
-								class="flex px-4 py-2 text-left text-red-500 hover:bg-base-50"
+								class="flex cursor-pointer items-center px-4 py-2 text-left text-red-500 hover:bg-base-50"
 								onclick={handleSignout}
 							>
+								<IconLogout class="mr-2" />
 								Sign out
 							</DropdownMenu.Item>
 						</DropdownMenu.Content>

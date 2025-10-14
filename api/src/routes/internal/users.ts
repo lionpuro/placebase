@@ -3,6 +3,7 @@ import {
 	type FastifyPluginAsyncTypebox,
 } from "@fastify/type-provider-typebox";
 import { AuthHeaders, ErrorResponseSchema } from "../../schemas/common.js";
+import { firebase } from "../../lib/firebase.js";
 
 export default (async function (app) {
 	app.route({
@@ -21,14 +22,14 @@ export default (async function (app) {
 				500: ErrorResponseSchema,
 			},
 		},
-		preHandler: [app.firebaseAuth.verifyToken],
+		preHandler: [app.authenticate],
 		handler: async (req, reply) => {
 			try {
 				if (req.params.id !== req.user.id) {
 					return reply.code(401).send({ message: "Unauthorized" });
 				}
 				const uid = req.user.id;
-				await app.firebase.auth().deleteUser(uid);
+				await firebase.auth().deleteUser(uid);
 				try {
 					await app.keyRepository.deleteByUser(uid);
 				} catch (err) {

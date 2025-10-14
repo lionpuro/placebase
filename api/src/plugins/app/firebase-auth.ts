@@ -1,9 +1,10 @@
-import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import type { FastifyReply, FastifyRequest } from "fastify";
 import fp from "fastify-plugin";
+import { firebase } from "../../lib/firebase.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
-		firebaseAuth: FirebaseAuth;
+		authenticate: Middleware;
 	}
 	interface FastifyRequest {
 		user: User;
@@ -19,33 +20,25 @@ type Middleware = <T extends FastifyRequest, U extends FastifyReply>(
 	reply: U,
 ) => void;
 
-type FirebaseAuth = {
-	verifyToken: Middleware;
-};
-
-export function createPlugin(app: FastifyInstance): FirebaseAuth {
-	return {
-		async verifyToken(req, reply) {
-			const token = req.headers.authorization?.match(/^[Bb]earer (\S+)/)?.[1];
-			if (!token) {
-				return reply.code(401).send({ message: "Unauthorized" });
-			}
-			try {
-				const decoded = await app.firebase.auth().verifyIdToken(token);
-				if (!decoded.uid || !decoded.email) {
-					return reply.code(401).send({ message: "Unauthorized" });
-				}
-				const user: User = {
-					id: decoded.uid,
-				};
-				req.user = user;
-			} catch (err) {
-				return reply.code(401).send({ message: "Unauthorized" });
-			}
-		},
-	};
+async function authenticate(request: FastifyRequest, reply: FastifyReply) {
+	const token = request.headers.authorization?.match(/^[Bb]earer (\S+)/)?.[1];
+	if (!token) {
+		return reply.code(401).send({ message: "Unauthorized" });
+	}
+	try {
+		const decoded = await firebase.auth().verifyIdToken(token);
+		if (!decoded.uid || !decoded.email) {
+			return reply.code(401).send({ message: "Unauthorized" });
+		}
+		const user: User = {
+			id: decoded.uid,
+		};
+		request.user = user;
+	} catch (err) {
+		return reply.code(401).send({ message: "Unauthorized" });
+	}
 }
 
 export default fp((app) => {
-	app.decorate("firebaseAuth", createPlugin(app));
+	app.decorate("authenticate", authenticate);
 });

@@ -24,7 +24,7 @@ export default (async function (app) {
 				500: ErrorResponseSchema,
 			},
 		},
-		preHandler: [app.firebaseAuth.verifyToken],
+		preHandler: [app.authenticate],
 		handler: async (req, reply) => {
 			try {
 				const records = await app.keyRepository.byUser(req.user.id);
@@ -50,7 +50,7 @@ export default (async function (app) {
 				500: ErrorResponseSchema,
 			},
 		},
-		preHandler: [app.firebaseAuth.verifyToken],
+		preHandler: [app.authenticate],
 		handler: async (req, reply) => {
 			try {
 				const key = await app.apikeyAuth.createAPIKey(
@@ -79,7 +79,7 @@ export default (async function (app) {
 				500: ErrorResponseSchema,
 			},
 		},
-		preHandler: [app.firebaseAuth.verifyToken],
+		preHandler: [app.authenticate],
 		handler: async (req, reply) => {
 			try {
 				await app.keyRepository.delete(req.params.id, req.user.id);

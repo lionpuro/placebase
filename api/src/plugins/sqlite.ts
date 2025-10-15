@@ -7,7 +7,7 @@ declare module "fastify" {
 	}
 }
 
-function connect(filename: string) {
+function open(filename: string) {
 	const db = new SQLite(filename, {
 		readonly: true,
 		fileMustExist: true,
@@ -16,5 +16,5 @@ function connect(filename: string) {
 }
 
 export default fp((app) => {
-	app.decorate("sqlite", connect("./data/v3.0/world.sqlite3"));
+	app.decorate("sqlite", open("./data/v3.0/world.sqlite3"));
 });

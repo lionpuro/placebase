@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
-import type { City, CitiesQuery } from "../../schemas/city.js";
+import type { City, CitiesQuery } from "./city.schema.js";
 
 declare module "fastify" {
 	interface FastifyInstance {

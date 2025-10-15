@@ -1,8 +1,8 @@
 import { after, describe, it } from "node:test";
-import { createTestApp } from "../testing/helper.js";
+import { createTestApp } from "../../testing/helper.js";
 import assert from "node:assert";
-import { type State, StateSchema, StatesSchema } from "../schemas/state.js";
-import { createValidator } from "../schemas/validation.js";
+import { type State, StateSchema, StatesSchema } from "./state.schema.js";
+import { createValidator } from "../../lib/schemas/validation.js";
 
 describe("States endpoints", async () => {
 	const app = await createTestApp();

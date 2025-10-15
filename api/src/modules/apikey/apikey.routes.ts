@@ -6,8 +6,8 @@ import {
 	APIKeyRecordSchema,
 	CreateAPIKeyRequestSchema,
 	CreateAPIKeyResponseSchema,
-} from "../../schemas/api-key.js";
-import { AuthHeaders, ErrorResponseSchema } from "../../schemas/common.js";
+} from "./apikey.schema.js";
+import { AuthHeaders, ErrorResponseSchema } from "../../lib/schemas/common.js";
 
 export default (async function (app) {
 	app.route({
@@ -27,7 +27,7 @@ export default (async function (app) {
 		preHandler: [app.authenticate],
 		handler: async (req, reply) => {
 			try {
-				const records = await app.keyRepository.byUser(req.user.id);
+				const records = await app.apikeyService.byUser(req.user.id);
 				return reply.code(200).send(records);
 			} catch (err) {
 				app.log.error(err);
@@ -53,10 +53,7 @@ export default (async function (app) {
 		preHandler: [app.authenticate],
 		handler: async (req, reply) => {
 			try {
-				const key = await app.apikeyAuth.createAPIKey(
-					req.user.id,
-					req.body.name,
-				);
+				const key = await app.apikeyService.create(req.user.id, req.body.name);
 				return reply.code(200).send({ api_key: key });
 			} catch (err) {
 				app.log.error(err);
@@ -82,7 +79,7 @@ export default (async function (app) {
 		preHandler: [app.authenticate],
 		handler: async (req, reply) => {
 			try {
-				await app.keyRepository.delete(req.params.id, req.user.id);
+				await app.apikeyService.delete(req.params.id, req.user.id);
 				return reply.code(204).send();
 			} catch (err) {
 				app.log.error(err);

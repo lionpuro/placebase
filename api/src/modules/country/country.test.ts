@@ -1,23 +1,23 @@
 import { after, describe, it } from "node:test";
-import { createTestApp } from "../testing/helper.js";
 import assert from "node:assert";
-import { type City, CitiesSchema } from "../schemas/city.js";
-import { createValidator } from "../schemas/validation.js";
+import { createTestApp } from "../../testing/helper.js";
+import { CountriesSchema, Country, CountrySchema } from "./country.schema.js";
+import { createValidator } from "../../lib/schemas/validation.js";
 
-describe("Cities endpoints", async () => {
+describe("Countries endpoints", async () => {
 	const app = await createTestApp();
 	after(async () => {
 		await app.close();
 	});
 
-	describe("GET /cities", () => {
-		const validator = createValidator<City[]>(CitiesSchema, {
+	describe("GET /countries", () => {
+		const validator = createValidator<Country[]>(CountriesSchema, {
 			truncateErrors: true,
 		});
 		it("should respond with 200", async () => {
 			const response = await app.injectWithAPIKey({
 				method: "GET",
-				url: "/cities",
+				url: "/countries",
 			});
 			assert.strictEqual(response.statusCode, 200);
 			assert.doesNotThrow(() => validator.parse(response.json()));
@@ -25,28 +25,35 @@ describe("Cities endpoints", async () => {
 		it("should respond with 401", async () => {
 			const response = await app.inject({
 				method: "GET",
-				url: "/cities",
+				url: "/countries",
 			});
 			assert.strictEqual(response.statusCode, 401);
 		});
 	});
 
-	describe("GET /countries/:country_code/states/:state_code/cities", () => {
-		const validator = createValidator<City[]>(CitiesSchema, {
+	describe("GET /countries/:country_code", () => {
+		const validator = createValidator<Country>(CountrySchema, {
 			truncateErrors: true,
 		});
 		it("should respond with 200", async () => {
 			const response = await app.injectWithAPIKey({
 				method: "GET",
-				url: "/countries/GB/states/ENG/cities",
+				url: "/countries/GB",
 			});
 			assert.strictEqual(response.statusCode, 200);
 			assert.doesNotThrow(() => validator.parse(response.json()));
 		});
+		it("should respond with 404", async () => {
+			const response = await app.injectWithAPIKey({
+				method: "GET",
+				url: "/countries/ZZ",
+			});
+			assert.strictEqual(response.statusCode, 404);
+		});
 		it("should respond with 400", async () => {
 			const response = await app.injectWithAPIKey({
 				method: "GET",
-				url: "/countries/GB/states/abcdefg/cities",
+				url: "/countries/ABCDEFG",
 			});
 			assert.strictEqual(response.statusCode, 400);
 		});

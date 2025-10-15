@@ -5,7 +5,7 @@ import {
 	Longitude,
 	paginationParams,
 	StateCodeSchema,
-} from "./common.js";
+} from "../../lib/schemas/common.js";
 
 export const CitySchema = Type.Object({
 	id: Type.Number({ examples: [153335] }),

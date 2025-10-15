@@ -5,12 +5,12 @@ import {
 	StateSchema,
 	StatesQuerySchema,
 	StatesSchema,
-} from "../schemas/state.js";
+} from "./state.schema.js";
 import {
 	CountryCodeSchema,
 	ErrorResponseSchema,
 	StateCodeSchema,
-} from "../schemas/common.js";
+} from "../../lib/schemas/common.js";
 
 export default (async function (app) {
 	app.route({

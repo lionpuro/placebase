@@ -4,8 +4,11 @@ import {
 	CountriesSchema,
 	CountrySchema,
 	CountriesQuerySchema,
-} from "../schemas/country.js";
-import { CountryCodeSchema, ErrorResponseSchema } from "../schemas/common.js";
+} from "./country.schema.js";
+import {
+	CountryCodeSchema,
+	ErrorResponseSchema,
+} from "../../lib/schemas/common.js";
 
 export default (async function (app) {
 	app.route({

@@ -1,5 +1,5 @@
 import { type Static, Type } from "@sinclair/typebox";
-import { paginationParams } from "./common.js";
+import { paginationParams } from "../../lib/schemas/common.js";
 
 export const CountrySchema = Type.Object({
 	name: Type.String({ examples: ["Finland"] }),

@@ -1,17 +1,18 @@
+import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import { FieldPath } from "firebase-admin/firestore";
-import type { APIKeyRecord } from "../../schemas/api-key.js";
+import type { APIKeyRecord } from "./apikey.schema.js";
 import { firebase } from "../../lib/firebase.js";
 
 declare module "fastify" {
 	export interface FastifyInstance {
-		keyRepository: KeyRepository;
+		apikeyRepository: APIKeyRepository;
 	}
 }
 
-export type KeyRepository = ReturnType<typeof createRepository>;
+export type APIKeyRepository = ReturnType<typeof createAPIKeyRepository>;
 
-export function createRepository() {
+export function createAPIKeyRepository() {
 	const db = () => firebase.firestore();
 	return {
 		async byUser(uid: string) {
@@ -70,6 +71,10 @@ function now() {
 	return new Date(new Date().toUTCString()).toISOString();
 }
 
-export default fp((app) => {
-	app.decorate("keyRepository", createRepository());
+function plugin(app: FastifyInstance) {
+	app.decorate("apikeyRepository", createAPIKeyRepository());
+}
+
+export default fp(plugin, {
+	name: "apikey-repository",
 });

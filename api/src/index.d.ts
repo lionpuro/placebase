@@ -2,4 +2,4 @@ export type {
 	APIKeyRecord,
 	CreateAPIKeyRequest,
 	CreateAPIKeyResponse,
-} from "./schemas/api-key";
+} from "./modules/apikey/apikey.schema";

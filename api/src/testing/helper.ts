@@ -2,10 +2,13 @@ import { type TestContext } from "node:test";
 import { createApp, registerPlugins } from "../app.js";
 import type { FastifyInstance, InjectOptions } from "fastify";
 import override from "fastify-override";
-import type { KeyRepository } from "../plugins/app/key-repository.js";
-import type { APIKeyRecord } from "../schemas/api-key.js";
+import type { APIKeyRepository } from "../modules/apikey/apikey.repository.js";
+import type { APIKeyRecord } from "../modules/apikey/apikey.schema.js";
 import { randomBytes } from "node:crypto";
-import { generateAPIKey, createHash } from "../plugins/app/apikey-auth.js";
+import {
+	generateAPIKey,
+	createHash,
+} from "../modules/apikey/apikey.service.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -17,7 +20,7 @@ export async function createTestApp(t?: TestContext) {
 	const testKey = generateAPIKey();
 	const testHash = createHash(testKey);
 
-	const mockKeyRepository = new MockKeyRepository({
+	const mockAPIKeyRepository = new MockAPIKeyRepository({
 		defaultValues: [{ hash: testHash, user_id: "test-user" }],
 	});
 
@@ -26,7 +29,7 @@ export async function createTestApp(t?: TestContext) {
 		override: {
 			decorators: {
 				decorate: {
-					keyRepository: mockKeyRepository,
+					apikeyRepository: mockAPIKeyRepository,
 				},
 			},
 		},
@@ -36,7 +39,7 @@ export async function createTestApp(t?: TestContext) {
 	return app;
 }
 
-class MockKeyRepository implements KeyRepository {
+class MockAPIKeyRepository implements APIKeyRepository {
 	private keys: ({ hash: string } & APIKeyRecord)[] = [];
 
 	constructor({

@@ -3,7 +3,7 @@ import {
 	CountryCodeSchema,
 	paginationParams,
 	StateCodeSchema,
-} from "./common.js";
+} from "../../lib/schemas/common.js";
 
 export const StateSchema = Type.Object({
 	name: Type.String({ examples: ["Pirkanmaa"] }),

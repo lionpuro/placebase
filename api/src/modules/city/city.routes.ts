@@ -4,12 +4,12 @@ import {
 	CitiesQuerySchema,
 	CitiesSchema,
 	CountryStateCitiesQuerySchema,
-} from "../schemas/city.js";
+} from "./city.schema.js";
 import {
 	CountryCodeSchema,
 	ErrorResponseSchema,
 	StateCodeSchema,
-} from "../schemas/common.js";
+} from "../../lib/schemas/common.js";
 
 export default (async function (app) {
 	app.route({

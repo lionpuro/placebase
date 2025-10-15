@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import fp from "fastify-plugin";
-import { firebase } from "../../lib/firebase.js";
+import { firebase } from "../lib/firebase.js";
 
 declare module "fastify" {
 	interface FastifyInstance {

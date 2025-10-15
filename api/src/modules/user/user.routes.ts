@@ -2,7 +2,7 @@ import {
 	Type,
 	type FastifyPluginAsyncTypebox,
 } from "@fastify/type-provider-typebox";
-import { AuthHeaders, ErrorResponseSchema } from "../../schemas/common.js";
+import { AuthHeaders, ErrorResponseSchema } from "../../lib/schemas/common.js";
 import { firebase } from "../../lib/firebase.js";
 
 export default (async function (app) {
@@ -31,7 +31,7 @@ export default (async function (app) {
 				const uid = req.user.id;
 				await firebase.auth().deleteUser(uid);
 				try {
-					await app.keyRepository.deleteByUser(uid);
+					await app.apikeyService.deleteByUser(uid);
 				} catch (err) {
 					app.log.error(err, "failed to delete user api keys");
 				}

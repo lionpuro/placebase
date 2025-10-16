@@ -30,5 +30,8 @@ export async function registerPlugins(app: ReturnType<typeof createApp>) {
 		dirNameRoutePrefix: false,
 		matchFilter: /^.*\.module\.(js|ts)$/,
 	});
-	await app.register(auth);
+	await app.register(auth, {
+		ignorePrefix: ["/internal"],
+		ignoreSuffix: ["openapi.json"],
+	});
 }

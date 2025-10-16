@@ -24,14 +24,14 @@ export async function registerPlugins(app: ReturnType<typeof createApp>) {
 	await app.register(autoload, {
 		dir: path.join(import.meta.dirname, "plugins"),
 	});
+	await app.register(auth, {
+		ignorePrefix: ["/internal"],
+		ignoreSuffix: ["openapi.json"],
+	});
 	await app.register(autoload, {
 		dir: path.join(import.meta.dirname, "modules"),
 		maxDepth: 1,
 		dirNameRoutePrefix: false,
 		matchFilter: /^.*\.module\.(js|ts)$/,
-	});
-	await app.register(auth, {
-		ignorePrefix: ["/internal"],
-		ignoreSuffix: ["openapi.json"],
 	});
 }

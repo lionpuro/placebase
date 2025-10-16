@@ -1,4 +1,9 @@
-import type { FastifyInstance, FastifyPluginOptions } from "fastify";
+import type {
+	FastifyInstance,
+	FastifyPluginOptions,
+	FastifyReply,
+	FastifyRequest,
+} from "fastify";
 import fp from "fastify-plugin";
 
 interface AuthOptions extends FastifyPluginOptions {
@@ -6,14 +11,13 @@ interface AuthOptions extends FastifyPluginOptions {
 	ignoreSuffix?: string[];
 }
 
-function auth(app: FastifyInstance, opts: AuthOptions) {
-	app.addHook("onRequest", async (request, reply) => {
-		if (opts.ignorePrefix?.some((s) => request.url.startsWith(s))) {
-			return;
-		}
-		if (opts.ignoreSuffix?.some((s) => request.url.endsWith(s))) {
-			return;
-		}
+type Middleware = <T extends FastifyRequest, U extends FastifyReply>(
+	request: T,
+	reply: U,
+) => void;
+
+function createHandler(app: FastifyInstance): Middleware {
+	return async (request, reply) => {
 		const header = request.headers["x-api-key"];
 		if (!header) {
 			return reply.code(401).send({ message: "Missing API key" });
@@ -31,7 +35,29 @@ function auth(app: FastifyInstance, opts: AuthOptions) {
 			app.log.error(err);
 			return reply.code(500).send({ message: "Failed to verify API key" });
 		}
+	};
+}
+
+function auth(app: FastifyInstance, opts: AuthOptions) {
+	app.addHook("onRoute", (routeOpts) => {
+		const { url, preHandler } = routeOpts;
+		if (opts.ignorePrefix?.some((s) => url.startsWith(s))) {
+			return;
+		}
+		if (opts.ignoreSuffix?.some((s) => url.endsWith(s))) {
+			return;
+		}
+		const handler = createHandler(app);
+		if (!preHandler) {
+			routeOpts.preHandler = [handler];
+			return;
+		}
+		if (Array.isArray(preHandler)) {
+			routeOpts.preHandler = [handler, ...preHandler];
+			return;
+		}
+		routeOpts.preHandler = [handler, preHandler];
 	});
 }
 
-export default fp(auth, { decorators: { fastify: ["apikeyService"] } });
+export default fp(auth);

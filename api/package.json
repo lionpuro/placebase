@@ -26,7 +26,6 @@
 	"devDependencies": {
 		"@types/better-sqlite3": "^7.6.13",
 		"@types/node": "^24.3.1",
-		"fastify-override": "^2.0.0",
 		"prettier": "^3.6.2",
 		"tsx": "^4.20.5"
 	}

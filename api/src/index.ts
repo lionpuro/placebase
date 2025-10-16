@@ -1,8 +1,7 @@
-import { createApp, registerPlugins } from "./app.js";
+import { createApp } from "./app.js";
 
 (async () => {
-	const app = createApp();
-	await registerPlugins(app);
+	const app = await createApp();
 	await app.ready();
 
 	const isGCR = process.env.K_SERVICE !== undefined;

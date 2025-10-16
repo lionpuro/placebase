@@ -1,7 +1,6 @@
 import { type TestContext } from "node:test";
-import { createApp, registerPlugins } from "../app.js";
+import { createApp } from "../app.js";
 import type { FastifyInstance, InjectOptions } from "fastify";
-import override from "fastify-override";
 import type { APIKeyRepository } from "../modules/apikey/apikey.repository.js";
 import type { APIKeyRecord } from "../modules/apikey/apikey.schema.js";
 import { randomBytes } from "node:crypto";
@@ -24,18 +23,15 @@ export async function createTestApp(t?: TestContext) {
 		defaultValues: [{ hash: testHash, user_id: "test-user" }],
 	});
 
-	const app = createApp({ logger: false });
-	await app.register(override, {
-		override: {
-			decorators: {
-				decorate: {
-					apikeyRepository: mockAPIKeyRepository,
-				},
+	const app = await createApp({
+		logger: false,
+		modules: {
+			apikey: {
+				repository: mockAPIKeyRepository,
 			},
 		},
 	});
 	app.decorate("injectWithAPIKey", injectWithAPIKey(testKey));
-	await registerPlugins(app);
 	return app;
 }
 

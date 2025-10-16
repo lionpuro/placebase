@@ -1,26 +1,26 @@
 import Fastify, { type LogLevel } from "fastify";
+import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import autoload from "@fastify/autoload";
 import path from "node:path";
-import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import auth from "./hooks/auth.js";
+import type { APIKeyModuleOptions } from "./modules/apikey/apikey.module.js";
 
 type AppOptions = {
 	logger: boolean | { level: LogLevel };
+	modules: ModulesConfig;
 };
+
+interface ModulesConfig extends APIKeyModuleOptions {}
 
 const defaults: AppOptions = {
 	logger: { level: process.env.LOG_LEVEL || "info" },
+	modules: { apikey: {} },
 };
 
-export function createApp(opts: Partial<AppOptions> = {}) {
-	const app = Fastify({
-		...defaults,
-		...opts,
-	}).withTypeProvider<TypeBoxTypeProvider>();
-	return app;
-}
+export async function createApp(opts: Partial<AppOptions> = {}) {
+	const options = { ...defaults, ...opts };
+	const app = Fastify(options).withTypeProvider<TypeBoxTypeProvider>();
 
-export async function registerPlugins(app: ReturnType<typeof createApp>) {
 	await app.register(autoload, {
 		dir: path.join(import.meta.dirname, "plugins"),
 	});
@@ -33,5 +33,7 @@ export async function registerPlugins(app: ReturnType<typeof createApp>) {
 		maxDepth: 1,
 		dirNameRoutePrefix: false,
 		matchFilter: /^.*\.module\.(js|ts)$/,
+		options: options.modules,
 	});
+	return app;
 }

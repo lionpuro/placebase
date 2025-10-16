@@ -1,6 +1,7 @@
-import type { FastifyInstance } from "fastify";
+import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 import fp from "fastify-plugin";
 import crypto from "node:crypto";
+import type { APIKeyRepository } from "./apikey.repository.js";
 
 declare module "fastify" {
 	export interface FastifyInstance {
@@ -20,36 +21,39 @@ export function createHash(input: string): string {
 	return hash;
 }
 
-export function createAPIKeyService(app: FastifyInstance) {
+export function createAPIKeyService(repository: APIKeyRepository) {
 	return {
 		async verify(key: string) {
 			const hash = createHash(key);
-			const result = await app.apikeyRepository.byHash(hash);
+			const result = await repository.byHash(hash);
 			return result !== undefined;
 		},
 		async create(uid: string, name: string) {
 			const raw = generateAPIKey();
 			const hash = createHash(raw);
-			await app.apikeyRepository.create(hash, name, uid);
+			await repository.create(hash, name, uid);
 			return raw;
 		},
 		async byUser(uid: string) {
-			return app.apikeyRepository.byUser(uid);
+			return repository.byUser(uid);
 		},
 		async delete(id: string, uid: string) {
-			return app.apikeyRepository.delete(id, uid);
+			return repository.delete(id, uid);
 		},
 		async deleteByUser(uid: string) {
-			return app.apikeyRepository.deleteByUser(uid);
+			return repository.deleteByUser(uid);
 		},
 	};
 }
 
-function plugin(app: FastifyInstance) {
-	app.decorate("apikeyService", createAPIKeyService(app));
+interface APIKeyServiceOptions extends FastifyPluginOptions {
+	repository: APIKeyRepository;
+}
+
+function plugin(app: FastifyInstance, opts: APIKeyServiceOptions) {
+	app.decorate("apikeyService", createAPIKeyService(opts.repository));
 }
 
 export default fp(plugin, {
 	name: "apikey-service",
-	dependencies: ["apikey-repository"],
 });

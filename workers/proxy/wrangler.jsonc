@@ -4,6 +4,7 @@
 	"main": "src/worker.ts",
 	"compatibility_date": "2025-10-04",
 	"observability": { "enabled": true },
+	"keep_vars": true,
 	"routes": [
 		{
 			"pattern": "placebase.xyz/api/internal/*",

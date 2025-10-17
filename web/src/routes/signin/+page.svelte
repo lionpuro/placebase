@@ -1,19 +1,24 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { auth } from "$lib/auth/firebase";
+	import { session } from "$lib/auth/store.svelte";
 	import Header from "$lib/components/header.svelte";
 	import Main from "$lib/components/main.svelte";
 	import { IconGoogle } from "$lib/icons";
-	import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+	import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 	async function signinWithGoogle() {
 		const provider = new GoogleAuthProvider();
 		try {
-			await signInWithPopup(auth, provider);
-			await goto("/api-keys");
+			await signInWithRedirect(auth, provider);
 		} catch (err) {
 			console.error(err);
 		}
 	}
+	$effect(() => {
+		if (session.user) {
+			goto("/api-keys");
+		}
+	});
 </script>
 
 <svelte:head>

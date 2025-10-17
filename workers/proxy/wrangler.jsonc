@@ -1,12 +1,16 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "placebase-proxy",
-	"main": "src/index.ts",
+	"main": "src/worker.ts",
 	"compatibility_date": "2025-10-04",
 	"observability": { "enabled": true },
 	"routes": [
 		{
 			"pattern": "placebase.xyz/api/internal/*",
+			"zone_name": "placebase.xyz"
+		},
+		{
+			"pattern": "placebase.xyz/__/auth/*",
 			"zone_name": "placebase.xyz"
 		}
 	]

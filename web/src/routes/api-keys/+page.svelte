@@ -2,8 +2,9 @@
 	import { goto } from "$app/navigation";
 	import { session } from "$lib/auth/store.svelte";
 	import Header from "$lib/components/header.svelte";
-	import Loading from "$lib/components/loading.svelte";
 	import Main from "$lib/components/main.svelte";
+	import Footer from "$lib/components/footer.svelte";
+	import Loading from "$lib/components/loading.svelte";
 	import { createMutation, createQuery, useQueryClient } from "@tanstack/svelte-query";
 	import type { APIKeyRecord } from "@placebase/api";
 	import { IconTrash } from "$lib/icons";
@@ -120,3 +121,4 @@
 		{/if}
 	{/if}
 </Main>
+<Footer />

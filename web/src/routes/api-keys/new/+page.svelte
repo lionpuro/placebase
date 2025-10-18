@@ -2,8 +2,9 @@
 	import { goto } from "$app/navigation";
 	import { session } from "$lib/auth/store.svelte";
 	import Header from "$lib/components/header.svelte";
-	import Loading from "$lib/components/loading.svelte";
 	import Main from "$lib/components/main.svelte";
+	import Footer from "$lib/components/footer.svelte";
+	import Loading from "$lib/components/loading.svelte";
 	import { createMutation, useQueryClient } from "@tanstack/svelte-query";
 	import type { CreateAPIKeyRequest, CreateAPIKeyResponse } from "@placebase/api";
 	import Button from "$lib/components/button.svelte";
@@ -123,3 +124,4 @@
 		</div>
 	{/if}
 </Main>
+<Footer />

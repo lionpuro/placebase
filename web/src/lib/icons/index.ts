@@ -5,3 +5,4 @@ export { default as IconTrash } from "virtual:icons/mdi/trash";
 export { default as IconAccount } from "virtual:icons/mdi/account";
 export { default as IconLogout } from "virtual:icons/mdi/logout";
 export { default as IconGoogle } from "./google.svelte";
+export { default as IconGithub } from "./github.svelte";

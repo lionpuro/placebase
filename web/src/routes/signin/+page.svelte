@@ -4,6 +4,7 @@
 	import { session } from "$lib/auth/store.svelte";
 	import Header from "$lib/components/header.svelte";
 	import Main from "$lib/components/main.svelte";
+	import Footer from "$lib/components/footer.svelte";
 	import { IconGoogle } from "$lib/icons";
 	import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 	async function signinWithGoogle() {
@@ -36,3 +37,4 @@
 		</button>
 	</div>
 </Main>
+<Footer />

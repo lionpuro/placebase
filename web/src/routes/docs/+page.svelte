@@ -1,9 +1,10 @@
 <script lang="ts">
 	import Header from "$lib/components/header.svelte";
+	import Main from "$lib/components/main.svelte";
+	import Footer from "$lib/components/footer.svelte";
 	import { SwaggerUIBundle } from "swagger-ui-dist";
 	import "swagger-ui-dist/swagger-ui.css";
 	import { onMount } from "svelte";
-	import Main from "$lib/components/main.svelte";
 	import { PUBLIC_API_URL } from "$env/static/public";
 
 	let container: HTMLDivElement;
@@ -31,3 +32,4 @@
 <Main>
 	<div id="swagger-container" bind:this={container} class="mx-auto w-full max-w-screen-xl"></div>
 </Main>
+<Footer />

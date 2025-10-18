@@ -3,8 +3,9 @@
 	import { signout } from "$lib/auth/firebase";
 	import { session } from "$lib/auth/store.svelte";
 	import Header from "$lib/components/header.svelte";
-	import Loading from "$lib/components/loading.svelte";
 	import Main from "$lib/components/main.svelte";
+	import Footer from "$lib/components/footer.svelte";
+	import Loading from "$lib/components/loading.svelte";
 	$effect(() => {
 		if (!session.isLoading && !session.user) {
 			goto("/signin");
@@ -52,3 +53,4 @@
 		</div>
 	{/if}
 </Main>
+<Footer />

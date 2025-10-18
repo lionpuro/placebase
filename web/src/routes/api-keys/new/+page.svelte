@@ -109,7 +109,10 @@
 						{/if}
 					</button>
 				</div>
-				<p>This key won't be displayed again so you should save it somewhere safe.</p>
+				<p>
+					This key won't be displayed again so you should save it somewhere safe. If you ever lose
+					your key you'll have to deactivate it and generate a new one.
+				</p>
 				<a
 					href="/api-keys"
 					class="w-fit rounded-full bg-base-950 px-5 py-2 text-base-white hover:bg-base-950/95"

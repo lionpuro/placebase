@@ -67,6 +67,22 @@
 			<h1 class="text-xl font-bold sm:text-3xl">API keys</h1>
 			<Link href="/api-keys/new" variant="button-black">Create key</Link>
 		</div>
+		<p class="mb-2">
+			You will have to provide an access key in the
+			<code class="rounded-lg border border-base-100 px-1.5 py-0.5 text-primary-600">
+				X-API-KEY
+			</code>
+			header when making requests.
+		</p>
+		<span class="mb-4 flex flex-wrap items-center gap-2">
+			<strong class="font-semibold">Example:</strong>
+			<code class="rounded-lg border border-base-100 px-2 py-0.5 text-sm">
+				curl <span class="whitespace-nowrap">https://api.placebase.xyz/countries</span>
+				<span class="whitespace-nowrap">
+					-H "X-API-KEY: <span class="text-primary-600">{"<YOUR_API_KEY>"}</span>"
+				</span>
+			</code>
+		</span>
 		{#if $getQuery.isPending}
 			<Loading />
 		{:else if $getQuery.isError}

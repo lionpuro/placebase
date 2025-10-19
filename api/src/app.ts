@@ -2,7 +2,7 @@ import Fastify, { type LogLevel } from "fastify";
 import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import autoload from "@fastify/autoload";
 import path from "node:path";
-import auth from "./hooks/auth.js";
+import auth from "./plugins/apikey-auth.js";
 import type { APIKeyModuleOptions } from "./modules/apikey/apikey.module.js";
 
 type AppOptions = {

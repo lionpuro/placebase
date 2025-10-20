@@ -1,6 +1,6 @@
-import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import type { Country, CountriesQuery } from "./country.schema.js";
+import { sqlite, type Database } from "../../lib/database.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -10,7 +10,7 @@ declare module "fastify" {
 
 type CountryFilters = CountriesQuery & { iso_code?: string };
 
-export function createRepository(app: FastifyInstance) {
+export function createRepository(db: Database) {
 	return {
 		async find(params: CountryFilters) {
 			const stmt: string[] = [];
@@ -59,12 +59,12 @@ export function createRepository(app: FastifyInstance) {
 				}
 				query += ` OFFSET ${params.offset} `;
 			}
-			const rows = app.sqlite.prepare(query).all(values) as Country[];
+			const rows = db.prepare(query).all(values) as Country[];
 			return rows;
 		},
 	};
 }
 
 export default fp((app) => {
-	app.decorate("countryRepository", createRepository(app));
+	app.decorate("countryRepository", createRepository(sqlite));
 });

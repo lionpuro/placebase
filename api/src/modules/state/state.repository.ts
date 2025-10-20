@@ -1,6 +1,6 @@
-import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import type { State, StatesQuery } from "./state.schema.js";
+import { sqlite, type Database } from "../../lib/database.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -8,7 +8,7 @@ declare module "fastify" {
 	}
 }
 
-export function createRepository(app: FastifyInstance) {
+export function createRepository(db: Database) {
 	return {
 		async find(params: StatesQuery) {
 			const stmt: string[] = [];
@@ -45,12 +45,12 @@ export function createRepository(app: FastifyInstance) {
 			if (params.offset) {
 				query += ` OFFSET ${params.offset} `;
 			}
-			const rows = app.sqlite.prepare(query).all(values) as State[];
+			const rows = db.prepare(query).all(values) as State[];
 			return rows;
 		},
 	};
 }
 
 export default fp((app) => {
-	app.decorate("stateRepository", createRepository(app));
+	app.decorate("stateRepository", createRepository(sqlite));
 });

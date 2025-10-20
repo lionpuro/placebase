@@ -1,6 +1,6 @@
-import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import type { City, CitiesQuery } from "./city.schema.js";
+import { sqlite, type Database } from "../../lib/database.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -8,7 +8,7 @@ declare module "fastify" {
 	}
 }
 
-export function createRepository(app: FastifyInstance) {
+export function createRepository(db: Database) {
 	return {
 		async find(params: CitiesQuery) {
 			const stmt: string[] = [];
@@ -63,12 +63,12 @@ export function createRepository(app: FastifyInstance) {
 			if (params.offset) {
 				query += ` OFFSET ${params.offset} `;
 			}
-			const rows = app.sqlite.prepare(query).all(values) as City[];
+			const rows = db.prepare(query).all(values) as City[];
 			return rows;
 		},
 	};
 }
 
 export default fp((app) => {
-	app.decorate("cityRepository", createRepository(app));
+	app.decorate("cityRepository", createRepository(sqlite));
 });

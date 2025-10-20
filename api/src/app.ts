@@ -23,6 +23,7 @@ export async function createApp(opts: Partial<AppOptions> = {}) {
 
 	await app.register(autoload, {
 		dir: path.join(import.meta.dirname, "plugins"),
+		ignorePattern: /^.*apikey-auth\.(js|ts)$/,
 	});
 	await app.register(auth, {
 		ignorePrefix: ["/internal"],

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { HTMLButtonAttributes } from "svelte/elements";
+	import { cn } from "$lib/helpers/styles";
 	const disabledClass =
 		" disabled:bg-base-100/80 disabled:text-base-400 disabled:cursor-not-allowed";
 	const config = {
@@ -25,7 +26,7 @@
 
 	let { variant = "primary", size = "md", class: className, children, ...props }: Props = $props();
 
-	function styles(variant: ButtonVariant, size: ButtonSize): string {
+	function styles(variant: ButtonVariant, size: ButtonSize): string[] {
 		const classes: string[] = [
 			"flex items-center rounded-full",
 			config.sizes[size],
@@ -34,8 +35,8 @@
 		if (className) {
 			classes.push(className.toString());
 		}
-		return classes.join(" ");
+		return classes;
 	}
 </script>
 
-<button class={styles(variant, size)} {...props}>{@render children?.()}</button>
+<button class={cn(...styles(variant, size))} {...props}>{@render children?.()}</button>

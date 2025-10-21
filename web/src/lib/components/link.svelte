@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
 	import type { HTMLAnchorAttributes } from "svelte/elements";
+	import { cn } from "$lib/helpers/styles";
 
 	const buttonBase = "flex items-center rounded-full px-5 py-2";
 	const config = {
@@ -22,6 +23,6 @@
 	const { variant = "default", class: className, children, ...props }: Props = $props();
 </script>
 
-<a class={[config.variants[variant], className].filter((cn) => !!cn).join(" ")} {...props}>
+<a class={cn([config.variants[variant], className])} {...props}>
 	{@render children?.()}
 </a>

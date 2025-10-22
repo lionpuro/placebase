@@ -43,7 +43,6 @@ export function createRepository(db: Database) {
 			}
 			let query = `
 			SELECT
-				c.id,
 				c.name,
 				c.state_code AS state,
 				c.country_code AS country,

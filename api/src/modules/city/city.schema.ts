@@ -8,7 +8,6 @@ import {
 } from "../../lib/schemas/common.js";
 
 export const CitySchema = Type.Object({
-	id: Type.Number({ examples: [153335] }),
 	name: Type.String({ examples: ["Tampere"] }),
 	state: Type.String({ examples: ["11"] }),
 	country: Type.String({ examples: ["FI"] }),

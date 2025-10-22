@@ -4,5 +4,7 @@ export { default as IconCopy } from "virtual:icons/mdi/content-copy";
 export { default as IconTrash } from "virtual:icons/mdi/trash";
 export { default as IconAccount } from "virtual:icons/mdi/account";
 export { default as IconLogout } from "virtual:icons/mdi/logout";
+export { default as IconLinkExternal } from "virtual:icons/mdi/open-in-new";
+export { default as IconGlobe } from "virtual:icons/mdi/globe";
 export { default as IconGoogle } from "./google.svelte";
 export { default as IconGithub } from "./github.svelte";

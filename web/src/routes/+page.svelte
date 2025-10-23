@@ -4,8 +4,8 @@
 	import Main from "$lib/components/main.svelte";
 	import Footer from "$lib/components/footer.svelte";
 	import Link from "$lib/components/link.svelte";
+	import Logo from "$lib/components/logo.svelte";
 	import { IconLinkExternal } from "$lib/icons";
-	import Logo from "./_components/logo.svelte";
 </script>
 
 <svelte:head>
@@ -15,7 +15,7 @@
 <Main>
 	<div class="mx-auto my-8 flex w-full max-w-screen-md flex-col gap-8 sm:my-16">
 		<div class="flex flex-col items-center">
-			<Logo />
+			<Logo size={64} />
 			<h1 class="mt-2 mb-4 text-center text-4xl font-bold sm:text-5xl">Geographical Data API</h1>
 			<p class="mb-4 text-center">
 				Placebase provides an easy way to integrate global geographical data into your applications.

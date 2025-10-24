@@ -8,7 +8,7 @@ export const CountrySchema = Type.Object({
 	capital: Type.String({ examples: ["Helsinki"] }),
 	currency: Type.String({ examples: ["EUR"] }),
 	native: Type.String({ examples: ["Suomi"] }),
-	region: Type.String({ examples: ["Europe"] }),
+	continent: Type.String({ examples: ["Europe"] }),
 	emoji: Type.String({ examples: ["🇫🇮"] }),
 });
 
@@ -20,7 +20,7 @@ export const CountriesQuerySchema = Type.Object(
 	{
 		name: Type.Optional(Type.String()),
 		currency: Type.Optional(Type.String({ minLength: 3, maxLength: 3 })),
-		region: Type.Optional(Type.String()),
+		continent: Type.Optional(Type.String()),
 		phonecode: Type.Optional(Type.String({ examples: ["358"] })),
 		...paginationParams,
 	},

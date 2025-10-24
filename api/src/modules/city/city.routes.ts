@@ -3,12 +3,12 @@ import { Type } from "@sinclair/typebox";
 import {
 	CitiesQuerySchema,
 	CitiesSchema,
-	CountryStateCitiesQuerySchema,
+	CountryRegionCitiesQuerySchema,
 } from "./city.schema.js";
 import {
 	CountryCodeSchema,
 	ErrorResponseSchema,
-	StateCodeSchema,
+	RegionCodeSchema,
 } from "../../lib/schemas/common.js";
 
 export default (async function (app) {
@@ -37,16 +37,16 @@ export default (async function (app) {
 	});
 	app.route({
 		method: "GET",
-		url: "/countries/:country_code/states/:state_code/cities",
+		url: "/countries/:country_code/regions/:region_code/cities",
 		schema: {
-			summary: "Cities by country and state",
-			description: "List cities by country and state",
+			summary: "Cities by region",
+			description: "Get a list of cities by country and region",
 			tags: ["Cities"],
 			params: Type.Object({
 				country_code: CountryCodeSchema,
-				state_code: StateCodeSchema,
+				region_code: RegionCodeSchema,
 			}),
-			querystring: CountryStateCitiesQuerySchema,
+			querystring: CountryRegionCitiesQuerySchema,
 			response: {
 				200: CitiesSchema,
 				500: ErrorResponseSchema,
@@ -56,7 +56,7 @@ export default (async function (app) {
 			try {
 				const cities = await app.cityRepository.find({
 					country: req.params.country_code,
-					state: req.params.state_code,
+					region: req.params.region_code,
 					...req.query,
 				});
 				return reply.code(200).send(cities);

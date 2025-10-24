@@ -21,8 +21,8 @@ export function createRepository(db: Database) {
 				values.push(params.country);
 				stmt.push(`c.country_code LIKE ?`);
 			}
-			if (params.state) {
-				values.push(params.state);
+			if (params.region) {
+				values.push(params.region);
 				stmt.push(`c.state_code = ?`);
 			}
 			if (params.min_lat) {
@@ -44,7 +44,7 @@ export function createRepository(db: Database) {
 			let query = `
 			SELECT
 				c.name,
-				c.state_code AS state,
+				c.state_code AS region,
 				c.country_code AS country,
 				c.latitude,
 				c.longitude,

@@ -4,12 +4,12 @@ import {
 	Latitude,
 	Longitude,
 	paginationParams,
-	StateCodeSchema,
+	RegionCodeSchema,
 } from "../../lib/schemas/common.js";
 
 export const CitySchema = Type.Object({
 	name: Type.String({ examples: ["Tampere"] }),
-	state: Type.String({ examples: ["11"] }),
+	region: Type.String({ examples: ["11"] }),
 	country: Type.String({ examples: ["FI"] }),
 	latitude: Type.Number({ examples: [61.49805556] }),
 	longitude: Type.Number({ examples: [23.76] }),
@@ -20,7 +20,7 @@ export const CitiesSchema = Type.Array(CitySchema);
 
 export type City = Static<typeof CitySchema>;
 
-export const CountryStateCitiesQuerySchema = Type.Object(paginationParams, {
+export const CountryRegionCitiesQuerySchema = Type.Object(paginationParams, {
 	additionalProperties: false,
 });
 
@@ -28,7 +28,7 @@ export const CitiesQuerySchema = Type.Object(
 	{
 		name: Type.Optional(Type.String()),
 		country: Type.Optional(CountryCodeSchema),
-		state: Type.Optional(StateCodeSchema),
+		region: Type.Optional(RegionCodeSchema),
 		min_lat: Type.Optional(Latitude),
 		max_lat: Type.Optional(Latitude),
 		min_lon: Type.Optional(Longitude),

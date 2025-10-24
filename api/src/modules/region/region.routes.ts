@@ -1,35 +1,35 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
 import {
-	CountryStatesQuerySchema,
-	StateSchema,
-	StatesQuerySchema,
-	StatesSchema,
-} from "./state.schema.js";
+	CountryRegionsQuerySchema,
+	RegionSchema,
+	RegionsQuerySchema,
+	RegionsSchema,
+} from "./region.schema.js";
 import {
 	CountryCodeSchema,
 	ErrorResponseSchema,
-	StateCodeSchema,
+	RegionCodeSchema,
 } from "../../lib/schemas/common.js";
 
 export default (async function (app) {
 	app.route({
 		method: "GET",
-		url: "/states",
+		url: "/regions",
 		schema: {
-			summary: "All states",
-			description: "List all states",
-			tags: ["States"],
-			querystring: StatesQuerySchema,
+			summary: "All regions",
+			description: "List all regions",
+			tags: ["Regions"],
+			querystring: RegionsQuerySchema,
 			response: {
-				200: StatesSchema,
+				200: RegionsSchema,
 				500: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {
 			try {
-				const states = await app.stateRepository.find(req.query);
-				return reply.code(200).send(states);
+				const regions = await app.regionRepository.find(req.query);
+				return reply.code(200).send(regions);
 			} catch (err) {
 				app.log.error(err);
 				return reply.code(500).send({ message: "Internal server error" });
@@ -38,27 +38,27 @@ export default (async function (app) {
 	});
 	app.route({
 		method: "GET",
-		url: "/countries/:country_code/states",
+		url: "/countries/:country_code/regions",
 		schema: {
-			summary: "States by country",
-			description: "List states by country",
-			tags: ["States"],
+			summary: "Regions by country",
+			description: "List regions by country",
+			tags: ["Regions"],
 			params: Type.Object({
 				country_code: CountryCodeSchema,
 			}),
-			querystring: CountryStatesQuerySchema,
+			querystring: CountryRegionsQuerySchema,
 			response: {
-				200: StatesSchema,
+				200: RegionsSchema,
 				500: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {
 			try {
-				const states = await app.stateRepository.find({
+				const regions = await app.regionRepository.find({
 					country: req.params.country_code,
 					...req.query,
 				});
-				return reply.code(200).send(states);
+				return reply.code(200).send(regions);
 			} catch (err) {
 				app.log.error(err);
 				return reply.code(500).send({ message: "Internal server error" });
@@ -67,31 +67,31 @@ export default (async function (app) {
 	});
 	app.route({
 		method: "GET",
-		url: "/countries/:country_code/states/:state_code",
+		url: "/countries/:country_code/regions/:region_code",
 		schema: {
-			summary: "State details",
-			description: "Find state details by its ISO2 code",
-			tags: ["States"],
+			summary: "Region details",
+			description: "Find region details by its ISO2 code",
+			tags: ["Regions"],
 			params: Type.Object({
 				country_code: CountryCodeSchema,
-				state_code: StateCodeSchema,
+				region_code: RegionCodeSchema,
 			}),
 			response: {
-				200: StateSchema,
+				200: RegionSchema,
 				404: ErrorResponseSchema,
 				500: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {
 			try {
-				const [state] = await app.stateRepository.find({
+				const [region] = await app.regionRepository.find({
 					country: req.params.country_code,
-					iso_code: req.params.state_code,
+					iso_code: req.params.region_code,
 				});
-				if (!state) {
+				if (!region) {
 					return reply.code(404).send({ message: "Not found" });
 				}
-				return reply.code(200).send(state);
+				return reply.code(200).send(region);
 			} catch (err) {
 				app.log.error(err);
 				return reply.code(500).send({ message: "Internal server error" });

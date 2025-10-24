@@ -1,23 +1,23 @@
 import { after, describe, it } from "node:test";
 import { createTestApp } from "../../testing/helper.js";
 import assert from "node:assert";
-import { type State, StateSchema, StatesSchema } from "./state.schema.js";
+import { type Region, RegionSchema, RegionsSchema } from "./region.schema.js";
 import { createValidator } from "../../lib/schemas/validation.js";
 
-describe("States endpoints", async () => {
+describe("Regions endpoints", async () => {
 	const app = await createTestApp();
 	after(async () => {
 		await app.close();
 	});
 
-	describe("GET /states", () => {
-		const validator = createValidator<State[]>(StatesSchema, {
+	describe("GET /regions", () => {
+		const validator = createValidator<Region[]>(RegionsSchema, {
 			truncateErrors: true,
 		});
 		it("should respond with 200", async () => {
 			const response = await app.injectWithAPIKey({
 				method: "GET",
-				url: "/states",
+				url: "/regions",
 			});
 			assert.strictEqual(response.statusCode, 200);
 			assert.doesNotThrow(() => validator.parse(response.json()));
@@ -25,34 +25,34 @@ describe("States endpoints", async () => {
 		it("should respond with 401", async () => {
 			const response = await app.inject({
 				method: "GET",
-				url: "/states",
+				url: "/regions",
 			});
 			assert.strictEqual(response.statusCode, 401);
 		});
 	});
 
-	describe("GET /countries/:country_code/states", () => {
-		const validator = createValidator<State[]>(StatesSchema, {
+	describe("GET /countries/:country_code/regions", () => {
+		const validator = createValidator<Region[]>(RegionsSchema, {
 			truncateErrors: true,
 		});
 		it("should respond with 200", async () => {
 			const response = await app.injectWithAPIKey({
 				method: "GET",
-				url: "/countries/GB/states",
+				url: "/countries/GB/regions",
 			});
 			assert.strictEqual(response.statusCode, 200);
 			assert.doesNotThrow(() => validator.parse(response.json()));
 		});
 	});
 
-	describe("GET /countries/:country_code/states/:state_code", () => {
-		const validator = createValidator<State>(StateSchema, {
+	describe("GET /countries/:country_code/regions/:region_code", () => {
+		const validator = createValidator<Region>(RegionSchema, {
 			truncateErrors: true,
 		});
 		it("should respond with 200", async () => {
 			const response = await app.injectWithAPIKey({
 				method: "GET",
-				url: "/countries/GB/states/ENG",
+				url: "/countries/GB/regions/ENG",
 			});
 			assert.strictEqual(response.statusCode, 200);
 			assert.doesNotThrow(() => validator.parse(response.json()));
@@ -60,14 +60,14 @@ describe("States endpoints", async () => {
 		it("should respond with 400", async () => {
 			const response = await app.injectWithAPIKey({
 				method: "GET",
-				url: "/countries/GB/states/abcdefg",
+				url: "/countries/GB/regions/abcdefg",
 			});
 			assert.strictEqual(response.statusCode, 400);
 		});
 		it("should respond with 404", async () => {
 			const response = await app.injectWithAPIKey({
 				method: "GET",
-				url: "/countries/GB/states/abcd",
+				url: "/countries/GB/regions/abcd",
 			});
 			assert.strictEqual(response.statusCode, 404);
 		});

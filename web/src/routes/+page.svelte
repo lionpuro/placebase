@@ -35,7 +35,7 @@
 			<div class="flex basis-1/2 flex-col gap-2 rounded-lg border border-base-100 p-4">
 				<h2 class="text-lg font-bold">Worldwide Coverage</h2>
 				<p>
-					Comprehensive dataset covering over 5000 states and 151,000 cities across 250 countries,
+					Comprehensive dataset covering over 5000 regions and 151,000 cities across 250 countries,
 					all thanks to
 					<Link
 						href="https://github.com/dr5hn/countries-states-cities-database"

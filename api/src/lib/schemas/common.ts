@@ -25,8 +25,8 @@ export const CountryCodeSchema = Type.String({
 	maxLength: 2,
 });
 
-export const StateCodeSchema = Type.String({
-	description: "ISO2 code of state",
+export const RegionCodeSchema = Type.String({
+	description: "ISO2 code of region",
 	examples: ["11"],
 	minLength: 1,
 	maxLength: 5,

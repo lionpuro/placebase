@@ -2,10 +2,10 @@ import { type Static, Type } from "@sinclair/typebox";
 import {
 	CountryCodeSchema,
 	paginationParams,
-	StateCodeSchema,
+	RegionCodeSchema,
 } from "../../lib/schemas/common.js";
 
-export const StateSchema = Type.Object({
+export const RegionSchema = Type.Object({
 	name: Type.String({ examples: ["Pirkanmaa"] }),
 	iso2: Type.String({ examples: ["11"] }),
 	type: Type.String({ examples: ["state", "region", "province"] }),
@@ -15,18 +15,18 @@ export const StateSchema = Type.Object({
 	timezone: Type.String({ examples: ["Europe/Helsinki"] }),
 });
 
-export const StatesSchema = Type.Array(StateSchema);
+export const RegionsSchema = Type.Array(RegionSchema);
 
-export type State = Static<typeof StateSchema>;
+export type Region = Static<typeof RegionSchema>;
 
-export const CountryStatesQuerySchema = Type.Object(paginationParams, {
+export const CountryRegionsQuerySchema = Type.Object(paginationParams, {
 	additionalProperties: false,
 });
 
-export const StatesQuerySchema = Type.Object(
+export const RegionsQuerySchema = Type.Object(
 	{
 		name: Type.Optional(Type.String()),
-		iso_code: Type.Optional(StateCodeSchema),
+		iso_code: Type.Optional(RegionCodeSchema),
 		country: Type.Optional(CountryCodeSchema),
 		limit: Type.Optional(
 			Type.Number({ minimum: 1, maximum: 250, default: 250 }),
@@ -38,4 +38,4 @@ export const StatesQuerySchema = Type.Object(
 	},
 );
 
-export type StatesQuery = Static<typeof StatesQuerySchema>;
+export type RegionsQuery = Static<typeof RegionsQuerySchema>;

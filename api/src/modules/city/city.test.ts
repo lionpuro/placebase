@@ -31,14 +31,14 @@ describe("Cities endpoints", async () => {
 		});
 	});
 
-	describe("GET /countries/:country_code/states/:state_code/cities", () => {
+	describe("GET /countries/:country_code/regions/:region_code/cities", () => {
 		const validator = createValidator<City[]>(CitiesSchema, {
 			truncateErrors: true,
 		});
 		it("should respond with 200", async () => {
 			const response = await app.injectWithAPIKey({
 				method: "GET",
-				url: "/countries/GB/states/ENG/cities",
+				url: "/countries/GB/regions/ENG/cities",
 			});
 			assert.strictEqual(response.statusCode, 200);
 			assert.doesNotThrow(() => validator.parse(response.json()));
@@ -46,7 +46,7 @@ describe("Cities endpoints", async () => {
 		it("should respond with 400", async () => {
 			const response = await app.injectWithAPIKey({
 				method: "GET",
-				url: "/countries/GB/states/abcdefg/cities",
+				url: "/countries/GB/regions/abcdefg/cities",
 			});
 			assert.strictEqual(response.statusCode, 400);
 		});

@@ -1,16 +1,16 @@
 import fp from "fastify-plugin";
-import type { State, StatesQuery } from "./state.schema.js";
+import type { Region, RegionsQuery } from "./region.schema.js";
 import { sqlite, type Database } from "../../lib/database.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
-		stateRepository: ReturnType<typeof createRepository>;
+		regionRepository: ReturnType<typeof createRepository>;
 	}
 }
 
 export function createRepository(db: Database) {
 	return {
-		async find(params: StatesQuery) {
+		async find(params: RegionsQuery) {
 			const stmt: string[] = [];
 			const values: string[] = [];
 			if (params.iso_code) {
@@ -45,12 +45,12 @@ export function createRepository(db: Database) {
 			if (params.offset) {
 				query += ` OFFSET ${params.offset} `;
 			}
-			const rows = db.prepare(query).all(values) as State[];
+			const rows = db.prepare(query).all(values) as Region[];
 			return rows;
 		},
 	};
 }
 
 export default fp((app) => {
-	app.decorate("stateRepository", createRepository(sqlite));
+	app.decorate("regionRepository", createRepository(sqlite));
 });

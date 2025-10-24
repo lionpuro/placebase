@@ -18,13 +18,13 @@ export default fp(async (app) => {
 			openapi: "3.1.0",
 			info: {
 				title: "Placebase",
-				description: "API for querying country-state-city data",
+				description: "API for querying country-region-city data",
 				version: "1.0.0",
 			},
 			servers: servers,
 			tags: [
 				{ name: "Countries", description: "Country endpoints" },
-				{ name: "States", description: "State endpoints" },
+				{ name: "Regions", description: "Region endpoints" },
 				{ name: "Cities", description: "City endpoints" },
 			],
 			components: {

@@ -23,8 +23,8 @@ export function createRepository(db: Database) {
 				values.push(`%${params.name}%`);
 				stmt.push(`name LIKE ?`);
 			}
-			if (params.region) {
-				values.push(params.region);
+			if (params.continent) {
+				values.push(params.continent);
 				stmt.push(`region LIKE ?`);
 			}
 			if (params.currency) {
@@ -43,7 +43,7 @@ export function createRepository(db: Database) {
 				capital,
 				currency,
 				native,
-				region,
+				region AS continent,
 				emoji
 			FROM countries`;
 			if (stmt.length > 0) {

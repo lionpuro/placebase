@@ -24,15 +24,31 @@
 			<p class="mb-4 text-center">
 				Placebase provides an easy way to integrate global geographical data into your applications.
 			</p>
-			<div class="flex gap-2">
+			<div class="flex w-full max-w-65 gap-3">
 				{#if !session.isLoggedIn}
-					<Link href="/signin" variant="button-primary" class="w-fit font-medium">Get started</Link>
+					<Link
+						href="/signin"
+						variant="button-primary"
+						class="basis-1/2 justify-center font-medium text-nowrap"
+					>
+						Get started
+					</Link>
 				{:else}
-					<Link href="/api-keys" variant="button-primary" class="w-fit font-medium">
+					<Link
+						href="/api-keys"
+						variant="button-primary"
+						class="basis-1/2 justify-center font-medium text-nowrap"
+					>
 						Get started
 					</Link>
 				{/if}
-				<Link href="/docs" variant="button-secondary" class="w-fit font-medium">View docs</Link>
+				<Link
+					href="/docs"
+					variant="button-secondary"
+					class="basis-1/2 justify-center font-medium text-nowrap"
+				>
+					View docs
+				</Link>
 			</div>
 		</div>
 		<div class="flex gap-4 max-md:flex-col">

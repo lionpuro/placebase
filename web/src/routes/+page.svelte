@@ -10,6 +10,10 @@
 
 <svelte:head>
 	<title>Placebase</title>
+	<meta
+		name="description"
+		content="Free REST API that provides up‑to‑date country, region, and city data worldwide."
+	/>
 </svelte:head>
 <Header />
 <Main>

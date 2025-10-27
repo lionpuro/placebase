@@ -5,12 +5,12 @@
 	import { SwaggerUIBundle } from "swagger-ui-dist";
 	import "swagger-ui-dist/swagger-ui.css";
 	import { onMount } from "svelte";
-	import { PUBLIC_API_URL } from "$env/static/public";
+	import { PUBLIC_OPENAPI_DOCUMENT } from "$env/static/public";
 
 	let container: HTMLDivElement;
 	onMount(() => {
 		SwaggerUIBundle({
-			url: PUBLIC_API_URL + "/openapi.json",
+			url: PUBLIC_OPENAPI_DOCUMENT,
 			domNode: container,
 			deepLinking: false, // incompatible with sveltekit router
 		});

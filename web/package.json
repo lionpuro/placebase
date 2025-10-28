@@ -1,7 +1,7 @@
 {
-	"name": "web",
-	"private": true,
+	"name": "@placebase/web",
 	"version": "0.0.1",
+	"private": true,
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -15,7 +15,7 @@
 	},
 	"devDependencies": {
 		"@iconify/json": "^2.2.388",
-		"@placebase/api": "file:../api",
+		"@placebase/api": "^1.0.0",
 		"@sveltejs/adapter-auto": "^6.0.0",
 		"@sveltejs/adapter-static": "^3.0.9",
 		"@sveltejs/kit": "^2.22.0",
@@ -23,7 +23,6 @@
 		"@tailwindcss/vite": "^4.0.0",
 		"@types/swagger-ui-dist": "^3.30.6",
 		"@vitejs/plugin-basic-ssl": "^2.1.0",
-		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.11",
 		"svelte": "^5.0.0",

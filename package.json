@@ -1,0 +1,25 @@
+{
+	"name": "placebase",
+	"version": "1.0.0",
+	"private": true,
+	"types": "./src/index.d.ts",
+	"workspaces": [
+		"api",
+		"web",
+		"workers/*"
+	],
+	"scripts": {
+		"dev:api": "npm run dev --workspace=api",
+		"dev:web": "npm run dev --workspace=web",
+		"build": "npm run build --workspaces --if-present",
+		"build:api": "npm run build --workspace=api",
+		"build:web": "npm run build --workspace=web",
+		"deploy:proxy": "npm run deploy --workspace=workers/proxy",
+		"test": "npm run test --workspaces --if-present",
+		"lint": "npm run check --workspace=web && npm run lint --workspace=web",
+		"format": "npm run format --workspaces --if-present"
+	},
+	"devDependencies": {
+		"prettier": "^3.6.2"
+	}
+}

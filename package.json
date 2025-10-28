@@ -9,6 +9,7 @@
 		"workers/*"
 	],
 	"scripts": {
+		"dev": "concurrently 'npm run dev:api' 'npm run dev:web'",
 		"dev:api": "npm run dev --workspace=api",
 		"dev:web": "npm run dev --workspace=web",
 		"build": "npm run build --workspaces --if-present",
@@ -20,6 +21,7 @@
 		"format": "npm run format --workspaces --if-present"
 	},
 	"devDependencies": {
+		"concurrently": "^9.2.1",
 		"prettier": "^3.6.2"
 	}
 }

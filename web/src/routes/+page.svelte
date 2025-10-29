@@ -52,7 +52,7 @@
 			</div>
 		</div>
 		<div class="flex gap-4 max-md:flex-col">
-			<div class="flex basis-1/2 flex-col gap-2 rounded-lg border border-base-100 p-4">
+			<div class="flex basis-1/2 flex-col gap-2 rounded-xl border border-base-100 p-4">
 				<h2 class="text-lg font-bold">Worldwide Coverage</h2>
 				<p>
 					Comprehensive dataset covering over 5000 regions and 151,000 cities across 250 countries,
@@ -68,7 +68,7 @@
 					</Link>
 				</p>
 			</div>
-			<div class="flex basis-1/2 flex-col gap-2 rounded-lg border border-base-100 p-4">
+			<div class="flex basis-1/2 flex-col gap-2 rounded-xl border border-base-100 p-4">
 				<h2 class="text-lg font-bold">Free to use</h2>
 				Completely free to use. Just sign up and get your free API key to start making queries.
 			</div>

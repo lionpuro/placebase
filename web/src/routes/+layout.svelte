@@ -27,6 +27,10 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+	<meta
+		name="description"
+		content="Free REST API that provides up‑to‑date country, region, and city data worldwide."
+	/>
 </svelte:head>
 <QueryClientProvider client={queryClient}>
 	<div class="flex min-h-full flex-col">

@@ -29,6 +29,10 @@ class SessionStore {
 		return this.#session.isLoading;
 	}
 
+	set isLoading(val: boolean) {
+		this.#session.isLoading = val;
+	}
+
 	update(user: User | null) {
 		this.#session.user = user;
 		const loggedin = user !== null;

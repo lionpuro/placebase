@@ -1,0 +1,11 @@
+.git
+**/.gitignore
+**/node_modules
+**/dist
+**/build
+**/Dockerfile
+**/.dockerignore
+**/.env
+**/.env.*
+**/*.test.ts
+**/testing

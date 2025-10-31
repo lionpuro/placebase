@@ -9,7 +9,7 @@
 		"workers/*"
 	],
 	"scripts": {
-		"dev": "concurrently 'npm run dev:api' 'npm run dev:web'",
+		"dev": "concurrently -c red,magenta -n api,web 'npm run dev:api' 'npm run dev:web'",
 		"dev:api": "npm run dev --workspace=api",
 		"dev:web": "npm run dev --workspace=web",
 		"build": "npm run build --workspaces --if-present",

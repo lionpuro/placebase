@@ -4,6 +4,7 @@ import {
 } from "@fastify/type-provider-typebox";
 import { AuthHeaders, ErrorResponseSchema } from "../../lib/schemas/common.js";
 import { firebase } from "../../lib/firebase.js";
+import { ErrorForbidden } from "../../lib/errors.js";
 
 export default (async function (app) {
 	app.route({
@@ -18,28 +19,19 @@ export default (async function (app) {
 			headers: AuthHeaders,
 			response: {
 				204: Type.Null(),
-				401: ErrorResponseSchema,
-				500: ErrorResponseSchema,
+				400: ErrorResponseSchema,
+				403: ErrorResponseSchema,
 			},
 		},
 		preHandler: [app.authenticate],
 		handler: async (req, reply) => {
-			try {
-				if (req.params.id !== req.user.id) {
-					return reply.code(401).send({ message: "Unauthorized" });
-				}
-				const uid = req.user.id;
-				await firebase.auth().deleteUser(uid);
-				try {
-					await app.apikeyService.deleteByUser(uid);
-				} catch (err) {
-					app.log.error(err, "failed to delete user api keys");
-				}
-				return reply.code(204).send();
-			} catch (err) {
-				app.log.error(err);
-				return reply.code(500).send({ message: "Internal server error" });
+			if (req.params.id !== req.user.id) {
+				throw new ErrorForbidden();
 			}
+			const uid = req.user.id;
+			await firebase.auth().deleteUser(uid);
+			await app.apikeyService.deleteByUser(uid);
+			return reply.code(204).send();
 		},
 	});
 } satisfies FastifyPluginAsyncTypebox);

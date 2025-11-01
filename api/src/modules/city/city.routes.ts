@@ -22,17 +22,12 @@ export default (async function (app) {
 			querystring: CitiesQuerySchema,
 			response: {
 				200: CitiesSchema,
-				500: ErrorResponseSchema,
+				400: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {
-			try {
-				const cities = await app.cityRepository.find(req.query);
-				return reply.code(200).send(cities);
-			} catch (err) {
-				app.log.error(err);
-				return reply.code(500).send({ message: "Internal server error" });
-			}
+			const cities = await app.cityRepository.find(req.query);
+			return reply.code(200).send(cities);
 		},
 	});
 	app.route({
@@ -49,21 +44,16 @@ export default (async function (app) {
 			querystring: CountryRegionCitiesQuerySchema,
 			response: {
 				200: CitiesSchema,
-				500: ErrorResponseSchema,
+				400: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {
-			try {
-				const cities = await app.cityRepository.find({
-					country: req.params.country_code,
-					region: req.params.region_code,
-					...req.query,
-				});
-				return reply.code(200).send(cities);
-			} catch (err) {
-				app.log.error(err);
-				return reply.code(500).send({ message: "Internal server error" });
-			}
+			const cities = await app.cityRepository.find({
+				country: req.params.country_code,
+				region: req.params.region_code,
+				...req.query,
+			});
+			return reply.code(200).send(cities);
 		},
 	});
 } satisfies FastifyPluginAsyncTypebox);

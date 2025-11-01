@@ -11,6 +11,7 @@ import {
 	ErrorResponseSchema,
 	RegionCodeSchema,
 } from "../../lib/schemas/common.js";
+import { ErrorNotFound } from "../../lib/errors.js";
 
 export default (async function (app) {
 	app.route({
@@ -23,17 +24,12 @@ export default (async function (app) {
 			querystring: RegionsQuerySchema,
 			response: {
 				200: RegionsSchema,
-				500: ErrorResponseSchema,
+				400: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {
-			try {
-				const regions = await app.regionRepository.find(req.query);
-				return reply.code(200).send(regions);
-			} catch (err) {
-				app.log.error(err);
-				return reply.code(500).send({ message: "Internal server error" });
-			}
+			const regions = await app.regionRepository.find(req.query);
+			return reply.code(200).send(regions);
 		},
 	});
 	app.route({
@@ -49,20 +45,15 @@ export default (async function (app) {
 			querystring: CountryRegionsQuerySchema,
 			response: {
 				200: RegionsSchema,
-				500: ErrorResponseSchema,
+				400: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {
-			try {
-				const regions = await app.regionRepository.find({
-					country: req.params.country_code,
-					...req.query,
-				});
-				return reply.code(200).send(regions);
-			} catch (err) {
-				app.log.error(err);
-				return reply.code(500).send({ message: "Internal server error" });
-			}
+			const regions = await app.regionRepository.find({
+				country: req.params.country_code,
+				...req.query,
+			});
+			return reply.code(200).send(regions);
 		},
 	});
 	app.route({
@@ -78,24 +69,19 @@ export default (async function (app) {
 			}),
 			response: {
 				200: RegionSchema,
+				400: ErrorResponseSchema,
 				404: ErrorResponseSchema,
-				500: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {
-			try {
-				const [region] = await app.regionRepository.find({
-					country: req.params.country_code,
-					iso_code: req.params.region_code,
-				});
-				if (!region) {
-					return reply.code(404).send({ message: "Not found" });
-				}
-				return reply.code(200).send(region);
-			} catch (err) {
-				app.log.error(err);
-				return reply.code(500).send({ message: "Internal server error" });
+			const [region] = await app.regionRepository.find({
+				country: req.params.country_code,
+				iso_code: req.params.region_code,
+			});
+			if (!region) {
+				throw new ErrorNotFound();
 			}
+			return reply.code(200).send(region);
 		},
 	});
 } satisfies FastifyPluginAsyncTypebox);

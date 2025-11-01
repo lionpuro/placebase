@@ -21,18 +21,12 @@ export default (async function (app) {
 			headers: AuthHeaders,
 			response: {
 				200: Type.Array(APIKeyRecordSchema),
-				500: ErrorResponseSchema,
 			},
 		},
 		preHandler: [app.authenticate],
 		handler: async (req, reply) => {
-			try {
-				const records = await app.apikeyService.byUser(req.user.id);
-				return reply.code(200).send(records);
-			} catch (err) {
-				app.log.error(err);
-				return reply.code(500).send({ message: "Internal server error" });
-			}
+			const records = await app.apikeyService.byUser(req.user.id);
+			return reply.code(200).send(records);
 		},
 	});
 	app.route({
@@ -47,18 +41,13 @@ export default (async function (app) {
 			body: CreateAPIKeyRequestSchema,
 			response: {
 				200: CreateAPIKeyResponseSchema,
-				500: ErrorResponseSchema,
+				400: ErrorResponseSchema,
 			},
 		},
 		preHandler: [app.authenticate],
 		handler: async (req, reply) => {
-			try {
-				const key = await app.apikeyService.create(req.user.id, req.body.name);
-				return reply.code(200).send({ api_key: key });
-			} catch (err) {
-				app.log.error(err);
-				return reply.code(500).send({ message: "Internal server error" });
-			}
+			const key = await app.apikeyService.create(req.user.id, req.body.name);
+			return reply.code(200).send({ api_key: key });
 		},
 	});
 	app.route({
@@ -73,18 +62,13 @@ export default (async function (app) {
 			params: Type.Object({ id: Type.String() }),
 			response: {
 				204: Type.Null(),
-				500: ErrorResponseSchema,
+				400: ErrorResponseSchema,
 			},
 		},
 		preHandler: [app.authenticate],
 		handler: async (req, reply) => {
-			try {
-				await app.apikeyService.delete(req.params.id, req.user.id);
-				return reply.code(204).send();
-			} catch (err) {
-				app.log.error(err);
-				return reply.code(500).send({ message: "Internal server error" });
-			}
+			await app.apikeyService.delete(req.params.id, req.user.id);
+			return reply.code(204).send();
 		},
 	});
 } satisfies FastifyPluginAsyncTypebox);

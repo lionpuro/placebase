@@ -9,6 +9,7 @@ import {
 	CountryCodeSchema,
 	ErrorResponseSchema,
 } from "../../lib/schemas/common.js";
+import { ErrorNotFound } from "../../lib/errors.js";
 
 export default (async function (app) {
 	app.route({
@@ -21,17 +22,12 @@ export default (async function (app) {
 			querystring: CountriesQuerySchema,
 			response: {
 				200: CountriesSchema,
-				500: ErrorResponseSchema,
+				400: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {
-			try {
-				const countries = await app.countryRepository.find(req.query);
-				return reply.code(200).send(countries);
-			} catch (err) {
-				app.log.error(err);
-				return reply.code(500).send({ message: "Internal server error" });
-			}
+			const countries = await app.countryRepository.find(req.query);
+			return reply.code(200).send(countries);
 		},
 	});
 	app.route({
@@ -44,23 +40,18 @@ export default (async function (app) {
 			params: Type.Object({ country_code: CountryCodeSchema }),
 			response: {
 				200: CountrySchema,
+				400: ErrorResponseSchema,
 				404: ErrorResponseSchema,
-				500: ErrorResponseSchema,
 			},
 		},
 		handler: async (req, reply) => {
-			try {
-				const [country] = await app.countryRepository.find({
-					iso_code: req.params.country_code,
-				});
-				if (!country) {
-					return reply.code(404).send({ message: "Not found" });
-				}
-				return reply.code(200).send(country);
-			} catch (err) {
-				app.log.error(err);
-				return reply.code(500).send({ message: "Internal server error" });
+			const [country] = await app.countryRepository.find({
+				iso_code: req.params.country_code,
+			});
+			if (!country) {
+				throw new ErrorNotFound();
 			}
+			return reply.code(200).send(country);
 		},
 	});
 } satisfies FastifyPluginAsyncTypebox);

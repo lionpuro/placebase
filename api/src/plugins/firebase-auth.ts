@@ -1,6 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import fp from "fastify-plugin";
 import { firebase } from "../lib/firebase.js";
+import { ErrorUnauthorized } from "../lib/errors.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
@@ -20,22 +21,22 @@ type Middleware = <T extends FastifyRequest, U extends FastifyReply>(
 	reply: U,
 ) => void;
 
-async function authenticate(request: FastifyRequest, reply: FastifyReply) {
+async function authenticate(request: FastifyRequest, _reply: FastifyReply) {
 	const token = request.headers.authorization?.match(/^[Bb]earer (\S+)/)?.[1];
 	if (!token) {
-		return reply.code(401).send({ message: "Unauthorized" });
+		throw new ErrorUnauthorized();
 	}
 	try {
 		const decoded = await firebase.auth().verifyIdToken(token);
 		if (!decoded.uid || !decoded.email) {
-			return reply.code(401).send({ message: "Unauthorized" });
+			throw new ErrorUnauthorized();
 		}
 		const user: User = {
 			id: decoded.uid,
 		};
 		request.user = user;
 	} catch (err) {
-		return reply.code(401).send({ message: "Unauthorized" });
+		throw new ErrorUnauthorized();
 	}
 }
 

@@ -4,6 +4,7 @@ import autoload from "@fastify/autoload";
 import path from "node:path";
 import auth from "./plugins/apikey-auth.js";
 import type { APIKeyModuleOptions } from "./modules/apikey/apikey.module.js";
+import { HTTPError, schemaErrorFormatter } from "./lib/errors.js";
 
 type AppOptions = {
 	logger: boolean | { level: LogLevel };
@@ -20,6 +21,23 @@ const defaults: AppOptions = {
 export async function createApp(opts: Partial<AppOptions> = {}) {
 	const options = { ...defaults, ...opts };
 	const app = Fastify(options).withTypeProvider<TypeBoxTypeProvider>();
+
+	app.setSchemaErrorFormatter(schemaErrorFormatter);
+	app.setErrorHandler((error, _request, reply) => {
+		if (error instanceof HTTPError) {
+			reply.code(error.status).send({ message: error.message });
+			return;
+		}
+		if (error.validation) {
+			reply.code(400).send({ message: error.message });
+			return;
+		}
+		app.log.error(error);
+		reply.code(500).send({ message: "Internal Server Error" });
+	});
+	app.setNotFoundHandler((_request, reply) => {
+		return reply.status(404).send({ message: "Not Found" });
+	});
 
 	await app.register(autoload, {
 		dir: path.join(import.meta.dirname, "plugins"),

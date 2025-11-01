@@ -5,6 +5,7 @@ import type {
 	FastifyRequest,
 } from "fastify";
 import fp from "fastify-plugin";
+import { ErrorResponseSchema } from "../lib/schemas/common.js";
 
 interface AuthOptions extends FastifyPluginOptions {
 	ignorePrefix?: string[];
@@ -40,12 +41,15 @@ function createHandler(app: FastifyInstance): Middleware {
 
 function auth(app: FastifyInstance, opts: AuthOptions) {
 	app.addHook("onRoute", (routeOpts) => {
-		const { url, preHandler } = routeOpts;
+		const { url, preHandler, schema } = routeOpts;
 		if (opts.ignorePrefix?.some((s) => url.startsWith(s))) {
 			return;
 		}
 		if (opts.ignoreSuffix?.some((s) => url.endsWith(s))) {
 			return;
+		}
+		if (schema?.response) {
+			schema.response = { ...schema.response, 401: ErrorResponseSchema };
 		}
 		const handler = createHandler(app);
 		if (!preHandler) {

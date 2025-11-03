@@ -6,9 +6,9 @@ declare global {
 			PORT?: string;
 			API_URL?: string;
 			LOG_LEVEL?: LogLevel;
-			FIREBASE_PROJECT_ID: string;
-			FIREBASE_PRIVATE_KEY: string;
-			FIREBASE_CLIENT_EMAIL: string;
+			FIREBASE_PROJECT_ID?: string;
+			FIREBASE_PRIVATE_KEY?: string;
+			FIREBASE_CLIENT_EMAIL?: string;
 			K_SERVICE?: string; // Cloud Run service name
 		}
 	}

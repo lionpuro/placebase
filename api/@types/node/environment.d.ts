@@ -9,6 +9,7 @@ declare global {
 			FIREBASE_PROJECT_ID: string;
 			FIREBASE_PRIVATE_KEY: string;
 			FIREBASE_CLIENT_EMAIL: string;
+			K_SERVICE?: string; // Cloud Run service name
 		}
 	}
 }

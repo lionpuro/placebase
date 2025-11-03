@@ -15,13 +15,12 @@ declare module "fastify" {
 		injectWithAPIKey: ReturnType<typeof injectWithAPIKey>;
 	}
 }
-
 export async function createTestApp() {
 	const testKey = generateAPIKey();
 	const testHash = createHash(testKey);
 
 	const mockAPIKeyRepository = new MockAPIKeyRepository({
-		defaultValues: [{ hash: testHash, user_id: "test-user" }],
+		defaultValues: [{ hash: testHash, user_id: randomString(21) }],
 	});
 
 	const app = await createApp({
@@ -46,8 +45,8 @@ class MockAPIKeyRepository implements APIKeyRepository {
 	}) {
 		this.keys.push(
 			...[...defaultValues].map((k) => ({
-				id: randomBytes(16).toString("base64url"),
-				name: randomBytes(8).toString("base64url"),
+				id: randomString(16),
+				name: randomString(8),
 				user_id: k.user_id,
 				hash: k.hash,
 				created_at: new Date().toString(),
@@ -77,7 +76,7 @@ class MockAPIKeyRepository implements APIKeyRepository {
 		};
 	}
 	async create(hash: string, name: string, uid: string) {
-		const id = randomBytes(16).toString("base64url");
+		const id = randomString(16);
 		this.keys.push({
 			id,
 			name,
@@ -102,6 +101,10 @@ function injectWithAPIKey(key: string) {
 		};
 		return this.inject({ ...opts });
 	};
+}
+
+function randomString(bytes: number) {
+	return randomBytes(bytes).toString("base64url");
 }
 
 interface SchemaValidator<T> {

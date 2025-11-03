@@ -1,4 +1,3 @@
-import { type TestContext } from "node:test";
 import { createApp } from "../app.js";
 import type { FastifyInstance, InjectOptions } from "fastify";
 import type { APIKeyRepository } from "../modules/apikey/apikey.repository.js";
@@ -17,7 +16,7 @@ declare module "fastify" {
 	}
 }
 
-export async function createTestApp(t?: TestContext) {
+export async function createTestApp() {
 	const testKey = generateAPIKey();
 	const testHash = createHash(testKey);
 

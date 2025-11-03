@@ -1,7 +1,7 @@
 import { after, describe, it } from "node:test";
-import { createTestApp, createValidator } from "../../testing/helper.js";
+import { createTestApp, createValidator } from "../helper.js";
 import assert from "node:assert";
-import { type City, CitiesSchema } from "./city.schema.js";
+import { type City, CitiesSchema } from "../../src/modules/city/city.schema.js";
 
 describe("Cities endpoints", async () => {
 	const app = await createTestApp();

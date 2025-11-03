@@ -1,12 +1,12 @@
-import { createApp } from "../app.js";
+import { createApp } from "../src/app.js";
 import type { FastifyInstance, InjectOptions } from "fastify";
-import type { APIKeyRepository } from "../modules/apikey/apikey.repository.js";
-import type { APIKeyRecord } from "../modules/apikey/apikey.schema.js";
-import { randomBytes } from "node:crypto";
+import type { APIKeyRepository } from "../src/modules/apikey/apikey.repository.js";
+import type { APIKeyRecord } from "../src/modules/apikey/apikey.schema.js";
 import {
 	generateAPIKey,
 	createHash,
-} from "../modules/apikey/apikey.service.js";
+} from "../src/modules/apikey/apikey.service.js";
+import { randomBytes } from "node:crypto";
 import type { TSchema } from "@sinclair/typebox";
 import { TypeCompiler } from "@sinclair/typebox/compiler";
 

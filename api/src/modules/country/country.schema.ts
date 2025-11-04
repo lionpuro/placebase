@@ -1,9 +1,12 @@
 import { type Static, Type } from "@sinclair/typebox";
-import { paginationParams } from "../../lib/schemas/common.js";
+import {
+	CountryCodeSchema,
+	paginationParams,
+} from "../../lib/schemas/common.js";
 
 export const CountrySchema = Type.Object({
 	name: Type.String({ examples: ["Finland"] }),
-	iso2: Type.String({ examples: ["FI"] }),
+	iso2: CountryCodeSchema,
 	phonecode: Type.String({ examples: ["358"] }),
 	capital: Type.String({ examples: ["Helsinki"] }),
 	currency: Type.String({ examples: ["EUR"] }),

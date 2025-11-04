@@ -7,9 +7,9 @@ import {
 
 export const RegionSchema = Type.Object({
 	name: Type.String({ examples: ["Pirkanmaa"] }),
-	iso2: Type.String({ examples: ["11"] }),
+	iso2: RegionCodeSchema,
 	type: Type.String({ examples: ["state", "region", "province"] }),
-	country: Type.String({ examples: ["FI"] }),
+	country: CountryCodeSchema,
 	latitude: Type.Number({ examples: [61.717433] }),
 	longitude: Type.Number({ examples: [23.7157115] }),
 	timezone: Type.String({ examples: ["Europe/Helsinki"] }),

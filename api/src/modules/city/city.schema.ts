@@ -1,16 +1,16 @@
 import { type Static, Type } from "@sinclair/typebox";
 import {
 	CountryCodeSchema,
+	RegionCodeSchema,
 	Latitude,
 	Longitude,
 	paginationParams,
-	RegionCodeSchema,
 } from "../../lib/schemas/common.js";
 
 export const CitySchema = Type.Object({
 	name: Type.String({ examples: ["Tampere"] }),
-	region: Type.String({ examples: ["11"] }),
-	country: Type.String({ examples: ["FI"] }),
+	region: RegionCodeSchema,
+	country: CountryCodeSchema,
 	latitude: Type.Number({ examples: [61.49805556] }),
 	longitude: Type.Number({ examples: [23.76] }),
 	timezone: Type.String({ examples: ["Europe/Helsinki"] }),

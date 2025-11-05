@@ -15,7 +15,7 @@ interface ModulesConfig extends APIKeyModuleOptions {}
 
 const defaults: AppOptions = {
 	logger: { level: process.env.LOG_LEVEL || "info" },
-	modules: { apikey: {} },
+	modules: {},
 };
 
 export async function createApp(opts: Partial<AppOptions> = {}) {

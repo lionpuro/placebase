@@ -8,13 +8,13 @@ import {
 import apikeyRoutes from "./apikey.routes.js";
 
 export interface APIKeyModuleOptions extends FastifyPluginOptions {
-	apikey: {
+	apikey?: {
 		repository?: APIKeyRepository;
 	};
 }
 
 export default fp(async function (app, opts) {
-	const repository = opts.apikey.repository || createAPIKeyRepository();
+	const repository = opts?.apikey?.repository || createAPIKeyRepository();
 	app.register(apikeyService, { repository: repository });
 	app.register(apikeyRoutes, { prefix: "/internal" });
 } satisfies FastifyPluginAsync<APIKeyModuleOptions>);

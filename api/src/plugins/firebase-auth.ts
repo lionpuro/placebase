@@ -28,9 +28,6 @@ async function authenticate(request: FastifyRequest, _reply: FastifyReply) {
 	}
 	try {
 		const decoded = await firebase.auth().verifyIdToken(token);
-		if (!decoded.uid || !decoded.email) {
-			throw new ErrorUnauthorized();
-		}
 		const user: User = {
 			id: decoded.uid,
 		};

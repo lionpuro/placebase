@@ -18,7 +18,7 @@ export default (async function (app) {
 		method: "GET",
 		url: "/regions",
 		schema: {
-			summary: "All regions",
+			summary: "All Regions",
 			description: "List all regions",
 			tags: ["Regions"],
 			querystring: RegionsQuerySchema,
@@ -36,8 +36,8 @@ export default (async function (app) {
 		method: "GET",
 		url: "/countries/:country_code/regions",
 		schema: {
-			summary: "Regions by country",
-			description: "List regions by country",
+			summary: "Regions by Country",
+			description: "Retrieve all regions within a specified country",
 			tags: ["Regions"],
 			params: Type.Object({
 				country_code: CountryCodeSchema,
@@ -60,8 +60,8 @@ export default (async function (app) {
 		method: "GET",
 		url: "/countries/:country_code/regions/:region_code",
 		schema: {
-			summary: "Region details",
-			description: "Find region details by its ISO2 code",
+			summary: "Region Details",
+			description: "Retrieve region details by its ISO2 code",
 			tags: ["Regions"],
 			params: Type.Object({
 				country_code: CountryCodeSchema,

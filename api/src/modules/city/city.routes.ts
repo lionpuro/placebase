@@ -16,7 +16,7 @@ export default (async function (app) {
 		method: "GET",
 		url: "/cities",
 		schema: {
-			summary: "All cities",
+			summary: "All Cities",
 			description: "List all cities",
 			tags: ["Cities"],
 			querystring: CitiesQuerySchema,
@@ -34,8 +34,8 @@ export default (async function (app) {
 		method: "GET",
 		url: "/countries/:country_code/regions/:region_code/cities",
 		schema: {
-			summary: "Cities by region",
-			description: "Get a list of cities by country and region",
+			summary: "Cities by Region",
+			description: "Retrieve all cities within a specified region",
 			tags: ["Cities"],
 			params: Type.Object({
 				country_code: CountryCodeSchema,

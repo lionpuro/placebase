@@ -16,8 +16,8 @@ export default (async function (app) {
 		method: "GET",
 		url: "/countries",
 		schema: {
-			summary: "All countries",
-			description: "List countries",
+			summary: "All Countries",
+			description: "List all countries",
 			tags: ["Countries"],
 			querystring: CountriesQuerySchema,
 			response: {
@@ -34,7 +34,7 @@ export default (async function (app) {
 		method: "GET",
 		url: "/countries/:country_code",
 		schema: {
-			summary: "Country details",
+			summary: "Country Details",
 			description: "Find country details by its ISO2 code",
 			tags: ["Countries"],
 			params: Type.Object({ country_code: CountryCodeSchema }),

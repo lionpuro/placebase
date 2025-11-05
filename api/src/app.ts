@@ -44,8 +44,7 @@ export async function createApp(opts: Partial<AppOptions> = {}) {
 		ignorePattern: /^.*apikey-auth\.(js|ts)$/,
 	});
 	await app.register(auth, {
-		ignorePrefix: ["/internal"],
-		ignoreSuffix: ["openapi.json"],
+		ignorePattern: /^\/internal\/.*$/,
 	});
 	await app.register(autoload, {
 		dir: path.join(import.meta.dirname, "modules"),

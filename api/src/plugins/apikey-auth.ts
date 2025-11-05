@@ -8,8 +8,7 @@ import fp from "fastify-plugin";
 import { ErrorResponseSchema } from "../lib/schemas/common.js";
 
 interface AuthOptions extends FastifyPluginOptions {
-	ignorePrefix?: string[];
-	ignoreSuffix?: string[];
+	ignorePattern?: RegExp;
 }
 
 type Middleware = <T extends FastifyRequest, U extends FastifyReply>(
@@ -42,11 +41,12 @@ function createHandler(app: FastifyInstance): Middleware {
 function auth(app: FastifyInstance, opts: AuthOptions) {
 	app.addHook("onRoute", (routeOpts) => {
 		const { url, preHandler, schema } = routeOpts;
-		if (opts.ignorePrefix?.some((s) => url.startsWith(s))) {
-			return;
-		}
-		if (opts.ignoreSuffix?.some((s) => url.endsWith(s))) {
-			return;
+		const ignore = opts.ignorePattern;
+		if (ignore) {
+			const skip = ignore.test(url);
+			if (skip) {
+				return;
+			}
 		}
 		if (schema?.response) {
 			schema.response = { ...schema.response, 401: ErrorResponseSchema };

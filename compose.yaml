@@ -1,0 +1,11 @@
+name: placebase-dev
+services:
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/project
+    network_mode: "host"

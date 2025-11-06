@@ -50,7 +50,7 @@ Before you begin, you will need one of the following:
     npm install
     ```
 
-This will install dependencies for the root package and for all npm workspaces (api, web, proxy).
+    This will install dependencies for the root package and for all npm workspaces (api, web, proxy).
 
 3. Set environment variables
 

@@ -4,4 +4,6 @@ WORKDIR /project
 
 USER node
 
+RUN npm config set update-notifier false
+
 CMD ["bash"]

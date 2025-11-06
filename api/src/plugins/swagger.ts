@@ -10,8 +10,8 @@ declare module "fastify" {
 export default fp(async (app) => {
 	// Public API
 	const servers = [];
-	if (process.env.API_URL) {
-		servers.push({ url: process.env.API_URL });
+	if (process.env.SWAGGER_SERVER_URL) {
+		servers.push({ url: process.env.SWAGGER_SERVER_URL });
 	}
 	await app.register(swagger, {
 		openapi: {

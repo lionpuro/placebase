@@ -32,35 +32,35 @@ Before you begin, you will need one of the following:
 
 1. (Docker only) Start the development environment
 
-Enter the workspace container using the dev.sh helper script:
+    Enter the workspace container using the dev.sh helper script:
 
-```sh
-./dev.sh shell
-```
+    ```sh
+    ./dev.sh shell
+    ```
 
-or by running docker compose directly:
+    or by running docker compose directly:
 
-```sh
-docker compose run --rm workspace bash
-```
+    ```sh
+    docker compose run --rm workspace bash
+    ```
 
 2. Install Dependencies
 
-```sh
-npm install
-```
+    ```sh
+    npm install
+    ```
 
 This will install dependencies for the root package and for all npm workspaces (api, web, proxy).
 
 3. Set environment variables
 
-Each package has its own .env file. Create the `.env` files using `.env.example` as a template
-and fill them with your values:
+    Each package has its own .env file. Create the `.env` files using `.env.example` as a template
+    and fill them with your values:
 
-```sh
-cp api/.env.example api/.env
-cp web/.env.example web/.env
-```
+    ```sh
+    cp api/.env.example api/.env
+    cp web/.env.example web/.env
+    ```
 
 ### Development
 

@@ -1,6 +1,7 @@
 import { initializeApp, type FirebaseOptions } from "firebase/app";
 import { env } from "$env/dynamic/public";
 import {
+	connectAuthEmulator,
 	getAuth,
 	onAuthStateChanged,
 	signOut,
@@ -15,6 +16,7 @@ const {
 	PUBLIC_FIREBASE_STORAGE_BUCKET,
 	PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
 	PUBLIC_FIREBASE_APP_ID,
+	PUBLIC_FIREBASE_AUTH_EMULATOR_URL,
 } = env;
 
 const config: FirebaseOptions = {
@@ -32,7 +34,16 @@ export function initializeFirebase() {
 
 export const app = initializeApp(config);
 
-export const auth = getAuth(app);
+function initializeAuth() {
+	if (PUBLIC_FIREBASE_AUTH_EMULATOR_URL) {
+		const auth = getAuth();
+		connectAuthEmulator(auth, PUBLIC_FIREBASE_AUTH_EMULATOR_URL);
+		return auth;
+	}
+	return getAuth(app);
+}
+
+export const auth = initializeAuth();
 
 export function authStateListener(callback: NextOrObserver<User>) {
 	return onAuthStateChanged(auth, callback);

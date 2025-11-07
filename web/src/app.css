@@ -68,3 +68,7 @@ body {
 		outline-offset: -1px;
 	}
 }
+
+.firebase-emulator-warning {
+	display: none;
+}

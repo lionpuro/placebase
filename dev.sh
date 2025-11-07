@@ -4,6 +4,10 @@ COMMAND=$1
 shift
 ARGUMENTS=${@}
 
+build() {
+	docker compose build
+}
+
 shell() {
 	docker compose run --rm workspace bash
 }
@@ -15,6 +19,7 @@ cmd() {
 usage() {
 	echo "Usage: $0 [COMMAND] [ARGUMENTS]"
 	echo "Commands:"
+	echo "  build     Build the container"
 	echo "  shell     Open a shell in the development container"
 	echo "  cmd       Run a command in the development container"
 }

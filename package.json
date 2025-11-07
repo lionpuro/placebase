@@ -9,9 +9,10 @@
 		"workers/*"
 	],
 	"scripts": {
-		"dev": "concurrently -c red,magenta -n api,web 'npm run dev:api' 'npm run dev:web'",
+		"dev": "concurrently -c yellow,red,magenta -n emu,api,web 'npm run dev:emulators' 'npm run dev:api' 'npm run dev:web'",
 		"dev:api": "npm run dev --workspace=api",
 		"dev:web": "npm run dev --workspace=web",
+		"dev:emulators": "firebase emulators:start",
 		"build": "npm run build --workspaces --if-present",
 		"build:api": "npm run build --workspace=api",
 		"build:web": "npm run build --workspace=web",
@@ -22,6 +23,7 @@
 	},
 	"devDependencies": {
 		"concurrently": "^9.2.1",
+		"firebase-tools": "^14.24.0",
 		"prettier": "^3.6.2",
 		"tsx": "^4.20.6",
 		"typescript": "^5.9.3"

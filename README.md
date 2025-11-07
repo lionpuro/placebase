@@ -23,10 +23,12 @@ API documentation can be found at [placebase.xyz/docs](https://placebase.xyz/doc
 
 ### Prerequisites
 
-Before you begin, you will need one of the following:
-
-- Node.js >= 22.0.0
+Developing in a container:
 - Docker along with the Docker Compose plugin
+
+Developing locally:
+- Node.js version 22.0.0 or higher
+- Java JDK version 21 or higher
 
 ### Installation
 
@@ -70,7 +72,7 @@ Run all the development servers concurrently:
 npm run dev
 ```
 
-By default, the API will be served on `http://localhost:3000` and the website on `https://localhost:5173`.
+By default, the API will be served on `http://localhost:3000` and the website on `http://localhost:5173`.
 
 ## Built With
 

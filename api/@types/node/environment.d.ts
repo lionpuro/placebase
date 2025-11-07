@@ -6,10 +6,10 @@ declare global {
 			PORT?: string;
 			SWAGGER_SERVER_URL?: string;
 			LOG_LEVEL?: LogLevel;
-			FIREBASE_PROJECT_ID?: string;
-			FIREBASE_PRIVATE_KEY?: string;
-			FIREBASE_CLIENT_EMAIL?: string;
 			K_SERVICE?: string; // Cloud Run service name
+			FIREBASE_PROJECT_ID?: string;
+			FIREBASE_AUTH_EMULATOR_HOST?: string;
+			FIRESTORE_EMULATOR_HOST?: string;
 		}
 	}
 }

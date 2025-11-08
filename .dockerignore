@@ -7,4 +7,5 @@
 **/.dockerignore
 **/.env
 **/.env.*
+**/test
 **/*.test.ts

@@ -62,6 +62,7 @@ export default (async function (app) {
 			params: Type.Object({ id: Type.String() }),
 			response: {
 				204: Type.Null(),
+				404: ErrorResponseSchema,
 				400: ErrorResponseSchema,
 			},
 		},

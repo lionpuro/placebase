@@ -1,6 +1,7 @@
 import { FieldPath } from "firebase-admin/firestore";
 import type { APIKeyRecord } from "./apikey.schema.js";
 import { firebase } from "../../lib/firebase.js";
+import { ErrorNotFound } from "../../lib/errors.js";
 
 export type APIKeyRepository = ReturnType<typeof createAPIKeyRepository>;
 
@@ -45,7 +46,7 @@ export function createAPIKeyRepository() {
 				.get();
 			const [doc] = snapshot.docs;
 			if (!doc) {
-				throw new Error("API key not found");
+				throw new ErrorNotFound("API key not found");
 			}
 			await doc.ref.delete();
 		},

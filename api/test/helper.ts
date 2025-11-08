@@ -15,6 +15,7 @@ declare module "fastify" {
 		injectWithAPIKey: ReturnType<typeof injectWithAPIKey>;
 	}
 }
+
 export async function createTestApp() {
 	const testKey = generateAPIKey();
 	const testHash = createHash(testKey);
@@ -139,4 +140,38 @@ export function createValidator<T extends unknown>(
 		);
 	};
 	return { schema, parse };
+}
+
+type CreateUserResult = {
+	localId: string;
+	email: string;
+	idToken: string;
+	refreshToken: string;
+};
+
+export function injectWithFirebaseToken(
+	app: FastifyInstance,
+	opts: InjectOptions,
+	token: string,
+) {
+	opts.headers = {
+		...opts.headers,
+		authorization: "Bearer " + token,
+	};
+	return app.inject({ ...opts });
+}
+
+export async function createTestUser() {
+	const host = process.env.FIREBASE_AUTH_EMULATOR_HOST;
+	const url = `http://${host}/identitytoolkit.googleapis.com/v1/accounts:signUp?key=any`;
+	const res = await fetch(url, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			email: randomString(4) + "@example.com",
+			password: randomString(32),
+		}),
+	});
+	const result = (await res.json()) as CreateUserResult;
+	return result;
 }

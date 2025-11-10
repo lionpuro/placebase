@@ -6,7 +6,7 @@
 	"workspaces": [
 		"api",
 		"web",
-		"workers/*"
+		"proxy"
 	],
 	"scripts": {
 		"dev": "concurrently -c yellow,red,magenta -n emu,api,web 'npm run dev:emulators' 'npm run dev:api' 'npm run dev:web'",
@@ -16,7 +16,7 @@
 		"build": "npm run build --workspaces --if-present",
 		"build:api": "npm run build --workspace=api",
 		"build:web": "npm run build --workspace=web",
-		"deploy:proxy": "npm run deploy --workspace=workers/proxy",
+		"deploy:proxy": "npm run deploy --workspace=proxy",
 		"test": "firebase --config firebase.test.json emulators:exec 'npm run test --workspaces --if-present'",
 		"lint": "npm run check --workspace=web && npm run lint --workspace=web",
 		"format": "npm run format --workspaces --if-present"

@@ -62,7 +62,7 @@ Developing locally:
     ```sh
     cp api/.env.example api/.env
     cp web/.env.example web/.env
-    cp workers/proxy/.env.example workers/proxy/.env
+    cp proxy/.env.example proxy/.env
     ```
 
 ### Development

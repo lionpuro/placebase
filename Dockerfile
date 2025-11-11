@@ -1,7 +1,7 @@
 FROM node:22
 
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json tsconfig.base.json ./
 COPY api/ /app/api
 
 WORKDIR /app

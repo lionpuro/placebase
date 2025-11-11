@@ -1,0 +1,16 @@
+name: Test
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build container for tests
+      run: docker compose build
+    - name: Run tests
+      run: docker compose run --rm test

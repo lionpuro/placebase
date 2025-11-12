@@ -8,7 +8,7 @@ RUN apt update && \
 # Install OpenJDK
 RUN apt update && apt install msopenjdk-21 -y
 
-# Docker Compose will mount a name volume as root if the directory doesn't exist
+# Docker Compose will mount a named volume as root if the directory doesn't exist
 RUN mkdir /home/node/.cache
 RUN chown node:node /home/node/.cache
 

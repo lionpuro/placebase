@@ -1,0 +1,59 @@
+name: Build and Deploy to Cloud Run
+on:
+  workflow_dispatch:
+  workflow_run:
+    branches: ["main"]
+    workflows: ["Test"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: ${{ (github.event_name != 'workflow_run') || (github.event.workflow_run.conclusion == 'success') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Google Auth
+        id: auth
+        uses: google-github-actions/auth@v3
+        with:
+          token_format: access_token
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Docker Auth
+        id: docker-auth
+        uses: docker/login-action@v3
+        with:
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+          registry: ${{ vars.REGION }}-docker.pkg.dev
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build, tag and push image
+        id: build-image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ vars.REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.ARTIFACT_REPO }}/${{ vars.SERVICE_NAME }}:${{ github.sha }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v3
+        with:
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run services update ${{ vars.SERVICE_NAME }} \
+            --revision-suffix $(date +%s) \
+            --image ${{ vars.REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.ARTIFACT_REPO }}/${{ vars.SERVICE_NAME }}:${{ github.sha }} \
+            --region ${{ vars.REGION }}

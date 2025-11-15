@@ -17,7 +17,11 @@ export function createAPIKeyRepository() {
 				id: doc.id,
 				...doc.data(),
 			})) as APIKeyRecord[];
-			return records;
+			return records.sort((a, b) => {
+				return (
+					new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+				);
+			});
 		},
 		async byHash(hash: string) {
 			const snapshot = await db()

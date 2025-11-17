@@ -44,6 +44,8 @@ jobs:
           push: true
           tags: |
             ${{ vars.REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.ARTIFACT_REPO }}/${{ vars.SERVICE_NAME }}:${{ github.sha }}
+          provenance: false
+          sbom: false
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v3

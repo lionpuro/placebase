@@ -8,7 +8,7 @@ RUN apt update && \
 # Install OpenJDK
 RUN apt update && apt install msopenjdk-21 -y
 
-WORKDIR /project
+WORKDIR /placebase
 
 COPY . .
 

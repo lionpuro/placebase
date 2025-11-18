@@ -7,7 +7,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - .:/project
+      - .:/placebase
       - cache:/home/node/.cache
     network_mode: "host"
   test:

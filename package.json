@@ -18,13 +18,15 @@
 		"build:web": "npm run build --workspace=web",
 		"deploy:proxy": "npm run deploy --workspace=proxy",
 		"test": "firebase --config firebase.test.json emulators:exec 'npm run test --workspaces --if-present'",
-		"lint": "npm run check --workspace=web && npm run lint --workspace=web",
-		"format": "npm run format --workspaces --if-present"
+		"lint": "prettier --check . && npm run lint --workspaces --if-present",
+		"format": "prettier --write ."
 	},
 	"devDependencies": {
 		"concurrently": "^9.2.1",
 		"firebase-tools": "^14.24.0",
 		"prettier": "^3.6.2",
+		"prettier-plugin-svelte": "^3.3.3",
+		"prettier-plugin-tailwindcss": "^0.6.11",
 		"tsx": "^4.20.6",
 		"typescript": "^5.9.3"
 	}

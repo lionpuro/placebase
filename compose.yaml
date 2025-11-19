@@ -10,11 +10,5 @@ services:
       - .:/placebase
       - cache:/home/node/.cache
     network_mode: "host"
-  test:
-    build:
-      context: .
-      dockerfile: Dockerfile.test
-    command: ["npm", "run", "test"]
-    network_mode: "host"
 volumes:
   cache:

@@ -1,0 +1,15 @@
+# Package Managers
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+bun.lock
+bun.lockb
+
+**/static
+**/public
+**/dist
+**/build
+**/.svelte-kit
+
+**/*.jsonc
+proxy/worker-configuration.d.ts

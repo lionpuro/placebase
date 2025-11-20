@@ -1,0 +1,8 @@
+name: placebase-ci
+services:
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    command: ["npm", "run", "test"]
+    network_mode: "host"

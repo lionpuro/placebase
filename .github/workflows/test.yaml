@@ -13,6 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Build container for tests
-        run: docker compose build
+        run: docker compose -f compose.ci.yaml build
       - name: Run tests
-        run: docker compose run --rm test
+        run: docker compose -f compose.ci.yaml run --rm test

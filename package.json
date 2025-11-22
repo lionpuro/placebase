@@ -18,7 +18,7 @@
 		"build:web": "npm run build --workspace=web",
 		"deploy:proxy": "npm run deploy --workspace=proxy",
 		"test": "firebase --config firebase.test.json emulators:exec 'npm run test --workspaces --if-present'",
-		"lint": "prettier --check . && npm run lint --workspaces --if-present",
+		"lint": "prettier --check . && npm run lint --workspaces --if-present && tsc --project api/scripts/tsconfig.json --noEmit",
 		"format": "prettier --write ."
 	},
 	"devDependencies": {

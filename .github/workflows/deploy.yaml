@@ -20,6 +20,7 @@ jobs:
   deploy:
     needs: test
     if: ${{ github.ref == 'refs/heads/main' && needs.test.result == 'success' }}
+    name: Build and deploy
     runs-on: ubuntu-latest
     permissions:
       contents: read

@@ -19,7 +19,7 @@ jobs:
         run: docker compose -f compose.ci.yaml run --rm test
   deploy:
     needs: test
-    if: ${{ needs.test.result == 'success' }}
+    if: ${{ github.ref == 'refs/heads/main' && needs.test.result == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read

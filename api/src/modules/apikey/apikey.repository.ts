@@ -19,7 +19,7 @@ export function createAPIKeyRepository() {
 			})) as APIKeyRecord[];
 			return records.sort((a, b) => {
 				return (
-					new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+					new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
 				);
 			});
 		},

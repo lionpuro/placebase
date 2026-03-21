@@ -69,7 +69,7 @@ export default (async function (app) {
 		preHandler: [app.authenticate],
 		handler: async (req, reply) => {
 			await app.apikeyService.delete(req.params.id, req.user.id);
-			return reply.code(204).send();
+			return reply.code(204).send(null);
 		},
 	});
 } satisfies FastifyPluginAsyncTypebox);

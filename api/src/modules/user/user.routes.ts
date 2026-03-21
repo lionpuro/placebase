@@ -31,7 +31,7 @@ export default (async function (app) {
 			const uid = req.user.id;
 			await firebase.auth().deleteUser(uid);
 			await app.apikeyService.deleteByUser(uid);
-			return reply.code(204).send();
+			return reply.code(204).send(null);
 		},
 	});
 } satisfies FastifyPluginAsyncTypebox);

@@ -23,13 +23,13 @@ export async function createApp(opts: Partial<AppOptions> = {}) {
 	const app = Fastify(options).withTypeProvider<TypeBoxTypeProvider>();
 
 	app.setSchemaErrorFormatter(schemaErrorFormatter);
-	app.setErrorHandler((error, _request, reply) => {
+	app.setErrorHandler((error, request, reply) => {
 		if (error instanceof HTTPError) {
 			reply.code(error.status).send({ message: error.message });
 			return;
 		}
-		if (error.validation) {
-			reply.code(400).send({ message: error.message });
+		if (request.validationError) {
+			reply.code(400).send({ message: request.validationError.message });
 			return;
 		}
 		app.log.error(error);

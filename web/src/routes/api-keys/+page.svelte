@@ -78,7 +78,7 @@
 		<span class="mb-4 flex flex-wrap items-center gap-2">
 			<strong class="font-semibold">Example:</strong>
 			<code class="rounded-lg border border-base-100 px-2 py-0.5 text-sm">
-				curl <span class="whitespace-nowrap">https://api.placebase.lionpuro.com/countries</span>
+				curl <span class="whitespace-nowrap">https://placebase.lionpuro.com/api/countries</span>
 				<span class="whitespace-nowrap">
 					-H "X-API-KEY: <span class="text-primary-600">{"<YOUR_API_KEY>"}</span>"
 				</span>

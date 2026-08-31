@@ -1,4 +1,4 @@
-// Proxy domain.tld/api to api.domain.tld/internal
+// Proxy domain.tld/api to API host
 async function handleAPI(req: Request, env: Env) {
 	const pathname = new URL(req.url).pathname.replace("/api", "");
 	const url = `https://${env.API_HOST}${pathname}`;

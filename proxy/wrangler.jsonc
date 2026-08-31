@@ -8,11 +8,11 @@
 	"routes": [
 		{
 			"pattern": "placebase.lionpuro.com/api/internal/*",
-			"zone_name": "placebase.lionpuro.com"
+			"zone_name": "lionpuro.com"
 		},
 		{
 			"pattern": "placebase.lionpuro.com/__/auth/*",
-			"zone_name": "placebase.lionpuro.com"
+			"zone_name": "lionpuro.com"
 		}
 	]
 }

@@ -7,12 +7,12 @@
 	"keep_vars": true,
 	"routes": [
 		{
-			"pattern": "placebase.xyz/api/internal/*",
-			"zone_name": "placebase.xyz"
+			"pattern": "placebase.lionpuro.com/api/internal/*",
+			"zone_name": "placebase.lionpuro.com"
 		},
 		{
-			"pattern": "placebase.xyz/__/auth/*",
-			"zone_name": "placebase.xyz"
+			"pattern": "placebase.lionpuro.com/__/auth/*",
+			"zone_name": "placebase.lionpuro.com"
 		}
 	]
 }

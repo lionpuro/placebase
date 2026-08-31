@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://placebase.xyz">
+    <a href="https://placebase.lionpuro.com">
         <picture>
             <source srcset=".github/assets/logo.svg">
             <img alt="Placebase Logo" src=".github/assets/logo.svg" width="72" />
@@ -17,7 +17,7 @@
 
 ## Documentation
 
-API documentation can be found at [placebase.xyz/docs](https://placebase.xyz/docs)
+API documentation can be found at [placebase.lionpuro.com/docs](https://placebase.lionpuro.com/docs)
 
 ## Getting Started
 

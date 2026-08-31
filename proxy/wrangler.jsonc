@@ -7,7 +7,7 @@
 	"keep_vars": true,
 	"routes": [
 		{
-			"pattern": "placebase.lionpuro.com/api/internal/*",
+			"pattern": "placebase.lionpuro.com/api/*",
 			"zone_name": "lionpuro.com"
 		},
 		{

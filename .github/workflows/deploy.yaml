@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Build container for tests
         run: docker compose -f compose.ci.yaml build
       - name: Run tests
@@ -27,7 +27,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Google Auth
         id: auth
         uses: google-github-actions/auth@v3
